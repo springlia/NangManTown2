@@ -5,6 +5,7 @@ on right click:
 	## 락커 지정 삭제 필요 ##
 	if player's tool is wooden sword:
 		set {FireLocker1} to location of clicked block
+		set {FireLocker2} to location at (x-coordinate of clicked block), (y-coordinate of clicked block + 1), (z-coordinate of clicked block)
 		send "&b&l완료 &f좌표: &7 %{FireLocker1}%" to player	
 
 	## 락커 판단 ##
@@ -12,7 +13,7 @@ on right click:
 		set {_loc} to location of event-block
 
 		## 불1 락커##
-		if {_loc} is {FireLocker1}:
+		if {_loc} is {FireLocker1} or {FireLocker2}:
 			if {FireLocker1_Owner} is player's name:
 				send ":admin: &e&l마법의 사물함&f: 어서와! 물건들을 소중하게 보관하고 있었어!" to player
 				# GUI 오픈
@@ -39,6 +40,11 @@ function openGUI(p: player):
 	if {_page} is not set:
 		set {_page} to 1
 		set {사물함페이지::%{_uuid}%} to 1
+
+	set {_max} to {사물함최대페이지::%{_uuid}%}
+	if {_max} is not set:
+		set {_max} to 1
+		set {사물함최대페이지::%{_uuid}%} to 1
 
 	#사물함 불러오기#
 	set {_lockergui} to chest inventory with 6 rows named "사물함 (%{_page}%)"
@@ -74,6 +80,7 @@ on inventory click:
 		#초기화 및 예외처리#
 		set {_uuid} to uuid of player
 		set {_page} to {사물함페이지::%{_uuid}%}
+		set {_max} to {사물함최대페이지::%uuid of player%}
 		if {_page} is not set:
 			set {_page} to 1
 
@@ -92,9 +99,12 @@ on inventory click:
 
 		#다음페이지#
 		clicked slot is 53:
-			add 1 to {_page}
-			set {사물함페이지::%{_uuid}%} to {_page}
-			openGUI(player)
+			if {_page} < {_max}:
+				add 1 to {_page}
+				set {사물함페이지::%{_uuid}%} to {_page}
+				openGUI(player)
+			else:
+				send "&c다음 페이지가 없습니다." to player
 			cancel event
 
 		#장식 클릭 시 이벤트 취소#
@@ -114,8 +124,16 @@ command /player_no:
 			send ":admin: &e&l마법의 사물함&f: 아쉽네... 그럼 잘가!" to player
 			delete {락커선택지오픈::%player%}
 
+command /관리자명령어_사물함페이지 [<number>]:
+	permission: op
+	trigger:
+		set {사물함최대페이지::%uuid of player%} to arg
+		send "&a사물함 최대 페이지가 %{사물함최대페이지::%uuid of player%}%페이지로 설정되었습니다. "
+
+
 command /관리자명령어_제거:
 	permission: op
 	trigger:
 		delete {FireLocker1}
+		delete {FireLocker2}
 		delete {FireLocker1_Owner}
