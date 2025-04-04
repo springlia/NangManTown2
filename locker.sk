@@ -2,7 +2,7 @@ import:
 	dev.lone.itemsadder.api.ItemsAdder
 
 on right click:
-	## 락커 지정 추후 삭제 필요 ##
+	## 락커 지정 삭제 필요 ##
 	if player's tool is wooden sword:
 		set {FireLocker1} to location of clicked block
 		send "&b&l완료 &f좌표: &7 %{FireLocker1}%" to player	
@@ -31,11 +31,23 @@ on right click:
 					send ":admin: &e&l마법의 사물함&f: 안녕, 난 이미 주인이 있어. 다른 사물함을 찾아보는게 어때?" to player
 
 function openGUI(p: player):
-	set {_lockergui} to chest inventory with 6 rows named "사물함"
+	#초기화#
+	set {_uuid} to uuid of {_p}
+	set {_page} to {사물함페이지::%{_uuid}%}
+
+	#예외 처리#
+	if {_page} is not set:
+		set {_page} to 1
+		set {사물함페이지::%{_uuid}%} to 1
+
+	#사물함 불러오기#
+	set {_lockergui} to chest inventory with 6 rows named "사물함 (%{_page}%)"
 	loop 45 times:
-		set slot loop-num -1 of {_lockergui} to {창고::%{_p}'s uuid%::%loop-num -1%}
+		set slot loop-num -1 of {_lockergui} to {창고::%{_uuid}%::%{_page}%::%loop-number - 1%}
+
+	#장식#
 	set slot 45 of {_lockergui} to {last} named "&b&l◀"
-	set slot 49 of {_lockergui} to {_p}'s skull named "&e&l%{_p}%&f님의 사물함"
+	set slot 49 of {_lockergui} to {_p}'s skull named "&e&l%name of {_p}%&f님의 사물함 (Page %{_page}%)"
 	set slot 53 of {_lockergui} to {next} named "&b&l▶"
 
 	set slot 46 of {_lockergui} to black stained glass pane named ""
@@ -48,20 +60,46 @@ function openGUI(p: player):
 	open {_lockergui} to {_p}
 
 on inventory close:
-	event-inventory's name is "사물함":
-		loop 54 times:
+	event-inventory's name contains "사물함":
+		#초기화#
+		set {_uuid} to uuid of player
+		set {_page} to {사물함페이지::%{_uuid}%}
+
+		loop 45 times:
 			if slot is not air:
-				set {창고::%uuid of player%::%loop-number - 1%} to slot loop-number - 1 of event-inventory
+				set {창고::%{_uuid}%::%{_page}%::%loop-number - 1%} to slot loop-number - 1 of event-inventory
 	
 on inventory click:
-	clicked slot is 45:
-		cancel event
-		send "이전" to player
-	clicked slot is 53:
-		cancel event
-		send "다음" to player
-	clicked slot is 46 or 47 or 48 or 49 or 50 or 51 or 52:
-		cancel event
+	if name of event-inventory contains "사물함":
+		#초기화 및 예외처리#
+		set {_uuid} to uuid of player
+		set {_page} to {사물함페이지::%{_uuid}%}
+		if {_page} is not set:
+			set {_page} to 1
+
+		loop 45 times:
+			set {창고::%{_uuid}%::%{_page}%::%loop-number - 1%} to slot loop-number - 1 of event-inventory
+
+		#이전페이지#
+		clicked slot is 45:
+			if {_page} > 1:
+				subtract 1 from {_page}
+				set {사물함페이지::%{_uuid}%} to {_page}
+				openGUI(player)
+			else:
+				send "&c이전 페이지가 없습니다." to player
+			cancel event
+
+		#다음페이지#
+		clicked slot is 53:
+			add 1 to {_page}
+			set {사물함페이지::%{_uuid}%} to {_page}
+			openGUI(player)
+			cancel event
+
+		#장식 클릭 시 이벤트 취소#
+		clicked slot is 46 or 47 or 48 or 49 or 50 or 51 or 52:
+			cancel event
 
 command /player_yes:
 	trigger:
