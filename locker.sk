@@ -2,7 +2,7 @@ import:
 	dev.lone.itemsadder.api.ItemsAdder
 
 on right click:
-	## 락커 지정 ##
+	## 락커 지정 추후 삭제 필요 ##
 	if player's tool is wooden sword:
 		set {FireLocker1} to location of clicked block
 		send "&b&l완료 &f좌표: &7 %{FireLocker1}%" to player	
