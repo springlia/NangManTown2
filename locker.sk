@@ -2,6 +2,14 @@ import:
 	dev.lone.itemsadder.api.ItemsAdder
 
 on right click:
+	## 주문서 ##
+	if name of player's tool is "&e★ &a&l창고 확장 &f주문서":
+		remove 1 book named "&e★ &a&l창고 확장 &f주문서" from player
+		play sound "block.note_block.bell"
+		set {_uuid} to uuid of player
+		add 1 to {사물함최대페이지::%{_uuid}%}
+		send "&e&l사물함의 페이지가 1장 늘어났습니다! &7현재 최대 페이지 : %{사물함최대페이지::%{_uuid}%}%" to player
+
 	## 락커 지정 삭제 필요 ##
 	if player's tool is wooden sword:
 		set {FireLocker1} to location of clicked block
@@ -64,6 +72,7 @@ function openGUI(p: player):
 	set slot 52 of {_lockergui} to black stained glass pane named ""
 
 	open {_lockergui} to {_p}
+	play sound "block.iron_door.open" to {_p}
 
 on inventory close:
 	event-inventory's name contains "사물함":
