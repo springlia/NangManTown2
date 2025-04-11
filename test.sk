@@ -8,4 +8,6 @@ command /공지 [<text>]:
 	permission: op
 	trigger:
 		set {_text} to arg-1
+		broadcast ""
 		broadcast "&c&l[공지] &e(%player%) &f%{_text}%"
+		broadcast ""
