@@ -6,6 +6,14 @@
 		set slot 16 of {_questGUI} to spyglass named "&b&l기타 퀘스트" with lore "&7클릭 하여 기타퀘스트 목록을 확인합니다."
 		open {_questGUI} to player
 
+command /일일퀘스트:
+	trigger:
+		set {_dailyQuestGUI} to chest inventory with 3 rows named "일일 퀘스트 목록"
+		set slot 11 of {_dailyQuestGUI} to map named "&a&l퀘스트1" with lore "&7퀘스트 설명" and "&e=====" and "&f퀘스트 내용" and "" and "&e클릭하여 선택"
+		set slot 13 of {_dailyQuestGUI} to map named "&a&l퀘스트2" with lore "&7퀘스트 설명" and "&e=====" and "&f퀘스트 내용" and "" and "&e클릭하여 선택"
+		set slot 15 of {_dailyQuestGUI} to map named "&a&l퀘스트3" with lore "&7퀘스트 설명" and "&e=====" and "&f퀘스트 내용" and "" and "&e클릭하여 선택"
+		open {_dailyQuestGUI} to player
+
 on inventory click:
 	event-inventory's name is "퀘스트 목록":
 		cancel event
@@ -18,3 +26,15 @@ on inventory click:
 			execute player command "/메인퀘스트"
 		clicked slot is 16:
 			execute player command "/기타퀘스트"
+	
+	event-inventory's name is "일일 퀘스트 목록":
+		cancel event
+		event-inventory is player's inventory:
+			stop
+
+		clicked slot is 11:
+			send "&a1번 일일 퀘스트를 선택하셨습니다." to player
+		clicked slot is 13:
+			send "&a2번 일일 퀘스트를 선택하셨습니다." to player
+		clicked slot is 15:
+			send "&a3번 일일 퀘스트를 선택하셨습니다." to player
