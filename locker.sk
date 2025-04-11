@@ -37,7 +37,7 @@ on right click:
 					send "" to player
 					set {락커선택지오픈::%player%} to true
 				else:
-					send ":npc: &e&l마법의 사물함&f: 안녕, 난 이미 주인이 있어. 다른 사물함을 찾아보는게 어때?" to player
+					send ":npc: &e&l마법의 사물함&f: 안녕, 난 &e%{FireLocker1_Owner}%&f의 사물함이야." to player
 
 function openGUI(p: player):
 	#초기화#
@@ -140,7 +140,7 @@ command /관리자명령어_사물함페이지 [<number>]:
 		send "&a사물함 최대 페이지가 %{사물함최대페이지::%uuid of player%}%페이지로 설정되었습니다. "
 
 
-command /관리자명령어_제거:
+command /관리자명령어_사물함제거:
 	permission: op
 	trigger:
 		delete {FireLocker1}

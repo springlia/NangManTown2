@@ -11,3 +11,12 @@ command /공지 [<text>]:
 		broadcast ""
 		broadcast "&c&l[공지] &e(%player%) &f%{_text}%"
 		broadcast ""
+
+command /관리자명령어_히든보스오픈:
+	permission: op
+	trigger:
+		broadcast ""
+		broadcast "&e&l[&e★&e&l] &a&l많은 낭만들의 응원&f으로 &d낭만 에너지&f가 모여 &c&l미지의 포탈&f이 생겼습니다."
+		broadcast ""
+		loop all players:
+			play sound "block.end_portal.spawn" to loop-player
