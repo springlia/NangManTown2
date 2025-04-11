@@ -5,3 +5,16 @@
 		set slot 13 of {_questGUI} to writable book named "&e&l메인 퀘스트" with lore "&7클릭 하여 메인퀘스트 목록을 확인합니다."
 		set slot 16 of {_questGUI} to spyglass named "&b&l기타 퀘스트" with lore "&7클릭 하여 기타퀘스트 목록을 확인합니다."
 		open {_questGUI} to player
+
+on inventory click:
+	event-inventory's name is "퀘스트 목록":
+		cancel event
+		event-inventory is player's inventory:
+			stop
+
+		clicked slot is 10:
+			execute player command "/일일퀘스트"
+		clicked slot is 13:
+			execute player command "/메인퀘스트"
+		clicked slot is 16:
+			execute player command "/기타퀘스트"
