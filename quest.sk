@@ -14,12 +14,20 @@ command /일일퀘스트:
 		set slot 15 of {_dailyQuestGUI} to map named "&a&l퀘스트3" with lore "&7퀘스트 설명" and "&e=====" and "&f퀘스트 내용" and "" and "&e클릭하여 선택"
 		open {_dailyQuestGUI} to player
 
+command /메인퀘스트:
+	trigger:
+		set {_mainQuestGUI} to chest inventory with 6 rows named "메인 퀘스트 목록"
+		set slot 4 of {_mainQuestGUI} to player's skull named "&e%player%&f의 메인 퀘스트" with lore "&7페이지 (1/1)"
+		set slot 9 of {_mainQuestGUI} to paper named "&7&l???"
+		set slot 45 of {_mainQuestGUI} to {last} named "&b&l◀"
+		set slot 53 of {_mainQuestGUI} to {next} named "&b&l▶"
+		open {_mainQuestGUI} to player
+
 on inventory click:
 	event-inventory's name is "퀘스트 목록":
 		cancel event
 		event-inventory is player's inventory:
 			stop
-
 		clicked slot is 10:
 			execute player command "/일일퀘스트"
 		clicked slot is 13:
@@ -31,10 +39,18 @@ on inventory click:
 		cancel event
 		event-inventory is player's inventory:
 			stop
-
 		clicked slot is 11:
 			send "&a1번 일일 퀘스트를 선택하셨습니다." to player
 		clicked slot is 13:
 			send "&a2번 일일 퀘스트를 선택하셨습니다." to player
 		clicked slot is 15:
 			send "&a3번 일일 퀘스트를 선택하셨습니다." to player
+
+	event-inventory's name is "메인 퀘스트 목록":
+		cancel event
+		event-inventory is player's inventory:
+			stop
+		clicked slot is 45:
+			send "&c이전 페이지가 없습니다." to player
+		clicked slot is 53:
+			send "&c다음 페이지가 없습니다." to player
