@@ -1,6 +1,11 @@
-﻿command /메시지 [<text>]: 
+﻿command /관리자명령어_메세지 [<text>]: 
 	permission: op
 	trigger:
 		set {_text} to arg-1
 		send "%{_text}%" to player
 
+command /공지 [<text>]:
+	permission: op
+	trigger:
+		set {_text} to arg-1
+		broadcast "&c&l[공지] &e(%player%) &f%{_text}%"
