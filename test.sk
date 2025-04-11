@@ -1,0 +1,6 @@
+﻿command /메시지 [<text>]: 
+	permission: op
+	trigger:
+		set {_text} to arg-1
+		send "%{_text}%" to player
+
