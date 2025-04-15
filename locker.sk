@@ -124,11 +124,9 @@ on inventory click:
 command /player_yes:
 	trigger:
 		if {락커선택지오픈::%player%} is true:
-			if {whatLocker::%player%} is "FireLocker1":
-				send "%{FireLocker1_Owner}%" to player
-				set {FireLocker1_Owner} to player's name
-				send ":npc: &e&l마법의 사물함&f: 그래그래! 그럼 앞으로 잘 부탁해~" to player
-				delete {락커선택지오픈::%player%}
+			set {%{whatLocker::%player%}%_Owner} to player's name
+			send ":npc: &e&l마법의 사물함&f: 그래그래! 그럼 앞으로 잘 부탁해~" to player
+			delete {락커선택지오픈::%player%}
 
 command /player_no:
 	trigger:
