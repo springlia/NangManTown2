@@ -36,6 +36,7 @@ on right click:
 					send "<ttp:클릭 시 사물함의 주인이 되기를 포기합니다.><cmd:/player_no>&c&l[▶] &f아니, 싫어.<reset>" to player
 					send "" to player
 					set {락커선택지오픈::%player%} to true
+					set {whatLocker::%player%} to "FireLocker1"
 				else:
 					send ":npc: &e&l마법의 사물함&f: 안녕, 난 &e%{FireLocker1_Owner}%&f의 사물함이야." to player
 
@@ -123,9 +124,11 @@ on inventory click:
 command /player_yes:
 	trigger:
 		if {락커선택지오픈::%player%} is true:
-			set {FireLocker1_Owner} to player's name
-			send ":npc: &e&l마법의 사물함&f: 그래그래! 그럼 앞으로 잘 부탁해~" to player
-			delete {락커선택지오픈::%player%}
+			if {whatLocker::%player%} is "FireLocker1":
+				send "%{FireLocker1_Owner}%" to player
+				set {FireLocker1_Owner} to player's name
+				send ":npc: &e&l마법의 사물함&f: 그래그래! 그럼 앞으로 잘 부탁해~" to player
+				delete {락커선택지오픈::%player%}
 
 command /player_no:
 	trigger:
