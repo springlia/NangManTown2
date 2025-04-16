@@ -1,0 +1,16 @@
+﻿command /윷:
+	trigger:
+		set {_random} to random integer between 1 and 100
+		if {_random} is between 1 and 34:
+			broadcast "&e%player% &f: 걸"
+		else if {_random} is between 35 and 65:
+			broadcast "&e%player% &f: 개"
+		else if {_random} is between 66 and 80:
+			broadcast "&e%player% &f: 도"
+		else if {_random} is between 81 and 92:
+			broadcast "&e%player% &f: 윷"
+		else if {_random} is between 93 and 95:
+			broadcast "&e%player% &f: 모"
+		else:
+			broadcast "&e%player% &f: 빽도"
+

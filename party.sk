@@ -1,0 +1,72 @@
+﻿command /파티 [<text>] [<text>]: 
+	trigger:
+		if arg-1 is not set:
+			send "" to player
+			send "&e/파티 목록 &f: 모든 파티 목록을 확인합니다." to player
+			send "&e/파티 가입 [이름] &f: 유저에게 파티장을 위임합니다." to player
+			send "&e/파티 생성 [이름] &f: [이름]의 파티에 가입합니다." to player
+			send "&e/파티 정보 &f: 지금 내 파티의 정보를 확인합니다." to player
+			send "&e/파티 공개 &f: 파티를 공개/비공개로 전환합니다." to player
+			send "&e/파티 초대 [닉네임] &f: 유저를 파티로 초대합니다." to player
+			send "&e/파티 설명 [내용] &f: 파티 설명을 설정합니다." to player
+			send "&e/파티 탈퇴 &f: 현재 파티를 탈퇴합니다. &c*파티장이 탈퇴할 경우 파티가 해산됩니다.*" to player
+			send "&e/파티 추방 [닉네임] &f: 유저를 파티에서 추방합니다." to player
+			send "&e/파티 위임 [닉네임] &f: 유저에게 파티장을 위임합니다." to player
+			send "" to player
+		else if arg-1 is "생성":
+			set {_temp} to arg-2
+			if {%{_temp}%::name} is not set:
+				if {nowParty::%player%} is not set:
+					set {%{_temp}%::name} to arg-2
+					set {%{_temp}%::m1} to player's name
+					set {%{_temp}%::public} to false
+					set {nowParty::%player%} to {_temp}
+					send "" to player
+					send "&e파티가 성공적으로 생성되었습니다!" to player
+					send "" to player
+					send "&a파티 이름: &f%{%{_temp}%::name}%" to player
+					send "&a파티장: &f%{%{_temp}%::m1}%" to player
+					send "" to player
+				else:
+					send "&c이미 파티에 가입되어 있습니다." to player
+			else:
+				send "&c이미 같은 이름의 파티가 있습니다." to player
+		else if arg-1 is "정보":
+			if {nowParty::%player%} is not set:
+				send "&c현재 가입된 파티가 없습니다." to player
+			else:
+				set {_temp} to {nowParty::%player%}
+				send "" to player
+				send "&a파티 이름: &f%{%{_temp}%::name}%" to player
+				send "&a파티장: &f%{%{_temp}%::m1}%" to player
+				send "" to player
+		else if arg-1 is "탈퇴":
+			if {nowParty::%player%} is not set:
+				send "&c현재 가입된 파티가 없습니다." to player
+			else:
+				set {_temp} to {nowParty::%player%}
+				if {%{_temp}%::m1} is player's name:
+					delete {%{_temp}%::name}
+					delete {nowParty::%player%}
+					delete {%{_temp}%::m1}
+					send "&b성공적으로 파티가 해체되었습니다." to player
+				else:
+					delete {nowParty::%player%}
+					send "&b성공적으로 파티에서 탈퇴하였습니다." to player
+		else if arg-1 is "공개":
+			if {nowParty::%player%} is not set:
+				send "&c현재 가입된 파티가 없습니다." to player
+			else:
+				if {%{_temp}%::m1} is player's name:
+					if {%{_temp}%::public} is true:
+						set {%{_temp}%::public} to false
+						send "&b파티가 비공개 상태로 전환되었습니다." to player
+					else:
+						set {%{_temp}%::public} to true
+						send "&b파티가 공개 상태로 전환되었습니다." to player
+				else:
+					send "&c파티장이 아닙니다." to player
+					
+
+
+
