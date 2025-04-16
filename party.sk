@@ -49,14 +49,16 @@
 					send "&a파티 공개 상태: &f공개" to player
 				else:
 					send "&a파티 공개 상태: &f비공개" to player
+				send "" to player
 				send "&e~~ 파티 멤버 ~~" to player
 				if {%{_temp}%::m2} is set:
-					send "%{%{_temp}%::m2}%" to player
+					send "2 %{%{_temp}%::m2}%" to player
 				if {%{_temp}%::m3} is set:
-					send "%{%{_temp}%::m3}%" to player
+					send "3 %{%{_temp}%::m3}%" to player
 				if {%{_temp}%::m4} is set:
-					send "%{%{_temp}%::m4}%" to player
+					send "4 %{%{_temp}%::m4}%" to player
 				send "" to player
+
 		else if arg-1 is "탈퇴":
 			if {nowParty::%player%} is not set:
 				send "&c현재 가입된 파티가 없습니다." to player
@@ -64,6 +66,9 @@
 				set {_temp} to {nowParty::%player%}
 				if {%{_temp}%::m1} is player's name:
 					delete {nowParty::%player%}
+					delete {nowParty::%{%{_temp}%::m2}%}
+					delete {nowParty::%{%{_temp}%::m3}%}
+					delete {nowParty::%{%{_temp}%::m4}%}
 					delete {%{_temp}%::name}
 					delete {%{_temp}%::m1}
 					delete {%{_temp}%::m2}
@@ -71,16 +76,16 @@
 					delete {%{_temp}%::m4}
 					delete {%{_temp}%::lore}
 					delete {%{_temp}%::public}
+					
 					send "&b성공적으로 파티가 해체되었습니다." to player
 				else:
-					delete {nowParty::%player%}
 					if player's name is {%{_temp}%::m2}:
 						delete {%{_temp}%::m2}
 					else if player's name is {%{_temp}%::m3}:
 						delete {%{_temp}%::m3}
 					else if player's name is {%{_temp}%::m4}:
 						delete {%{_temp}%::m4}
-
+					set {waitParty::%player%} to {nowParty::%player%}
 					send "&b성공적으로 파티에서 탈퇴하였습니다." to player
 
 					findPlayer(player)
@@ -92,6 +97,8 @@
 					delete {temp::%player%::m2}
 					delete {temp::%player%::m3}
 					delete {temp::%player%::m4}
+					delete {waitParty::%player%}
+					delete {nowParty::%player%}
 
 		else if arg-1 is "공개":
 			if {nowParty::%player%} is not set:
@@ -107,6 +114,7 @@
 						send "&b파티가 공개 상태로 전환되었습니다." to player
 				else:
 					send "&c파티장이 아닙니다." to player
+
 		else if arg-1 is "설명":
 			if {nowParty::%player%} is not set:
 				send "&c현재 가입된 파티가 없습니다." to player
@@ -117,6 +125,7 @@
 					send "&a파티 설명 설정이 완료되었습니다. &f[ %{%{_temp}%::lore}% ]" to player
 				else:
 					send "&c파티장이 아닙니다." to player
+
 		else if arg-1 is "초대":
 			set {_target} to arg-2
 			loop all players:
@@ -135,6 +144,7 @@
 						send "&c해당 플레이어가 온라인이 아닙니다." to player
 				else:
 					send "&c파티장이 아닙니다." to player
+
 		else if arg-1 is "수락":
 			if {waitParty::%player%} is not set:
 				send "&c받은 파티 초대가 없습니다." to player
@@ -160,6 +170,7 @@
 					else if {%{_temp}%::m3} is not set:
 						set {%{_temp}%::m3} to player's name
 						set {nowParty::%player%} to {_temp}
+		
 						send "&a%{%{_temp}%::name}% &f파티에 가입했습니다!" to player
 						
 						findPlayer(player)
@@ -190,6 +201,7 @@
 				else:
 					send "&c이미 파티에 가입되어 있습니다." to player
 				delete {waitParty::%player%}
+
 		else if arg-1 is "거절":
 			if {waitParty::%player%} is not set:
 				send "&c받은 파티 초대가 없습니다." to player
@@ -203,11 +215,13 @@
 				delete {waitParty::%player%}
 	
 function findPlayer(p: player):
+	set {_temp} to {waitParty::%{_p}%}
+
 	set {_m1Name} to {%{_temp}%::m1}
 	loop all players:
 		if loop-player's name is {_m1Name}:
 			set {temp::%{_p}%::m1} to loop-player
-
+	
 	set {_m2Name} to {%{_temp}%::m2}
 	loop all players:
 		if loop-player's name is {_m2Name}:
@@ -222,5 +236,3 @@ function findPlayer(p: player):
 	loop all players:
 		if loop-player's name is {_m4Name}:
 			set {temp::%{_p}%::m4} to loop-player
-					
-			
