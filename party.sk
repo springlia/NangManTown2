@@ -1,4 +1,4 @@
-﻿command /파티 [<text>] [<text>]: 
+command /파티 [<text>] [<text>]: 
 	trigger:
 		if arg-1 is not set:
 			send "" to player
@@ -25,6 +25,7 @@
 						set {%{_temp}%::m1} to player's name
 						set {%{_temp}%::public} to false
 						set {nowParty::%player%} to {_temp}
+						add {%{_temp}%::name} to {partyList::*}
 						send "" to player
 						send "&e파티가 성공적으로 생성되었습니다!" to player
 						send "" to player
@@ -78,7 +79,7 @@
 					delete {%{_temp}%::m4}
 					delete {%{_temp}%::lore}
 					delete {%{_temp}%::public}
-					
+					remove {_temp} from {partyList::*}
 					send "&b성공적으로 파티가 해체되었습니다." to player
 				else:
 					if player's name is {%{_temp}%::m2}:
@@ -215,7 +216,18 @@
 					if loop-player's name is {_name}:
 						send "&e%player%&f님이 파티 초대를 거절하였습니다." to loop-player
 				delete {waitParty::%player%}
-	
+
+		else if arg-1 is "목록":
+			if size of {partyList::*} is 0:
+				send "&c생성된 파티가 없습니다." to player
+			else:
+				send "" to player
+				send "&6 ===== &f파티 목록 &6=====" to player
+				send "" to player
+				loop {partyList::*}:
+					send "&d▶ &f%loop-value% &7[%{%loop-value%::m1}%]" to player
+				send "" to player
+
 function findPlayer(p: player):
 	set {_temp} to {waitParty::%{_p}%}
 
