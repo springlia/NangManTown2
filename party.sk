@@ -56,9 +56,14 @@
 			else:
 				set {_temp} to {nowParty::%player%}
 				if {%{_temp}%::m1} is player's name:
-					delete {%{_temp}%::name}
 					delete {nowParty::%player%}
+					delete {%{_temp}%::name}
 					delete {%{_temp}%::m1}
+					delete {%{_temp}%::m2}
+					delete {%{_temp}%::m3}
+					delete {%{_temp}%::m4}
+					delete {%{_temp}%::lore}
+					delete {%{_temp}%::public}
 					send "&b성공적으로 파티가 해체되었습니다." to player
 				else:
 					delete {nowParty::%player%}
@@ -87,6 +92,63 @@
 					send "&a파티 설명 설정이 완료되었습니다. &f[ %{%{_temp}%::lore}% ]" to player
 				else:
 					send "&c파티장이 아닙니다." to player
+		else if arg-1 is "초대":
+			if {nowParty::%player%} is not set:
+				send "&c현재 가입된 파티가 없습니다." to player
+			else:
+				set {_temp} to {nowParty::%player%}
+				if {%{_temp}%::m1} is player's name:
+					set {_player} to arg-2
+					if {_player} is online:
+						send "&e%player%&f님으로부터 파티 초대가 도착했습니다. <ttp:클릭 시 파티 초대를 수락합니다.><cmd:/파티 수락>&a&l[✔️]<reset> <ttp:클릭 시 파티 초대를 거절합니다.><cmd:/파티 거절>&c&l[❌]<reset>" to {_player}
+						set {waitParty::%player%} to {_temp}
+					else:
+						send "&c해당 플레이어가 온라인이 아닙니다." to player
+				else:
+					send "&c파티장이 아닙니다." to player
+		else if arg-1 is "수락":
+			if {waitParty::%player%} is not set:
+				send "&c받은 파티 초대가 없습니다." to player
+			else:
+				if {nowParty::%player%} is not set:
+					set {_temp} to {waitParty::%player%}
+					if {%{_temp}%::m2} is not set:
+						set {%{_temp}%::m2} to player's name
+						set {nowParty::%player%} to {_temp}
+						send "&a%{%{_temp}%::name}% &f파티에 가입했습니다!" to player
+						send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m1}
+						send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m3}
+						send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m4}
+
+					else if {%{_temp}%::m3} is not set:
+						set {%{_temp}%::m3} to player's name
+						set {nowParty::%player%} to {_temp}
+						send "&a%{%{_temp}%::name}% &f파티에 가입했습니다!" to player
+						send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m1}
+						send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m2}
+						send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m4}
+					else if {%{_temp}%::m4} is not set:
+						set {%{_temp}%::m4} to player's name
+						set {nowParty::%player%} to {_temp}
+						send "&a%{%{_temp}%::name}% &f파티에 가입했습니다!" to player
+						send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m1}
+						send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m2}
+						send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m3}
+					else:
+						send "&c파티 인원이 꽉차 가입할 수 없습니다." to player
+				else:
+					send "&c이미 파티에 가입되어 있습니다." to player
+				delete {waitParty::%player%}
+		else if arg-1 is "거절":
+			if {waitParty::%player%} is not set:
+				send "&c받은 파티 초대가 없습니다." to player
+			else:
+				set {_temp} to {waitParty::%player%}
+				send "&c파티 초대를 거절하였습니다." to player
+				send "" to {%{_temp}%::m1}
+				delete {waitParty::%player%}
+
+
 				
 
 
