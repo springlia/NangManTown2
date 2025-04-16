@@ -13,6 +13,7 @@
 			send "&e/파티 추방 [닉네임] &f: 유저를 파티에서 추방합니다." to player
 			send "&e/파티 위임 [닉네임] &f: 유저에게 파티장을 위임합니다." to player
 			send "" to player
+
 		else if arg-1 is "생성":
 			set {_temp} to arg-2
 			if arg-2 is not set:
@@ -34,6 +35,7 @@
 						send "&c이미 파티에 가입되어 있습니다." to player
 				else:
 					send "&c이미 같은 이름의 파티가 있습니다." to player
+
 		else if arg-1 is "정보":
 			if {nowParty::%player%} is not set:
 				send "&c현재 가입된 파티가 없습니다." to player
@@ -52,11 +54,11 @@
 				send "" to player
 				send "&e~~ 파티 멤버 ~~" to player
 				if {%{_temp}%::m2} is set:
-					send "2 %{%{_temp}%::m2}%" to player
+					send "%{%{_temp}%::m2}%" to player
 				if {%{_temp}%::m3} is set:
-					send "3 %{%{_temp}%::m3}%" to player
+					send "%{%{_temp}%::m3}%" to player
 				if {%{_temp}%::m4} is set:
-					send "4 %{%{_temp}%::m4}%" to player
+					send "%{%{_temp}%::m4}%" to player
 				send "" to player
 
 		else if arg-1 is "탈퇴":
@@ -137,7 +139,7 @@
 				set {_temp} to {nowParty::%player%}
 				if {%{_temp}%::m1} is player's name:
 					if {_player} is online:
-						send "&e%player%&f님에게 파티 초대를 보냈습니다." to player
+						send "&e%{_player}%&f님에게 파티 초대를 보냈습니다." to player
 						send "&e%player%&f님으로부터 파티 초대가 도착했습니다. <ttp:클릭 시 파티 초대를 수락합니다.><cmd:/파티 수락>&a&l[✅]<reset> <ttp:클릭 시 파티 초대를 거절합니다.><cmd:/파티 거절>&c&l[❌]<reset>" to {_player}
 						set {waitParty::%{_player}%} to {_temp}
 					else:
