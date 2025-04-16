@@ -5,11 +5,14 @@
 on right click:
 	## 주문서 ##
 	if name of player's tool is "&e★ &a&l창고 확장 &f주문서":
-		remove 1 book named "&e★ &a&l창고 확장 &f주문서" from player
-		play sound "block.note_block.bell"
-		set {_uuid} to uuid of player
-		add 1 to {사물함최대페이지::%{_uuid}%}
-		send "&e&l사물함의 페이지가 1장 늘어났습니다! &7현재 최대 페이지 : %{사물함최대페이지::%{_uuid}%}%" to player
+		if {nowHaveLocker::%player%} is true:
+			remove 1 book named "&e★ &a&l창고 확장 &f주문서" from player
+			play sound "block.note_block.bell"
+			set {_uuid} to uuid of player
+			add 1 to {사물함최대페이지::%{_uuid}%}
+			send "&e&l사물함의 페이지가 1장 늘어났습니다! &7현재 최대 페이지 : %{사물함최대페이지::%{_uuid}%}%" to player
+		else:
+			send "&c보유 중인 사물함이 없습니다." to player
 
 	## 락커 지정 삭제 필요 ##
 	if player's tool is wooden sword:
@@ -134,8 +137,12 @@ on inventory click:
 command /player_yes:
 	trigger:
 		if {락커선택지오픈::%player%} is true:
-			set {%{whatLocker::%player%}%_Owner} to player's name
-			send ":npc: &e&l마법의 사물함&f: 그래그래! 그럼 앞으로 잘 부탁해~" to player
+			if {nowHaveLocker::%player%} is true:
+				send ":npc: &e&l마법의 사물함&f: 어, 근데 너 이미 다른 사물함의 주인이잖아? 안돼안돼~ 사물함은 한 명 당 하나씩!" to player
+			else:
+				set {%{whatLocker::%player%}%_Owner} to player's name
+				send ":npc: &e&l마법의 사물함&f: 그래그래! 그럼 앞으로 잘 부탁해~" to player
+				set {nowHaveLocker::%player%} to true
 			delete {락커선택지오픈::%player%}
 			delete {whatLocker::%player%}
 
