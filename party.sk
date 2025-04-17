@@ -261,6 +261,38 @@ command /파티 [<text>] [<text>]:
 			else:
 				send "&c파티장이 아닙니다." to player
 
+		else if arg-1 is "추방":
+			set {_temp} to {nowParty::%player%}
+			if {%{_temp}%::m1} is player's name:
+				set {_removeMember} to arg-2
+				if {%{_temp}%::m2} is {_removeMember}:
+					delete {%{_temp}%::m2}
+					delete {nowParty::%{%{_temp}%::m2}%}
+				else if {%{_temp}%::m3} is {_removeMember}:
+					delete {%{_temp}%::m3}
+					delete {nowParty::%{%{_temp}%::m3}%}
+				else if {%{_temp}%::m4} is {_removeMember}:
+					delete {%{_temp}%::m4}
+					delete {nowParty::%{%{_temp}%::m4}%}
+				else:
+					send "&e%arg-2%&f님은 파티원이 아닙니다." to player
+					stop
+
+				set {waitParty::%player%} to {_temp}
+				findPlayer(player)
+				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {temp::%player%::m1}
+				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {temp::%player%::m2}
+				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {temp::%player%::m3}
+				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {temp::%player%::m4}
+				delete {temp::%player%::m1}
+				delete {temp::%player%::m2}
+				delete {temp::%player%::m3}
+				delete {temp::%player%::m4}
+				delete {waitParty::%player%}
+
+
+		else if arg-1 is "가입":
+
 function findPlayer(p: player):
 	set {_temp} to {waitParty::%{_p}%}
 
