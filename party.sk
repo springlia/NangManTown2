@@ -228,6 +228,39 @@ command /파티 [<text>] [<text>]:
 					send "&d▶ &f%loop-value% &7[%{%loop-value%::m1}%]" to player
 				send "" to player
 
+		else if arg-1 is "위임":
+			set {_temp} to {nowParty::%player%}
+			if {%{_temp}%::m1} is player's name:
+				set {_nextLeader} to arg-2
+				if {%{_temp}%::m2} is {_nextLeader}:
+					set {%{_temp}%::m2} to {%{_temp}%::m1}
+					set {%{_temp}%::m1} to {_nextLeader}
+
+				else if {%{_temp}%::m3} is {_nextLeader}:
+					set {%{_temp}%::m3} to {%{_temp}%::m1}
+					set {%{_temp}%::m1} to {_nextLeader}
+
+				else if {%{_temp}%::m4} is {_nextLeader}:
+					set {%{_temp}%::m4} to {%{_temp}%::m1}
+					set {%{_temp}%::m1} to {_nextLeader}
+				else:
+					send "&e%arg-2%&f님은 파티원이 아닙니다." to player
+					stop
+
+				set {waitParty::%player%} to {_temp}
+				findPlayer(player)
+				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {temp::%player%::m1}
+				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {temp::%player%::m2}
+				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {temp::%player%::m3}
+				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {temp::%player%::m4}
+				delete {temp::%player%::m1}
+				delete {temp::%player%::m2}
+				delete {temp::%player%::m3}
+				delete {temp::%player%::m4}
+				delete {waitParty::%player%}
+			else:
+				send "&c파티장이 아닙니다." to player
+
 function findPlayer(p: player):
 	set {_temp} to {waitParty::%{_p}%}
 
