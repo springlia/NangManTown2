@@ -226,7 +226,19 @@ command /파티 [<text>] [<text>]:
 				send "&6 ===== &f파티 목록 &6=====" to player
 				send "" to player
 				loop {partyList::*}:
-					send "&d▶ &f%loop-value% &7[%{%loop-value%::m1}%]" to player
+					if {%loop-value%::m1} is set:
+						add 1 to {_count}
+					if {%loop-value%::m2} is set:
+						add 1 to {_count}
+					if {%loop-value%::m3} is set:
+						add 1 to {_count}	
+					if {%loop-value%::m4} is set:
+						add 1 to {_count}		
+					if {%loop-value%::public} is true:
+						set {_public} to "&b[공개]"
+					else:
+						set {_public} to "&7[비공개]"
+					send "&d▶ &f%loop-value% &a[%{%loop-value%::m1}%] &e(%{_count}%/4) %{_public}%" to player
 				send "" to player
 
 		else if arg-1 is "위임":
@@ -281,7 +293,7 @@ command /파티 [<text>] [<text>]:
 				delete {temp::%player%::m3}
 				delete {temp::%player%::m4}
 				delete {waitParty::%player%}
-				
+
 				if {%{_temp}%::m2} is {_removeMember}:
 
 					delete {nowParty::%{_tempMem}%}
