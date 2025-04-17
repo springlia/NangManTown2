@@ -69,9 +69,26 @@ command /파티 [<text>] [<text>]:
 				set {_temp} to {nowParty::%player%}
 				if {%{_temp}%::m1} is player's name:
 					
-					delete {nowParty::%{%{_temp}%::m2}%}
-					delete {nowParty::%{%{_temp}%::m3}%}
-					delete {nowParty::%{%{_temp}%::m4}%}
+					loop all players:
+						if loop-player's name is {%{_temp}%::m2}:
+							set {_tempMem} to loop-player
+					send "&d파티가 해체되었습니다." to {_tempMem}
+					delete {nowParty::%{_tempMem}%}
+					delete {_tempMem}
+
+					loop all players:
+						if loop-player's name is {%{_temp}%::m3}:
+							set {_tempMem} to loop-player
+					send "&d파티가 해체되었습니다." to {_tempMem}
+					delete {nowParty::%{_tempMem}%}
+					delete {_tempMem}
+
+					loop all players:
+						if loop-player's name is {%{_temp}%::m4}:
+							set {_tempMem} to loop-player
+					send "&d파티가 해체되었습니다." to {_tempMem}
+					delete {nowParty::%{_tempMem}%}
+
 					delete {nowParty::%player%}
 					delete {%{_temp}%::name}
 					delete {%{_temp}%::m1}
@@ -160,7 +177,7 @@ command /파티 [<text>] [<text>]:
 						set {%{_temp}%::m2} to player's name
 						set {nowParty::%player%} to {_temp}
 
-						send "&a%{%{_temp}%::name}% &f파티에 가입했습니다!" to player
+						send "&a%{%{_temp}%::name}% 파티에 가입했습니다!" to player
 
 						findPlayer(player)
 
