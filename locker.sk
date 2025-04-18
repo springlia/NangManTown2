@@ -130,6 +130,10 @@ function openGUI(p: player):
 on inventory close:
 	event-inventory's name contains "사물함":
 
+		if {is_closing_lockerGUI::%player%} is set:
+			delete {is_closing_lockerGUI::%player%}
+			stop
+
 		#어드민 모드인지 확인#
 		if {AdminMode::%player%} is true:
 			set {_player} to {targetUser::%player%}
@@ -143,6 +147,12 @@ on inventory close:
 		loop 45 times:
 			if slot is not air:
 				set {창고::%{_uuid}%::%{_page}%::%loop-number - 1%} to slot loop-number - 1 of event-inventory
+
+		if {AdminMode::%player%} is true:
+			delete {targetUser::%player%}
+			delete {AdminMode::%player%}
+			send "&7[관리모드] 사물함 확인이 종료되었습니다." to player
+
 
 
 	
@@ -173,6 +183,7 @@ on inventory click:
 		# 이전 페이지
 		clicked slot is 45:
 			if {_page} > 1:
+				set {is_closing_lockerGUI::%player%} to true
 				subtract 1 from {_page}
 				set {사물함페이지::%{_uuid}%} to {_page}
 				if {AdminMode::%player%} is true:
@@ -186,6 +197,7 @@ on inventory click:
 		# 다음 페이지
 		clicked slot is 53:
 			if {_page} < {_max}:
+				set {is_closing_lockerGUI::%player%} to true
 				add 1 to {_page}
 				set {사물함페이지::%{_uuid}%} to {_page}
 				if {AdminMode::%player%} is true:
@@ -241,7 +253,7 @@ command /관리자명령어_사물함확인해제:
 	trigger:
 		delete {targetUser::%player%}
 		delete {AdminMode::%player%}
-		send "&c사물함 확인 어드민 모드가 해제되었습니다." to player
+		send "&7[관리모드] 사물함 확인이 종료되었습니다." to player
 
 command /관리자명령어_사물함제거:
 	permission: op
