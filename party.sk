@@ -307,3 +307,35 @@ command /파티 [<text>] [<text>]:
 
 			else:
 				send "&c존재하지 않는 파티입니다." to player
+
+command /관리자명령어_파티삭제 <text>:
+	permission: op
+	trigger:
+		set {_temp} to arg-1
+
+		if {%{_temp}%::name} is not set:
+			send "&7[관리모드] 존재하지 않는 파티입니다." to player
+		else:
+			send "&c관리자에 의해 파티가 해체되었습니다." to {%{_temp}%::m1}
+			send "&c관리자에 의해 파티가 해체되었습니다." to {%{_temp}%::m2}
+			send "&c관리자에 의해 파티가 해체되었습니다." to {%{_temp}%::m3}
+			send "&c관리자에 의해 파티가 해체되었습니다." to {%{_temp}%::m4}
+
+			delete {nowParty::%{%{_temp}%::m1}%}
+			delete {nowParty::%{%{_temp}%::m2}%}
+			delete {nowParty::%{%{_temp}%::m3}%}
+			delete {nowParty::%{%{_temp}%::m4}%}
+
+			delete {%{_temp}%::m1}
+			delete {%{_temp}%::m2}
+			delete {%{_temp}%::m3}
+			delete {%{_temp}%::m4}
+
+			delete {%{_temp}%::name}
+			delete {%{_temp}%::lore}
+			delete {%{_temp}%::public}			
+
+			remove {_temp} from {partyList::*}
+
+			send "&7[관리모드] 성공적으로 파티가 해체되었습니다." to player
+		
