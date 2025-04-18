@@ -53,6 +53,44 @@ on right click:
 					send ":npc: &e&l마법의 사물함&f: 안녕, 난 &e%{%{whatLocker::%player%}%_Owner}%&f의 사물함이야." to player
 					delete {whatLocker::%player%}
 
+function openGUIAdmin(p: player):
+	#초기화#
+
+	set {_uuid} to uuid of {targetUser::%{_p}%}
+	set {_Puuid} to uuid of {_p}
+	set {_page} to {사물함페이지::%{_uuid}%}
+
+	#예외 처리#
+	if {_page} is not set:
+		set {_page} to 1
+		set {사물함페이지::%{_Puuid}%} to 1
+
+	set {_max} to {사물함최대페이지::%{_uuid}%}
+	if {_max} is not set:
+		set {_max} to 1
+		set {사물함최대페이지::%{_uuid}%} to 1
+
+	#사물함 불러오기#
+	set {_lockergui} to chest inventory with 6 rows named "사물함 (%{_page}%)"
+	loop 45 times:
+		set slot loop-num -1 of {_lockergui} to {창고::%{_uuid}%::%{_page}%::%loop-number - 1%}
+
+	#장식#
+	set slot 45 of {_lockergui} to {last} named "&b&l◀"
+	set slot 49 of {_lockergui} to {targetUser::%{_p}%}'s skull named "&e&l%name of {targetUser::%{_p}%}%&f님의 사물함 (Page %{_page}%)"
+	set slot 53 of {_lockergui} to {next} named "&b&l▶"
+
+	set slot 46 of {_lockergui} to black stained glass pane named ""
+	set slot 47 of {_lockergui} to black stained glass pane named ""
+	set slot 48 of {_lockergui} to black stained glass pane named ""
+	set slot 50 of {_lockergui} to black stained glass pane named ""
+	set slot 51 of {_lockergui} to black stained glass pane named ""
+	set slot 52 of {_lockergui} to black stained glass pane named ""
+
+	open {_lockergui} to {_p}
+	play sound "block.iron_door.open" to {_p}
+
+
 function openGUI(p: player):
 	#초기화#
 	set {_uuid} to uuid of {_p}
@@ -88,52 +126,82 @@ function openGUI(p: player):
 	open {_lockergui} to {_p}
 	play sound "block.iron_door.open" to {_p}
 
+
 on inventory close:
 	event-inventory's name contains "사물함":
+
+		#어드민 모드인지 확인#
+		if {AdminMode::%player%} is true:
+			set {_player} to {targetUser::%player%}
+		else:
+			set {_player} to player
+
 		#초기화#
-		set {_uuid} to uuid of player
+		set {_uuid} to uuid of {_player}
 		set {_page} to {사물함페이지::%{_uuid}%}
 
 		loop 45 times:
 			if slot is not air:
 				set {창고::%{_uuid}%::%{_page}%::%loop-number - 1%} to slot loop-number - 1 of event-inventory
+
+
 	
 on inventory click:
 	if name of event-inventory contains "사물함":
-		#초기화 및 예외처리#
-		set {_uuid} to uuid of player
+		# 어드민 모드 확인 및 UUID 획득
+		if {AdminMode::%player%} is true:
+			set {_target} to {targetUser::%player%}
+			set {_uuid} to uuid of {_target}
+			set {_player} to {_target}
+		else:
+			set {_player} to player
+			set {_uuid} to uuid of {_player}
+
+		# 페이지 불러오기
 		set {_page} to {사물함페이지::%{_uuid}%}
-		set {_max} to {사물함최대페이지::%uuid of player%}
 		if {_page} is not set:
 			set {_page} to 1
 
+		set {_max} to {사물함최대페이지::%{_uuid}%}
+		if {_max} is not set:
+			set {_max} to 1
+
+		# 저장
 		loop 45 times:
 			set {창고::%{_uuid}%::%{_page}%::%loop-number - 1%} to slot loop-number - 1 of event-inventory
 
-		#이전페이지#
+		# 이전 페이지
 		clicked slot is 45:
 			if {_page} > 1:
 				subtract 1 from {_page}
 				set {사물함페이지::%{_uuid}%} to {_page}
-				openGUI(player)
+				if {AdminMode::%player%} is true:
+					openGUIAdmin(player)
+				else:
+					openGUI({_player})
 			else:
 				send "&c이전 페이지가 없습니다." to player
 			cancel event
 
-		#다음페이지#
+		# 다음 페이지
 		clicked slot is 53:
 			if {_page} < {_max}:
 				add 1 to {_page}
 				set {사물함페이지::%{_uuid}%} to {_page}
-				openGUI(player)
+				if {AdminMode::%player%} is true:
+					openGUIAdmin(player)
+				else:
+					openGUI({_player})
 			else:
 				send "&c다음 페이지가 없습니다." to player
 			cancel event
 
-		#장식 클릭 시 이벤트 취소#
+		# 장식 클릭 시 이벤트 취소
 		clicked slot is 46 or 47 or 48 or 49 or 50 or 51 or 52:
 			cancel event
 
+
+######################### 선택지 #########################
 command /player_yes:
 	trigger:
 		if {락커선택지오픈::%player%} is true:
@@ -152,12 +220,28 @@ command /player_no:
 			send ":npc: &e&l마법의 사물함&f: 아쉽네... 그럼 잘가!" to player
 			delete {락커선택지오픈::%player%}
 
+
+
+######################### 관리자 명령어 #########################
 command /관리자명령어_사물함페이지 [<number>]:
 	permission: op
 	trigger:
 		set {사물함최대페이지::%uuid of player%} to arg
 		send "&a사물함 최대 페이지가 %{사물함최대페이지::%uuid of player%}%페이지로 설정되었습니다. "
 
+command /관리자명령어_사물함확인 <player>:
+	permission: op
+	trigger:
+		set {targetUser::%player%} to arg-1
+		set {AdminMode::%player%} to true
+		openGUIAdmin(player)
+
+command /관리자명령어_사물함확인해제:
+	permission: op
+	trigger:
+		delete {targetUser::%player%}
+		delete {AdminMode::%player%}
+		send "&c사물함 확인 어드민 모드가 해제되었습니다." to player
 
 command /관리자명령어_사물함제거:
 	permission: op
