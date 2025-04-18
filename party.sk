@@ -3,8 +3,8 @@ command /파티 [<text>] [<text>]:
 		if arg-1 is not set:
 			send "" to player
 			send "&e/파티 목록 &f: 모든 파티 목록을 확인합니다." to player
-			send "&e/파티 가입 [이름] &f: 유저에게 파티장을 위임합니다." to player
-			send "&e/파티 생성 [이름] &f: [이름]의 파티에 가입합니다." to player
+			send "&e/파티 가입 [이름] &f: [이름] 파티에 가입합니다." to player
+			send "&e/파티 생성 [이름] &f: [이름]의 파티를 생성합니다." to player
 			send "&e/파티 정보 &f: 지금 내 파티의 정보를 확인합니다." to player
 			send "&e/파티 공개 &f: 파티를 공개/비공개로 전환합니다." to player
 			send "&e/파티 초대 [닉네임] &f: 유저를 파티로 초대합니다." to player
@@ -13,6 +13,8 @@ command /파티 [<text>] [<text>]:
 			send "&e/파티 추방 [닉네임] &f: 유저를 파티에서 추방합니다." to player
 			send "&e/파티 위임 [닉네임] &f: 유저에게 파티장을 위임합니다." to player
 			send "" to player
+			if player is op:
+				send "&e/관리자명령어_파티삭제 [이름] &f: [이름]의 파티를 강제 삭제합니다." to player
 
 		else if arg-1 is "생성":
 			set {_temp} to arg-2
@@ -22,7 +24,7 @@ command /파티 [<text>] [<text>]:
 				if {%{_temp}%::name} is not set:
 					if {nowParty::%player%} is not set:
 						set {%{_temp}%::name} to arg-2
-						set {%{_temp}%::m1} to player's name
+						set {%{_temp}%::m1} to player
 						set {%{_temp}%::public} to false
 						set {nowParty::%player%} to {_temp}
 						add {%{_temp}%::name} to {partyList::*}
@@ -69,35 +71,23 @@ command /파티 [<text>] [<text>]:
 				set {_temp} to {nowParty::%player%}
 				if {%{_temp}%::m1} is player's name:
 					
-					loop all players:
-						if loop-player's name is {%{_temp}%::m2}:
-							set {_tempMem} to loop-player
-					send "&d파티가 해체되었습니다." to {_tempMem}
-					delete {nowParty::%{_tempMem}%}
-					delete {_tempMem}
-
-					loop all players:
-						if loop-player's name is {%{_temp}%::m3}:
-							set {_tempMem} to loop-player
-					send "&d파티가 해체되었습니다." to {_tempMem}
-					delete {nowParty::%{_tempMem}%}
-					delete {_tempMem}
-
-					loop all players:
-						if loop-player's name is {%{_temp}%::m4}:
-							set {_tempMem} to loop-player
-					send "&d파티가 해체되었습니다." to {_tempMem}
-					delete {nowParty::%{_tempMem}%}
-
+					delete {nowParty::%{%{_temp}%::m2}%}
+					delete {nowParty::%{%{_temp}%::m3}%}
+					delete {nowParty::%{%{_temp}%::m4}%}
 					delete {nowParty::%player%}
-					delete {%{_temp}%::name}
+
+					
 					delete {%{_temp}%::m1}
 					delete {%{_temp}%::m2}
 					delete {%{_temp}%::m3}
 					delete {%{_temp}%::m4}
+
+					delete {%{_temp}%::name}
 					delete {%{_temp}%::lore}
 					delete {%{_temp}%::public}
+
 					remove {_temp} from {partyList::*}
+
 					send "&b성공적으로 파티가 해체되었습니다." to player
 				else:
 					if player's name is {%{_temp}%::m2}:
@@ -106,19 +96,14 @@ command /파티 [<text>] [<text>]:
 						delete {%{_temp}%::m3}
 					else if player's name is {%{_temp}%::m4}:
 						delete {%{_temp}%::m4}
-					set {waitParty::%player%} to {nowParty::%player%}
+
 					send "&b성공적으로 파티에서 탈퇴하였습니다." to player
 
-					findPlayer(player)
-					send "&e%player%&f님이 파티에서 탈퇴하였습니다." to {temp::%player%::m1}
-					send "&e%player%&f님이 파티에서 탈퇴하였습니다." to {temp::%player%::m2}
-					send "&e%player%&f님이 파티에서 탈퇴하였습니다." to {temp::%player%::m3}
-					send "&e%player%&f님이 파티에서 탈퇴하였습니다." to {temp::%player%::m4}
-					delete {temp::%player%::m1}
-					delete {temp::%player%::m2}
-					delete {temp::%player%::m3}
-					delete {temp::%player%::m4}
-					delete {waitParty::%player%}
+					send "&e%player%&f님이 파티에서 탈퇴하였습니다." to {%{_temp}%::m1}
+					send "&e%player%&f님이 파티에서 탈퇴하였습니다." to {%{_temp}%::m2}
+					send "&e%player%&f님이 파티에서 탈퇴하였습니다." to {%{_temp}%::m3}
+					send "&e%player%&f님이 파티에서 탈퇴하였습니다." to {%{_temp}%::m4}
+
 					delete {nowParty::%player%}
 
 		else if arg-1 is "공개":
@@ -173,52 +158,27 @@ command /파티 [<text>] [<text>]:
 				if {nowParty::%player%} is not set:
 					set {_temp} to {waitParty::%player%}
 					if {%{_temp}%::m2} is not set:
-
-						set {%{_temp}%::m2} to player's name
+						set {%{_temp}%::m2} to player
 						set {nowParty::%player%} to {_temp}
-
-						send "&a%{%{_temp}%::name}% 파티에 가입했습니다!" to player
-
-						findPlayer(player)
-
-						send "&e%player%&f님이 파티에 가입했습니다." to {temp::%player%::m1}
-						send "&e%player%&f님이 파티에 가입했습니다." to {temp::%player%::m3}
-						send "&e%player%&f님이 파티에 가입했습니다." to {temp::%player%::m4}
-						delete {temp::%player%::m1}
-						delete {temp::%player%::m3}
-						delete {temp::%player%::m4}
 
 					else if {%{_temp}%::m3} is not set:
-						set {%{_temp}%::m3} to player's name
+						set {%{_temp}%::m3} to player
 						set {nowParty::%player%} to {_temp}
 		
-						send "&a%{%{_temp}%::name}% &f파티에 가입했습니다!" to player
-						
-						findPlayer(player)
-
-						send "&e%player%&f님이 파티에 가입했습니다." to {temp::%player%::m1}
-						send "&e%player%&f님이 파티에 가입했습니다." to {temp::%player%::m2}
-						send "&e%player%&f님이 파티에 가입했습니다." to {temp::%player%::m4}
-						delete {temp::%player%::m1}
-						delete {temp::%player%::m2}
-						delete {temp::%player%::m4}
-
 					else if {%{_temp}%::m4} is not set:
-						set {%{_temp}%::m4} to player's name
+						set {%{_temp}%::m4} to player
 						set {nowParty::%player%} to {_temp}
-						send "&a%{%{_temp}%::name}% &f파티에 가입했습니다!" to player
-						
-						findPlayer(player)
-
-						send "&e%player%&f님이 파티에 가입했습니다." to {temp::%player%::m1}
-						send "&e%player%&f님이 파티에 가입했습니다." to {temp::%player%::m2}
-						send "&e%player%&f님이 파티에 가입했습니다." to {temp::%player%::m3}
-						delete {temp::%player%::m1}
-						delete {temp::%player%::m2}
-						delete {temp::%player%::m3}
 
 					else:
 						send "&c파티 인원이 꽉차 가입할 수 없습니다." to player
+						stop
+
+					send "&a%{%{_temp}%::name}% &f파티에 가입했습니다!" to player
+						
+					send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m1}
+					send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m2}
+					send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m3}
+					send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m4}
 				else:
 					send "&c이미 파티에 가입되어 있습니다." to player
 				delete {waitParty::%player%}
@@ -229,10 +189,7 @@ command /파티 [<text>] [<text>]:
 			else:
 				set {_temp} to {waitParty::%player%}
 				send "&c파티 초대를 거절하였습니다." to player
-				set {_name} to {%{_temp}%::m1}
-				loop all players:
-					if loop-player's name is {_name}:
-						send "&e%player%&f님이 파티 초대를 거절하였습니다." to loop-player
+				send "&e%player%&f님이 파티 초대를 거절하였습니다." to {%{_temp}%::m1}
 				delete {waitParty::%player%}
 
 		else if arg-1 is "목록":
@@ -277,17 +234,11 @@ command /파티 [<text>] [<text>]:
 					send "&e%arg-2%&f님은 파티원이 아닙니다." to player
 					stop
 
-				set {waitParty::%player%} to {_temp}
-				findPlayer(player)
-				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {temp::%player%::m1}
-				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {temp::%player%::m2}
-				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {temp::%player%::m3}
-				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {temp::%player%::m4}
-				delete {temp::%player%::m1}
-				delete {temp::%player%::m2}
-				delete {temp::%player%::m3}
-				delete {temp::%player%::m4}
-				delete {waitParty::%player%}
+				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {%{_temp}%::m1}
+				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {%{_temp}%::m2}
+				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {%{_temp}%::m3}
+				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {%{_temp}%::m4}
+
 			else:
 				send "&c파티장이 아닙니다." to player
 
@@ -296,35 +247,24 @@ command /파티 [<text>] [<text>]:
 			if {%{_temp}%::m1} is player's name:
 				set {_removeMember} to arg-2
 				set {waitParty::%player%} to {_temp}
-				loop all players:
-					if loop-player's name is {_removeMember}:
-						set {_tempMem} to loop-player
 				
-				findPlayer(player)
-				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {temp::%player%::m1}
-				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {temp::%player%::m2}
-				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {temp::%player%::m3}
-				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {temp::%player%::m4}
-				delete {temp::%player%::m1}
-				delete {temp::%player%::m2}
-				delete {temp::%player%::m3}
-				delete {temp::%player%::m4}
-				delete {waitParty::%player%}
+				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {%{_temp}%::m1}
+				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {%{_temp}%::m2}
+				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {%{_temp}%::m3}
+				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {%{_temp}%::m4}
 
 				if {%{_temp}%::m2} is {_removeMember}:
-
-					delete {nowParty::%{_tempMem}%}
+					delete {nowParty::%{%{_temp}%::m2}%}
 					delete {%{_temp}%::m2}
 					
 				else if {%{_temp}%::m3} is {_removeMember}:
-
-					delete {nowParty::%{_tempMem}%}
+					delete {nowParty::%{%{_temp}%::m3}%}
 					delete {%{_temp}%::m3}
 
 				else if {%{_temp}%::m4} is {_removeMember}:
-
-					delete {nowParty::%{_tempMem}%}
+					delete {nowParty::%{%{_temp}%::m4}%}
 					delete {%{_temp}%::m4}
+
 				else:
 					send "&e%arg-2%&f님은 파티원이 아닙니다." to player
 
@@ -335,83 +275,34 @@ command /파티 [<text>] [<text>]:
 			set {_temp} to arg-2
 			if {%{_temp}%::public} is true:
 				if {%{_temp}%::m2} is not set:
-					set {%{_temp}%::m2} to player's name
+					set {%{_temp}%::m2} to player
 					set {nowParty::%player%} to {_temp}
 					send "&a%{_temp}% 파티에 가입했습니다!" to player
-
-					set {waitParty::%player%} to {_temp}
-					findPlayer(player)
-
-					send "&e%player%&f님이 파티에 가입했습니다." to {temp::%player%::m1}
-					send "&e%player%&f님이 파티에 가입했습니다." to {temp::%player%::m3}
-					send "&e%player%&f님이 파티에 가입했습니다." to {temp::%player%::m4}
-					delete {temp::%player%::m1}
-					delete {temp::%player%::m3}
-					delete {temp::%player%::m4}
-					delete {waitParty::%player%}
+					send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m1}
+					send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m3}
+					send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m4}
 
 				else if {%{_temp}%::m3} is not set:
-					set {%{_temp}%::m3} to player's name
+					set {%{_temp}%::m3} to player
 					set {nowParty::%player%} to {_temp}
 					send "&a%{_temp}% 파티에 가입했습니다!" to player
-
-					set {waitParty::%player%} to {_temp}
-					findPlayer(player)
-
-					send "&e%player%&f님이 파티에 가입했습니다." to {temp::%player%::m1}
-					send "&e%player%&f님이 파티에 가입했습니다." to {temp::%player%::m2}
-					send "&e%player%&f님이 파티에 가입했습니다." to {temp::%player%::m4}
-					delete {temp::%player%::m1}
-					delete {temp::%player%::m2}
-					delete {temp::%player%::m4}
-					delete {waitParty::%player%}
-
+					send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m1}
+					send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m2}
+					send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m4}
 
 				else if {%{_temp}%::m4} is not set:
-					set {%{_temp}%::m4} to player's name
+					set {%{_temp}%::m4} to player
 					set {nowParty::%player%} to {_temp}
 					send "&a%{_temp}% 파티에 가입했습니다!" to player
-
-					set {waitParty::%player%} to {_temp}
-					findPlayer(player)
-
-					send "&e%player%&f님이 파티에 가입했습니다." to {temp::%player%::m1}
-					send "&e%player%&f님이 파티에 가입했습니다." to {temp::%player%::m3}
-					send "&e%player%&f님이 파티에 가입했습니다." to {temp::%player%::m2}
-					delete {temp::%player%::m1}
-					delete {temp::%player%::m3}
-					delete {temp::%player%::m2}
-					delete {waitParty::%player%}
-
-
+					send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m1}
+					send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m2}
+					send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m3}
 
 				else:
 					send "&c파티 인원이 꽉차 가입할 수 없습니다." to player
+
 			else if {%{_temp}%::public} is false:
 				send "&c비공개 파티에는 가입할 수 없습니다." to player
+
 			else:
 				send "&c존재하지 않는 파티입니다." to player
-
-
-function findPlayer(p: player):
-	set {_temp} to {waitParty::%{_p}%}
-
-	set {_m1Name} to {%{_temp}%::m1}
-	loop all players:
-		if loop-player's name is {_m1Name}:
-			set {temp::%{_p}%::m1} to loop-player
-	
-	set {_m2Name} to {%{_temp}%::m2}
-	loop all players:
-		if loop-player's name is {_m2Name}:
-			set {temp::%{_p}%::m2} to loop-player
-
-	set {_m3Name} to {%{_temp}%::m3}
-	loop all players:
-		if loop-player's name is {_m3Name}:
-			set {temp::%{_p}%::m3} to loop-player
-
-	set {_m4Name} to {%{_temp}%::m4}
-	loop all players:
-		if loop-player's name is {_m4Name}:
-			set {temp::%{_p}%::m4} to loop-player
