@@ -213,6 +213,7 @@ command /파티 [<text>] [<text>]:
 					else:
 						set {_public} to "&7[비공개]"
 					send "&d▶ &f%loop-value% &a[%{%loop-value%::m1}%] &e(%{_count}%/4) %{_public}%" to player
+					send "   &7%{%loop-value%::lore}%" to player
 				send "" to player
 
 		else if arg-1 is "위임":
