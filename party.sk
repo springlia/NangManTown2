@@ -71,12 +71,15 @@ command /파티 [<text>] [<text>]:
 				set {_temp} to {nowParty::%player%}
 				if {%{_temp}%::m1} is player's name:
 					
+					send "&b파티장에 의해 파티가 해체되었습니다." to {%{_temp}%::m2}
+					send "&b파티장에 의해 파티가 해체되었습니다." to {%{_temp}%::m3}
+					send "&b파티장에 의해 파티가 해체되었습니다." to {%{_temp}%::m4}
+
 					delete {nowParty::%{%{_temp}%::m2}%}
 					delete {nowParty::%{%{_temp}%::m3}%}
 					delete {nowParty::%{%{_temp}%::m4}%}
 					delete {nowParty::%player%}
 
-					
 					delete {%{_temp}%::m1}
 					delete {%{_temp}%::m2}
 					delete {%{_temp}%::m3}
@@ -220,17 +223,21 @@ command /파티 [<text>] [<text>]:
 			set {_temp} to {nowParty::%player%}
 			if {%{_temp}%::m1} is player's name:
 				set {_nextLeader} to arg-2
+
 				if {%{_temp}%::m2} is {_nextLeader}:
+					set {_tempMember} to {%{_temp}%::m2}
 					set {%{_temp}%::m2} to {%{_temp}%::m1}
-					set {%{_temp}%::m1} to {_nextLeader}
+					set {%{_temp}%::m1} to {_tempMember}
 
 				else if {%{_temp}%::m3} is {_nextLeader}:
+					set {_tempMember} to {%{_temp}%::m3}
 					set {%{_temp}%::m3} to {%{_temp}%::m1}
-					set {%{_temp}%::m1} to {_nextLeader}
+					set {%{_temp}%::m1} to {_tempMember}
 
 				else if {%{_temp}%::m4} is {_nextLeader}:
+					set {_tempMember} to {%{_temp}%::m4}
 					set {%{_temp}%::m4} to {%{_temp}%::m1}
-					set {%{_temp}%::m1} to {_nextLeader}
+					set {%{_temp}%::m1} to {_tempMember}
 				else:
 					send "&e%arg-2%&f님은 파티원이 아닙니다." to player
 					stop
@@ -401,7 +408,13 @@ command /파티정보GUI:
 			set slot 13 of {_myPartyGUI} to cake named "&e%{%{_temp}%::name}%" with lore "&f%{%{_temp}%::lore}%" and "&7클릭하여 설명 변경"
 		else:
 			set slot 13 of {_myPartyGUI} to cake named "&e%{%{_temp}%::name}%" with lore "&f%{%{_temp}%::lore}%"
-		set slot 20 of {_myPartyGUI} to {%{_temp}%::m1}'s skull named "&f%{%{_temp}%::m1}% &d[파티장]"
+
+
+		if {%{_temp}%::m1} is set:
+			set slot 20 of {_myPartyGUI} to {%{_temp}%::m1}'s skull named "&f%{%{_temp}%::m1}% &d[파티장]"
+		else:
+			set slot 20 of {_myPartyGUI} to {emptyHead} named "&7(비어있음)"
+		
 
 		if {%{_temp}%::m2} is set:
 			set slot 21 of {_myPartyGUI} to {%{_temp}%::m2}'s skull named "&f%{%{_temp}%::m2}%"
@@ -467,6 +480,10 @@ on inventory click:
 				execute console command "/파티설명변경 %player%"
 				close player's inventory
 
+		clicked slot is 21:
+			if {%{nowParty::%player%}%::m1} is player's name:
+				execute console command "/파티원정보확인 %player% %{%{nowParty::%player%}%::m2}%"
+
 		clicked slot is 39:
 			if {%{nowParty::%player%}%::m1} is player's name:
 				execute player command "/파티 공개"
@@ -482,6 +499,28 @@ on inventory click:
 		clicked slot is 31:
 			execute console command "/파티초대하기 %player%"
 			close player's inventory
+
+	######################## 파티원 정보 ########################
+	if event-inventory's name is "파티원 정보":
+		cancel event
+
+		event-inventory is player's inventory:
+			stop
+
+		clicked slot is 10:
+			execute player command "/파티정보GUI"
+		
+		clicked slot is 14:
+			execute player command "/파티 위임 %{partyMemberSet::%player%}%"
+			wait 1 ticks
+			delete {partyMemberSet::%player%}
+			execute player command "/파티정보GUI"
+
+		clicked slot is 16:
+			execute player command "/파티 추방 %{partyMemberSet::%player%}%"
+			wait 1 ticks
+			delete {partyMemberSet::%player%}
+			execute player command "/파티정보GUI"
 
 command /파티초대하기 <player>:
 	permission: op
@@ -505,6 +544,41 @@ command /파티설명변경 <player>:
 			send "&c파티장만 설명을 변경할 수 있습니다." to {_player}
 			stop
 
+command /파티원정보확인 <player> <player>:
+	permission: op
+	trigger:
+		set {_player} to arg-1
+		set {_targetPlayer} to arg-2
+
+		set {_temp} to {nowParty::%{_player}%}
+		set {_partyMemberGUI} to chest inventory with 3 rows named "파티원 정보"
+
+		##### 장식 #####
+		set slot 0 of {_partyMemberGUI} to black stained glass pane named ""
+		set slot 1 of {_partyMemberGUI} to black stained glass pane named ""
+		set slot 2 of {_partyMemberGUI} to black stained glass pane named ""
+		set slot 3 of {_partyMemberGUI} to black stained glass pane named ""
+		set slot 4 of {_partyMemberGUI} to black stained glass pane named ""
+		set slot 5 of {_partyMemberGUI} to black stained glass pane named ""
+		set slot 6 of {_partyMemberGUI} to black stained glass pane named ""
+		set slot 7 of {_partyMemberGUI} to black stained glass pane named ""
+		set slot 8 of {_partyMemberGUI} to black stained glass pane named ""
+		set slot 18 of {_partyMemberGUI} to black stained glass pane named ""
+		set slot 19 of {_partyMemberGUI} to black stained glass pane named ""
+		set slot 20 of {_partyMemberGUI} to black stained glass pane named ""
+		set slot 21 of {_partyMemberGUI} to black stained glass pane named ""
+		set slot 22 of {_partyMemberGUI} to black stained glass pane named ""
+		set slot 23 of {_partyMemberGUI} to black stained glass pane named ""
+		set slot 24 of {_partyMemberGUI} to black stained glass pane named ""
+		set slot 25 of {_partyMemberGUI} to black stained glass pane named ""
+		set slot 26 of {_partyMemberGUI} to black stained glass pane named ""
+
+		set slot 10 of {_partyMemberGUI} to {last} named "&b파티 정보로 돌아가기"
+		set slot 11 of {_partyMemberGUI} to {_targetPlayer}'s skull named "&f%{_targetPlayer}%"
+		set slot 14 of {_partyMemberGUI} to gold ingot named "&e파티장 위임하기"
+		set slot 16 of {_partyMemberGUI} to barrier named "&c파티원 추방하기"
+		set {partyMemberSet::%{_player}%} to {_targetPlayer}
+		open {_partyMemberGUI} to {_player}
 
 on chat:
 	if {inviteWait::%player%} is set:
