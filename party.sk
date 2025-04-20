@@ -339,3 +339,60 @@ command /관리자명령어_파티삭제 <text>:
 
 			send "&7[관리모드] 성공적으로 파티가 해체되었습니다." to player
 		
+command /파티GUI:
+	trigger:
+		set {_partyGUI} to chest inventory with 3 rows named "파티"
+
+		##### 장식 #####
+		set slot 0 of {_partyGUI} to black stained glass pane named ""
+		set slot 1 of {_partyGUI} to black stained glass pane named ""
+		set slot 2 of {_partyGUI} to black stained glass pane named ""
+		set slot 3 of {_partyGUI} to black stained glass pane named ""
+		set slot 4 of {_partyGUI} to black stained glass pane named ""
+		set slot 5 of {_partyGUI} to black stained glass pane named ""
+		set slot 6 of {_partyGUI} to black stained glass pane named ""
+		set slot 7 of {_partyGUI} to black stained glass pane named ""
+		set slot 8 of {_partyGUI} to black stained glass pane named ""
+		set slot 18 of {_partyGUI} to black stained glass pane named ""
+		set slot 19 of {_partyGUI} to black stained glass pane named ""
+		set slot 20 of {_partyGUI} to black stained glass pane named ""
+		set slot 21 of {_partyGUI} to black stained glass pane named ""
+		set slot 22 of {_partyGUI} to black stained glass pane named ""
+		set slot 23 of {_partyGUI} to black stained glass pane named ""
+		set slot 24 of {_partyGUI} to black stained glass pane named ""
+		set slot 25 of {_partyGUI} to black stained glass pane named ""
+		set slot 26 of {_partyGUI} to black stained glass pane named ""
+
+		set {_temp} to {nowParty::%player%}
+		if {nowParty::%player%} is not set:
+			set slot 12 of {_partyGUI} to {emptyHead} named "&e내 파티 확인" with lore "&7가입된 파티가 없습니다."
+		else:
+			set slot 12 of {_partyGUI} to {%{_temp}%::m1}'s skull named "&e내 파티 확인" with lore "&a%{%{_temp}%::name}%"
+
+		set slot 14 of {_partyGUI} to book named "&e파티 목록"
+
+		open {_partyGUI} to player
+
+command /관리자명령어_설정:
+	permission: op
+	trigger:
+		set {emptyHead} to player's tool
+		send "완료 %{emptyHead}%" to player
+
+on inventory click:
+	if event-inventory's name is "파티":
+		cancel event
+
+		event-inventory is player's inventory:
+			stop
+
+		clicked slot is 12:
+			execute player command "/파티 정보"
+			close player's inventory
+
+		clicked slot is 14:
+			execute player command "/파티 목록"
+			close player's inventory
+
+		clicked slot is 0 or 1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 18 or 19 or 20 or 21 or 22 or 23 or 24 or 25 or 26:
+			cancel event
