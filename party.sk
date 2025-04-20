@@ -217,6 +217,7 @@ command /파티 [<text>] [<text>]:
 						set {_public} to "&7[비공개]"
 					send "&d▶ &f%loop-value% &a[%{%loop-value%::m1}%] &e(%{_count}%/4) %{_public}%" to player
 					send "   &7%{%loop-value%::lore}%" to player
+					delete {_count}
 				send "" to player
 
 		else if arg-1 is "위임":
@@ -532,15 +533,19 @@ on inventory click:
 		event-inventory is player's inventory:
 			stop
 
-		set {_slot} to 9
+		set {_clickedItem} to event-item
+		if {_clickedItem} is player head:
+			loop {partyList::*}:
+				set {_partyID} to loop-value
+				set {_leader} to {%{_partyID}%::m1}
 
-		loop {partyList::*}:
-			set {_slot::partyID} to loop-value	
-			add 1 to {_slot}
+				if name of {_clickedItem} is "&e%{_partyID}%":
+					execute player command "/파티 가입 %{_partyID}%"
+					close player's inventory
 
-		clicked slot is {_slot}:
-			execute player command "/파티 가입 %{_slot::partyID}%"
-			close player's inventory
+
+
+
 
 
 command /파티초대하기 <player>:
@@ -656,7 +661,7 @@ command /파티목록gui:
 				set {_canJoin} to "&e클릭하여 가입"
 
 			set lore of {_item} to "&f%{%{_partyID}%::lore}%" and "&e파티장: &f%{_leaderName}%" and "&e상태: %{_public}%" and "&a(%{_count}%/4)" and "%{_canJoin}%"
-			
+			delete {_count}
 			set slot {_slot} of {_partyListGUI} to {_item}
 			add 1 to {_slot}
 
