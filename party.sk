@@ -373,6 +373,66 @@ command /파티GUI:
 
 		open {_partyGUI} to player
 
+command /파티정보GUI:
+	trigger:
+		set {_temp} to {nowParty::%player%}
+		set {_myPartyGUI} to chest inventory with 6 rows named "내 파티 정보"
+		##### 장식 #####
+		set slot 0 of {_myPartyGUI} to black stained glass pane named ""
+		set slot 1 of {_myPartyGUI} to black stained glass pane named ""
+		set slot 2 of {_myPartyGUI} to black stained glass pane named ""
+		set slot 3 of {_myPartyGUI} to black stained glass pane named ""
+		set slot 4 of {_myPartyGUI} to black stained glass pane named ""
+		set slot 5 of {_myPartyGUI} to black stained glass pane named ""
+		set slot 6 of {_myPartyGUI} to black stained glass pane named ""
+		set slot 7 of {_myPartyGUI} to black stained glass pane named ""
+		set slot 8 of {_myPartyGUI} to black stained glass pane named ""
+		set slot 45 of {_myPartyGUI} to black stained glass pane named ""
+		set slot 46 of {_myPartyGUI} to black stained glass pane named ""
+		set slot 47 of {_myPartyGUI} to black stained glass pane named ""
+		set slot 48 of {_myPartyGUI} to black stained glass pane named ""
+		set slot 49 of {_myPartyGUI} to black stained glass pane named ""
+		set slot 50 of {_myPartyGUI} to black stained glass pane named ""
+		set slot 51 of {_myPartyGUI} to black stained glass pane named ""
+		set slot 52 of {_myPartyGUI} to black stained glass pane named ""
+		set slot 53 of {_myPartyGUI} to black stained glass pane named ""
+
+		if {%{_temp}%::m1} is player's name:
+			set slot 13 of {_myPartyGUI} to cake named "&e%{%{_temp}%::name}%" with lore "&f%{%{_temp}%::lore}%" and "&7클릭하여 설명 변경"
+		else:
+			set slot 13 of {_myPartyGUI} to cake named "&e%{%{_temp}%::name}%" with lore "&f%{%{_temp}%::lore}%"
+		set slot 20 of {_myPartyGUI} to {%{_temp}%::m1}'s skull named "&f%{%{_temp}%::m1}% &d[파티장]"
+
+		if {%{_temp}%::m2} is set:
+			set slot 21 of {_myPartyGUI} to {%{_temp}%::m2}'s skull named "&f%{%{_temp}%::m2}%"
+		else:
+			set slot 21 of {_myPartyGUI} to {emptyHead} named "&7(비어있음)"
+
+		if {%{_temp}%::m3} is set:
+			set slot 23 of {_myPartyGUI} to {%{_temp}%::m3}'s skull named "&f%{%{_temp}%::m3}%"
+		else:
+			set slot 23 of {_myPartyGUI} to {emptyHead} named "&7(비어있음)"
+
+		if {%{_temp}%::m4} is set:
+			set slot 24 of {_myPartyGUI} to {%{_temp}%::m4}'s skull named "&f%{%{_temp}%::m4}%"
+		else:
+			set slot 24 of {_myPartyGUI} to {emptyHead} named "&7(비어있음)"
+
+		if {%{_temp}%::m1} is player's name:
+			set slot 31 of {_myPartyGUI} to writable book named "&e파티원 초대" with lore "&7클릭하여 파티원 초대"
+			set slot 41 of {_myPartyGUI} to barrier named "&c파티 탈퇴" with lore "&7파티장이 탈퇴할 경우 파티가 해체됩니다."
+			if {%{_temp}%::public} is true:
+				set slot 39 of {_myPartyGUI} to lime wool named "&a공개 모드" with lore "&7클릭하여 전환"
+			else:
+				set slot 39 of {_myPartyGUI} to gray wool named "&7비공개 모드" with lore "&7클릭하여 전환"
+		else:
+			set slot 41 of {_myPartyGUI} to barrier named "&c파티 탈퇴"
+			if {%{_temp}%::public} is true:
+				set slot 39 of {_myPartyGUI} to lime wool named "&a공개 모드" 
+			else:
+				set slot 39 of {_myPartyGUI} to gray wool named "&7비공개 모드" 
+		open {_myPartyGUI} to player
+
 command /관리자명령어_설정:
 	permission: op
 	trigger:
@@ -380,6 +440,7 @@ command /관리자명령어_설정:
 		send "완료 %{emptyHead}%" to player
 
 on inventory click:
+	######################## 파티GUI ########################
 	if event-inventory's name is "파티":
 		cancel event
 
@@ -394,5 +455,67 @@ on inventory click:
 			execute player command "/파티 목록"
 			close player's inventory
 
-		clicked slot is 0 or 1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 18 or 19 or 20 or 21 or 22 or 23 or 24 or 25 or 26:
-			cancel event
+	######################## 내 파티 정보 GUI ########################
+	if event-inventory's name is "내 파티 정보":
+		cancel event
+
+		event-inventory is player's inventory:
+			stop
+
+		clicked slot is 13:
+			if {%{nowParty::%player%}%::m1} is player's name:
+				execute console command "/파티설명변경 %player%"
+				close player's inventory
+
+		clicked slot is 39:
+			if {%{nowParty::%player%}%::m1} is player's name:
+				execute player command "/파티 공개"
+				if {%{nowParty::%player%}%::public} is true:
+					set slot 39 of player's current inventory to lime wool named "&a공개 모드" with lore "&7클릭하여 전환"
+				else:
+					set slot 39 of player's current inventory to gray wool named "&7비공개 모드" with lore "&7클릭하여 전환"
+
+		clicked slot is 41:
+			execute player command "/파티 탈퇴"
+			close player's inventory
+
+		clicked slot is 31:
+			execute console command "/파티초대하기 %player%"
+			close player's inventory
+
+command /파티초대하기 <player>:
+	permission: op
+	trigger:
+		set {_player} to arg-1
+		if {%{nowParty::%{_player}%}%::m1} is {_player}'s name:
+			set {inviteWait::%{_player}%} to true
+			send "&e채팅으로 초대할 플레이어 닉네임을 입력해주세요." to {_player}
+		else:
+			send "&c파티장만 초대를 보낼 수 있습니다." to {_player}
+			stop
+
+command /파티설명변경 <player>:
+	permission: op
+	trigger:
+		set {_player} to arg-1
+		if {%{nowParty::%{_player}%}%::m1} is {_player}'s name:
+			set {loreEditWait::%{_player}%} to true
+			send "&e채팅으로 파티 설명을 입력해주세요." to {_player}
+		else:
+			send "&c파티장만 설명을 변경할 수 있습니다." to {_player}
+			stop
+
+
+on chat:
+	if {inviteWait::%player%} is set:
+		cancel event
+		delete {inviteWait::%player%}
+		set {_targetName} to message
+		execute player command "/파티 초대 %{_targetName}%"
+		execute player command "/파티정보GUI"
+	else if {loreEditWait::%player%} is set:
+		cancel event
+		delete {loreEditWait::%player%}
+		set {_targetLore} to message
+		execute player command "/파티 설명 %{_targetLore}%"
+		execute player command "/파티정보GUI"
