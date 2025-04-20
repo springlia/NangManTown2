@@ -618,10 +618,10 @@ on chat:
 		delete {inviteWait::%player%}
 		set {_targetName} to message
 		execute player command "/파티 초대 %{_targetName}%"
-		execute player command "/파티정보GUI"
+		execute player command "/파티 정보"
 	else if {loreEditWait::%player%} is set:
 		cancel event
 		delete {loreEditWait::%player%}
 		set {_targetLore} to message
 		execute player command "/파티 설명 %{_targetLore}%"
-		execute player command "/파티정보GUI"
+		execute player command "/파티 정보"
