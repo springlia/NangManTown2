@@ -127,19 +127,24 @@ command /파티 [<text>] [<text>]:
 				else:
 					set slot 24 of {_myPartyGUI} to {emptyHead} named "&7(비어있음)"
 
+				if {nowPartyChat::%player%} is true:
+					set slot 40 of {_myPartyGUI} to light blue dye named "&e현재 채팅 모드 : &b파티 채팅" with lore "&7클릭하여 전환"
+				else:
+					set slot 40 of {_myPartyGUI} to lime dye named "&e현재 채팅 모드 : &a전체 채팅" with lore "&7클릭하여 전환"
+				
 				if {%{_temp}%::m1} is player's name:
 					set slot 31 of {_myPartyGUI} to writable book named "&e파티원 초대" with lore "&7클릭하여 파티원 초대"
-					set slot 41 of {_myPartyGUI} to barrier named "&c파티 탈퇴" with lore "&7파티장이 탈퇴할 경우 파티가 해체됩니다."
+					set slot 42 of {_myPartyGUI} to barrier named "&c파티 탈퇴" with lore "&7파티장이 탈퇴할 경우 파티가 해체됩니다."
 					if {%{_temp}%::public} is true:
-						set slot 39 of {_myPartyGUI} to lime wool named "&a공개 모드" with lore "&7클릭하여 전환"
+						set slot 38 of {_myPartyGUI} to lime wool named "&a공개 모드" with lore "&7클릭하여 전환"
 					else:
-						set slot 39 of {_myPartyGUI} to gray wool named "&7비공개 모드" with lore "&7클릭하여 전환"
+						set slot 38 of {_myPartyGUI} to gray wool named "&7비공개 모드" with lore "&7클릭하여 전환"
 				else:
-					set slot 41 of {_myPartyGUI} to barrier named "&c파티 탈퇴"
+					set slot 42 of {_myPartyGUI} to barrier named "&c파티 탈퇴"
 					if {%{_temp}%::public} is true:
-						set slot 39 of {_myPartyGUI} to lime wool named "&a공개 모드" 
+						set slot 38 of {_myPartyGUI} to lime wool named "&a공개 모드" 
 					else:
-						set slot 39 of {_myPartyGUI} to gray wool named "&7비공개 모드" 
+						set slot 38 of {_myPartyGUI} to gray wool named "&7비공개 모드" 
 				open {_myPartyGUI} to player
 
 		else if arg-1 is "탈퇴":
@@ -157,6 +162,11 @@ command /파티 [<text>] [<text>]:
 					delete {nowParty::%{%{_temp}%::m3}%}
 					delete {nowParty::%{%{_temp}%::m4}%}
 					delete {nowParty::%player%}
+
+					delete {nowPartyChat::%player%}
+					delete {nowPartyChat::%{%{_temp}%::m2}%}
+					delete {nowPartyChat::%{%{_temp}%::m3}%}
+					delete {nowPartyChat::%{%{_temp}%::m4}%}
 
 					delete {%{_temp}%::m1}
 					delete {%{_temp}%::m2}
@@ -186,6 +196,7 @@ command /파티 [<text>] [<text>]:
 					send "&e%player%&f님이 파티에서 탈퇴하였습니다." to {%{_temp}%::m4}
 
 					delete {nowParty::%player%}
+					delete {nowPartyChat::%player%}
 
 		else if arg-1 is "공개":
 			if {nowParty::%player%} is not set:
@@ -463,6 +474,11 @@ command /관리자명령어_파티삭제 <text>:
 			delete {nowParty::%{%{_temp}%::m3}%}
 			delete {nowParty::%{%{_temp}%::m4}%}
 
+			delete {nowPartyChat::%{%{_temp}%::m1}%}
+			delete {nowPartyChat::%{%{_temp}%::m2}%}
+			delete {nowPartyChat::%{%{_temp}%::m3}%}
+			delete {nowPartyChat::%{%{_temp}%::m4}%}
+
 			delete {%{_temp}%::m1}
 			delete {%{_temp}%::m2}
 			delete {%{_temp}%::m3}
@@ -512,7 +528,7 @@ on inventory click:
 			if {%{nowParty::%player%}%::m1} is player's name:
 				execute console command "/파티원정보확인 %player% %{%{nowParty::%player%}%::m2}%"
 
-		clicked slot is 39:
+		clicked slot is 38:
 			if {%{nowParty::%player%}%::m1} is player's name:
 				execute player command "/파티 공개"
 				if {%{nowParty::%player%}%::public} is true:
@@ -520,7 +536,14 @@ on inventory click:
 				else:
 					set slot 39 of player's current inventory to gray wool named "&7비공개 모드" with lore "&7클릭하여 전환"
 
-		clicked slot is 41:
+		clicked slot is 40:
+			execute player command "/파티 채팅"
+			if {nowPartyChat::%player%} is true:
+				set slot 40 of player's current inventory to light blue dye named "&e현재 채팅 모드 : &b파티 채팅" with lore "&7클릭하여 전환"
+			else:
+				set slot 40 of player's current inventory to lime dye named "&e현재 채팅 모드 : &a전체 채팅" with lore "&7클릭하여 전환"
+
+		clicked slot is 42:
 			execute player command "/파티 탈퇴"
 			close player's inventory
 
