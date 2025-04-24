@@ -432,6 +432,17 @@ command /파티 [<text>] [<text>]:
 			else:
 				send "&c이미 파티에 가입되어 있습니다." to player
 
+		else if arg-1 is "채팅":
+			if {nowParty::%player%} is not set:
+				send "&c현재 가입된 파티가 없습니다." to player
+			else:
+				if {nowPartyChat::%player%} is true:
+					set {nowPartyChat::%player%} to false
+					send "&a전체 채팅으로 전환되었습니다." to player
+				else:
+					set {nowPartyChat::%player%} to true
+					send "&b파티 채팅으로 전환되었습니다." to player
+
 command /관리자명령어_파티삭제 <text>:
 	permission: op
 	trigger:
@@ -625,3 +636,11 @@ on chat:
 		set {_targetLore} to message
 		execute player command "/파티 설명 %{_targetLore}%"
 		execute player command "/파티 정보"
+	else if {nowPartyChat::%player%} is true:
+		cancel event
+		set {_message} to message
+		send "&f[ &b파티 채팅 &f] &e%player%&f: %{_message}%" to {%{nowParty::%player%}%::m1}
+		send "&f[ &b파티 채팅 &f] &e%player%&f: %{_message}%" to {%{nowParty::%player%}%::m2}
+		send "&f[ &b파티 채팅 &f] &e%player%&f: %{_message}%" to {%{nowParty::%player%}%::m3}
+		send "&f[ &b파티 채팅 &f] &e%player%&f: %{_message}%" to {%{nowParty::%player%}%::m4}
+
