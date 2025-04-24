@@ -532,9 +532,9 @@ on inventory click:
 			if {%{nowParty::%player%}%::m1} is player's name:
 				execute player command "/파티 공개"
 				if {%{nowParty::%player%}%::public} is true:
-					set slot 39 of player's current inventory to lime wool named "&a공개 모드" with lore "&7클릭하여 전환"
+					set slot 38 of player's current inventory to lime wool named "&a공개 모드" with lore "&7클릭하여 전환"
 				else:
-					set slot 39 of player's current inventory to gray wool named "&7비공개 모드" with lore "&7클릭하여 전환"
+					set slot 38 of player's current inventory to gray wool named "&7비공개 모드" with lore "&7클릭하여 전환"
 
 		clicked slot is 40:
 			execute player command "/파티 채팅"
