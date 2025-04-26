@@ -11,7 +11,10 @@
 				execute console command "/warp %{_dungun}% %{%{_temp}%::m2}%"
 				execute console command "/warp %{_dungun}% %{%{_temp}%::m3}%"
 				execute console command "/warp %{_dungun}% %{%{_temp}%::m4}%"
-				send "&a던전에 입장했습니다!" to player
+				send "&a던전에 입장했습니다!" to {%{_temp}%::m1}
+				send "&a던전에 입장했습니다!" to {%{_temp}%::m2}
+				send "&a던전에 입장했습니다!" to {%{_temp}%::m3}
+				send "&a던전에 입장했습니다!" to {%{_temp}%::m4}
 				set {%{_dungun}%::ing} to true
 			else if {nowParty::%player%} is not set:
 				send "&c파티 상태에서만 입장할 수 있습니다." to player
@@ -30,12 +33,15 @@ command /던전실패 <text>:
 				execute console command "/spawn %{%{_temp}%::m2}%"
 				execute console command "/spawn %{%{_temp}%::m3}%"
 				execute console command "/spawn %{%{_temp}%::m4}%"
-				send "&b던전을 포기했습니다." to player
+				send "&b던전을 포기했습니다." to {%{_temp}%::m1}
+				send "&b던전을 포기했습니다." to {%{_temp}%::m2}
+				send "&b던전을 포기했습니다." to {%{_temp}%::m3}
+				send "&b던전을 포기했습니다." to {%{_temp}%::m4}
 				set {%{_dungun}%::ing} to false
 			else:
 				send "&c파티장이 포기 신청을 할 수 있습니다." to player
 		else:
-			send "&c&l[!] &c오류 코드 : 001AA"
+			send "&c&l[!] &c던전 입장처리가 되지 않았습니다."
 
 command /던전클리어 <text>:
 	permission: op
@@ -48,7 +54,10 @@ command /던전클리어 <text>:
 				execute console command "/spawn %{%{_temp}%::m2}%"
 				execute console command "/spawn %{%{_temp}%::m3}%"
 				execute console command "/spawn %{%{_temp}%::m4}%"
-				send "&b던전 클리어!" to player
+				send "&b던전 클리어!" to {%{_temp}%::m1}
+				send "&b던전 클리어!" to {%{_temp}%::m2}
+				send "&b던전 클리어!" to {%{_temp}%::m3}
+				send "&b던전 클리어!" to {%{_temp}%::m4}
 				if {%{_dungun}%::first} is not set:
 					set {%{_dungun}%::first} to {_temp}
 					broadcast "&b%{_temp}% 파티&f에서 &a%{_dungun}% 던전&f을 &d최초 클리어하였습니다!"
@@ -56,7 +65,7 @@ command /던전클리어 <text>:
 			else:
 				send "&c파티장이 클리어 신청을 할 수 있습니다." to player
 		else:
-			send "&c&l[!] &c오류 코드 : 001AA"
+			send "&c&l[!] &c던전 입장처리가 되지 않았습니다."
 
 command /관리자명령어_던전초기화 <text>:
 	permission: op
