@@ -19,7 +19,7 @@
 				send "&c파티장이 입장 신청을 할 수 있습니다." to player
 			
 
-command /던전퇴장 <text>:
+command /던전실패 <text>:
 	permission: op
 	trigger:
 		set {_temp} to {nowParty::%player%}
@@ -30,9 +30,36 @@ command /던전퇴장 <text>:
 				execute console command "/spawn %{%{_temp}%::m2}%"
 				execute console command "/spawn %{%{_temp}%::m3}%"
 				execute console command "/spawn %{%{_temp}%::m4}%"
-				send "&b던전에서 퇴장했습니다." to player
+				send "&b던전을 포기했습니다." to player
 				set {%{_dungun}%::ing} to false
 			else:
-				send "&c파티장이 퇴장 신청을 할 수 있습니다." to player
+				send "&c파티장이 포기 신청을 할 수 있습니다." to player
 		else:
 			send "&c&l[!] &c오류 코드 : 001AA"
+
+command /던전클리어 <text>:
+	permission: op
+	trigger:
+		set {_temp} to {nowParty::%player%}
+		set {_dungun} to arg-1
+		if {%{_dungun}%::ing} is true:
+			if {%{_temp}%::m1} is player's name:
+				execute console command "/spawn %{%{_temp}%::m1}%"
+				execute console command "/spawn %{%{_temp}%::m2}%"
+				execute console command "/spawn %{%{_temp}%::m3}%"
+				execute console command "/spawn %{%{_temp}%::m4}%"
+				send "&b던전 클리어!" to player
+				if {%{_dungun}%::first} is not set:
+					set {%{_dungun}%::first} to {_temp}
+					broadcast "&b%{_temp}% 파티&f에서 &a%{_dungun}% 던전&f을 &d최초 클리어하였습니다!"
+				set {%{_dungun}%::ing} to false
+			else:
+				send "&c파티장이 클리어 신청을 할 수 있습니다." to player
+		else:
+			send "&c&l[!] &c오류 코드 : 001AA"
+
+command /관리자명령어_던전초기화 <text>:
+	permission: op
+	trigger:
+		set {_dungun} to arg-1
+		delete {%{_dungun}%::first}
