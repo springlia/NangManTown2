@@ -41,6 +41,7 @@ command /파티 [<text>] [<text>]:
 			send "&e/파티 가입 [이름] &f: [이름] 파티에 가입합니다." to player
 			send "&e/파티 생성 [이름] &f: [이름]의 파티를 생성합니다." to player
 			send "&e/파티 정보 &f: 지금 내 파티의 정보를 확인합니다." to player
+			send "&e/파티 채팅 &f: 파티 채팅을 On/Off 합니다." to player
 			send "&e/파티 공개 &f: 파티를 공개/비공개로 전환합니다." to player
 			send "&e/파티 초대 [닉네임] &f: 유저를 파티로 초대합니다." to player
 			send "&e/파티 설명 [내용] &f: 파티 설명을 설정합니다." to player

@@ -20,3 +20,4 @@ command /관리자명령어_히든보스오픈:
 		broadcast ""
 		loop all players:
 			play sound "block.end_portal.spawn" to loop-player
+

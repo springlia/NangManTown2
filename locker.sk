@@ -24,11 +24,20 @@ on right click:
 	if event-block is barrier:
 		set {_loc} to location of event-block
 
-		## 불1 락커##
+		## 불 락커 ##
 		if {_loc} is {FireLocker1_1} or {FireLocker1_2}:
 			set {whatLocker::%player%} to "FireLocker1"
 		else if {_loc} is {FireLocker2_1} or {FireLocker2_2}:
 			set {whatLocker::%player%} to "FireLocker2"
+		## 물 락커 ##
+		else if {_loc} is {WaterLocker1_1} or {WaterLocker1_2}:
+			set {whatLocker::%player%} to "WaterLocker1"
+		## 자연 락커 ##
+		else if {_loc} is {EarthLocker1_1} or {EarthLocker1_2}:
+			set {whatLocker::%player%} to "EarthLocker1"
+		## 바람 락커 ##
+		else if {_loc} is {WindLocker1_1} or {WindLocker1_2}:
+			set {whatLocker::%player%} to "WindLocker1"
 
 		if {whatLocker::%player%} is not set:
 			cancel event
