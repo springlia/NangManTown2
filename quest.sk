@@ -41,10 +41,13 @@ on inventory click:
 			stop
 		clicked slot is 11:
 			send "&a1번 일일 퀘스트를 선택하셨습니다." to player
+			set {dailyQuest::%player%} to 1
 		clicked slot is 13:
 			send "&a2번 일일 퀘스트를 선택하셨습니다." to player
+			set {dailyQuest::%player%} to 2
 		clicked slot is 15:
 			send "&a3번 일일 퀘스트를 선택하셨습니다." to player
+			set {dailyQuest::%player%} to 3
 
 	event-inventory's name is "메인 퀘스트 목록":
 		cancel event
