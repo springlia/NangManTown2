@@ -1,0 +1,60 @@
+﻿command /칭호:
+	trigger:
+		set {_prefixGUI} to chest inventory with 6 rows named "칭호 목록"
+		set slot 4 of {_prefixGUI} to book named "&b%player%&f의 &e칭호 목록"
+		set slot 49 of {_prefixGUI} to emerald named "&e&l스페셜 칭호 보기" with lore "&7클릭 하여 스페셜 칭호 목록을 확인합니다."
+		set slot 0 of {_prefixGUI} to black stained glass pane named ""
+		set slot 1 of {_prefixGUI} to black stained glass pane named ""
+		set slot 2 of {_prefixGUI} to black stained glass pane named ""
+		set slot 3 of {_prefixGUI} to black stained glass pane named ""
+		set slot 5 of {_prefixGUI} to black stained glass pane named ""
+		set slot 6 of {_prefixGUI} to black stained glass pane named ""
+		set slot 7 of {_prefixGUI} to black stained glass pane named ""
+		set slot 8 of {_prefixGUI} to black stained glass pane named ""
+		set slot 45 of {_prefixGUI} to black stained glass pane named ""
+		set slot 46 of {_prefixGUI} to black stained glass pane named ""
+		set slot 47 of {_prefixGUI} to black stained glass pane named ""
+		set slot 48 of {_prefixGUI} to black stained glass pane named ""
+		set slot 50 of {_prefixGUI} to black stained glass pane named ""
+		set slot 51 of {_prefixGUI} to black stained glass pane named ""
+		set slot 52 of {_prefixGUI} to black stained glass pane named ""
+		set slot 53 of {_prefixGUI} to black stained glass pane named ""
+		open {_prefixGUI} to player
+
+command /스페셜칭호:
+	trigger:
+		set {_specialPrefixGUI} to chest inventory with 6 rows named "칭호 목록"
+		set slot 4 of {_specialPrefixGUI} to book named "&b%player%&f의 &a스페셜 &e칭호 목록"
+		set slot 49 of {_specialPrefixGUI} to gray dye named "&7&l일반 칭호 보기" with lore "&7클릭 하여 일반 칭호 목록을 확인합니다."
+		set slot 0 of {_specialPrefixGUI} to black stained glass pane named ""
+		set slot 1 of {_specialPrefixGUI} to black stained glass pane named ""
+		set slot 2 of {_specialPrefixGUI} to black stained glass pane named ""
+		set slot 3 of {_specialPrefixGUI} to black stained glass pane named ""
+		set slot 5 of {_specialPrefixGUI} to black stained glass pane named ""
+		set slot 6 of {_specialPrefixGUI} to black stained glass pane named ""
+		set slot 7 of {_specialPrefixGUI} to black stained glass pane named ""
+		set slot 8 of {_specialPrefixGUI} to black stained glass pane named ""
+		set slot 45 of {_specialPrefixGUI} to black stained glass pane named ""
+		set slot 46 of {_specialPrefixGUI} to black stained glass pane named ""
+		set slot 47 of {_specialPrefixGUI} to black stained glass pane named ""
+		set slot 48 of {_specialPrefixGUI} to black stained glass pane named ""
+		set slot 50 of {_specialPrefixGUI} to black stained glass pane named ""
+		set slot 51 of {_specialPrefixGUI} to black stained glass pane named ""
+		set slot 52 of {_specialPrefixGUI} to black stained glass pane named ""
+		set slot 53 of {_specialPrefixGUI} to black stained glass pane named ""
+		open {_specialPrefixGUI} to player
+
+on inventory click:
+	event-inventory's name is "칭호 목록":
+		cancel event
+		event-inventory is player's inventory:
+			stop
+		clicked slot is 49:
+			execute player command "/스페셜칭호"
+	
+	event-inventory's name is "스페셜 칭호 목록":
+		cancel event
+		event-inventory is player's inventory:
+			stop
+		clicked slot is 49:
+			execute player command "/칭호"
