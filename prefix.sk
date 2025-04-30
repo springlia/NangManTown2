@@ -23,7 +23,7 @@
 
 command /스페셜칭호:
 	trigger:
-		set {_specialPrefixGUI} to chest inventory with 6 rows named "칭호 목록"
+		set {_specialPrefixGUI} to chest inventory with 6 rows named "스페셜 칭호 목록"
 		set slot 4 of {_specialPrefixGUI} to book named "&b%player%&f의 &a스페셜 &e칭호 목록"
 		set slot 49 of {_specialPrefixGUI} to gray dye named "&7&l일반 칭호 보기" with lore "&7클릭 하여 일반 칭호 목록을 확인합니다."
 		set slot 0 of {_specialPrefixGUI} to black stained glass pane named ""
