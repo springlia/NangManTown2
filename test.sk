@@ -9,8 +9,30 @@ command /공지 [<text>]:
 	trigger:
 		set {_text} to arg-1
 		broadcast ""
-		broadcast "&c&l[공지] &e(%player%) &f%{_text}%"
+		broadcast "&c&l[전체 공지] &f%{_text}%"
 		broadcast ""
+
+command /기숙사공지 [<text>]:
+	permission: op
+	trigger:
+		set {_text} to arg-1
+		if player's name is "CT_Lia" or "Happy_Beaver":
+			broadcast ""
+			broadcast "&c&l[불기숙사 공지] &f%{_text}%"
+			broadcast ""
+		else if player's name is "__Zibsa__":
+			broadcast ""
+			broadcast "&b&l[물기숙사 공지] &f%{_text}%"
+			broadcast ""
+		else if player's name is "YangGang_H":
+			broadcast ""
+			broadcast "&a&l[자연기숙사 공지] &f%{_text}%"
+			broadcast ""
+		else if player's name is "Im_Yehan":
+			broadcast ""
+			broadcast "&e&l[바람기숙사 공지] &f%{_text}%"
+			broadcast ""
+
 
 command /관리자명령어_히든보스오픈:
 	permission: op
@@ -21,3 +43,9 @@ command /관리자명령어_히든보스오픈:
 		loop all players:
 			play sound "block.end_portal.spawn" to loop-player
 
+command /후원1000 <text>:
+	permission: op
+	trigger:
+		broadcast ""
+		broadcast "&3&l[후원] &e%arg-1%님&f, &b1000원 &f후원 감사합니다!"
+		broadcast ""
