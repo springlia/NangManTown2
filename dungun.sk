@@ -3,7 +3,7 @@
 	trigger:
 		set {_temp} to {nowParty::%player%}
 		set {_dungun} to arg-1
-		if {%{_dungun}%::ing} is true:
+		if {%{_dungun}%::ing} is set:
 			send "&c이미 다른 파티가 입장했습니다." to player
 		else:
 			if {%{_temp}%::m1} is player's name:
@@ -15,19 +15,18 @@
 				send "&a던전에 입장했습니다!" to {%{_temp}%::m2}
 				send "&a던전에 입장했습니다!" to {%{_temp}%::m3}
 				send "&a던전에 입장했습니다!" to {%{_temp}%::m4}
-				set {%{_dungun}%::ing} to true
+				set {%{_dungun}%::ing} to {_temp}
 			else if {nowParty::%player%} is not set:
 				send "&c파티 상태에서만 입장할 수 있습니다." to player
 			else:
 				send "&c파티장이 입장 신청을 할 수 있습니다." to player
 			
-
 command /던전실패 <text>:
 	permission: op
 	trigger:
 		set {_temp} to {nowParty::%player%}
 		set {_dungun} to arg-1
-		if {%{_dungun}%::ing} is true:
+		if {%{_dungun}%::ing} is set:
 			if {%{_temp}%::m1} is player's name:
 				execute console command "/spawn %{%{_temp}%::m1}%"
 				execute console command "/spawn %{%{_temp}%::m2}%"
@@ -37,7 +36,7 @@ command /던전실패 <text>:
 				send "&b던전을 포기했습니다." to {%{_temp}%::m2}
 				send "&b던전을 포기했습니다." to {%{_temp}%::m3}
 				send "&b던전을 포기했습니다." to {%{_temp}%::m4}
-				set {%{_dungun}%::ing} to false
+				delete {%{_dungun}%::ing}
 			else:
 				send "&c파티장이 포기 신청을 할 수 있습니다." to player
 		else:
@@ -48,7 +47,7 @@ command /던전클리어 <text>:
 	trigger:
 		set {_temp} to {nowParty::%player%}
 		set {_dungun} to arg-1
-		if {%{_dungun}%::ing} is true:
+		if {%{_dungun}%::ing} is set:
 			if {%{_temp}%::m1} is player's name:
 				execute console command "/spawn %{%{_temp}%::m1}%"
 				execute console command "/spawn %{%{_temp}%::m2}%"
@@ -61,11 +60,30 @@ command /던전클리어 <text>:
 				if {%{_dungun}%::first} is not set:
 					set {%{_dungun}%::first} to {_temp}
 					broadcast "&b%{_temp}% 파티&f에서 &a%{_dungun}% 던전&f을 &d최초 클리어하였습니다!"
-				set {%{_dungun}%::ing} to false
+				delete {%{_dungun}%::ing}
 			else:
 				send "&c파티장이 클리어 신청을 할 수 있습니다." to player
 		else:
 			send "&c&l[!] &c던전 입장처리가 되지 않았습니다."
+
+command /관리자명령어_던전강제퇴장 <text>:
+	permission: op
+	trigger:
+		set {_dungun} to arg-1
+		set {_party} to {%{_dungun}%::ing}
+		if {%{_dungun}%::ing} is set:
+			send "&7[관리모드] 강제퇴장이 완료되었습니다." to player
+			execute console command "/spawn %{%{_party}%::m1}%"
+			execute console command "/spawn %{%{_party}%::m2}%"
+			execute console command "/spawn %{%{_party}%::m3}%"
+			execute console command "/spawn %{%{_party}%::m4}%"
+			send "&c관리자에 의해 강제 퇴장되었습니다." to {%{_party}%::m1}
+			send "&c관리자에 의해 강제 퇴장되었습니다." to {%{_party}%::m2}
+			send "&c관리자에 의해 강제 퇴장되었습니다." to {%{_party}%::m3}
+			send "&c관리자에 의해 강제 퇴장되었습니다." to {%{_party}%::m4}
+			delete {%{_dungun}%::ing}
+		else:
+			send "&7[관리모드] 해당 던전에 입장한 파티가 존재하지 않습니다." to player
 
 command /관리자명령어_던전초기화 <text>:
 	permission: op
