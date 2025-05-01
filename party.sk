@@ -383,7 +383,7 @@ command /파티 [<text>] [<text>]:
 			set {_temp} to {nowParty::%player%}
 			if {%{_temp}%::m1} is player's name:
 				if {%{_temp}%::public} is true:
-					broadcast "&b&l[파티] &e%{_temp}%&f에서 파티원을 모집합니다. <ttp:클릭 시 파티에 가입합니다.><cmd:/파티 가입 %{_temp}%>&a&l[가입하기]<reset>"
+					broadcast "&b&l[파티] &e%{_temp}%&f에서 파티원을 모집합니다. &7[ /파티 가입 %{_temp}% ]<reset>"
 				else:
 					send "&c파티가 공개상태가 아닙니다." to player
 			else:
