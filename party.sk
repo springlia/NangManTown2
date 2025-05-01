@@ -44,6 +44,7 @@ command /파티 [<text>] [<text>]:
 			send "&e/파티 채팅 &f: 파티 채팅을 On/Off 합니다." to player
 			send "&e/파티 공개 &f: 파티를 공개/비공개로 전환합니다." to player
 			send "&e/파티 초대 [닉네임] &f: 유저를 파티로 초대합니다." to player
+			send "&e/파티 홍보 &f: 전체 메세지로 파티를 홍보합니다." to player
 			send "&e/파티 설명 [내용] &f: 파티 설명을 설정합니다." to player
 			send "&e/파티 탈퇴 &f: 현재 파티를 탈퇴합니다. &c*파티장이 탈퇴할 경우 파티가 해산됩니다.*" to player
 			send "&e/파티 추방 [닉네임] &f: 유저를 파티에서 추방합니다." to player
@@ -377,6 +378,17 @@ command /파티 [<text>] [<text>]:
 
 			else:
 				send "&c파티장이 아닙니다." to player
+
+		else if arg-1 is "홍보":
+			set {_temp} to {nowParty::%player%}
+			if {%{_temp}%::m1} is player's name:
+				if {%{_temp}%::public} is true:
+					broadcast "&b&l[파티] &e%{_temp}%&f에서 파티원을 모집합니다. <ttp:클릭 시 파티에 가입합니다.><cmd:/파티 가입 %{_temp}%>&a&l[가입하기]<reset>"
+				else:
+					send "&c파티가 공개상태가 아닙니다." to player
+			else:
+				send "&c파티장이 아닙니다." to player
+
 
 		else if arg-1 is "추방":
 			set {_temp} to {nowParty::%player%}
