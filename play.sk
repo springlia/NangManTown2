@@ -14,3 +14,7 @@
 		else:
 			broadcast "&e%player% &f: 빽도"
 
+command /주사위:
+	trigger:
+		set {_random} to random integer between 1 and 6
+		broadcast "&e%player% &f: &f%{_random}%"
