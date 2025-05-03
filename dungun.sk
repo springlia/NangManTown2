@@ -110,9 +110,11 @@ on death:
 			set {_dungun} to {%{_temp}%::dungun}
 			add -1 to {%{_dungun}%::deathCount}
 			send "&c&l[던전] &e%victim%&f님 사망 &a[남은 데스카운트: %{%{_dungun}%::deathCount}%]" to {%{_temp}%::m1}
+			send "&c&l[던전] &e%victim%&f님 사망 &a[남은 데스카운트: %{%{_dungun}%::deathCount}%]" to {%{_temp}%::m2}
+			send "&c&l[던전] &e%victim%&f님 사망 &a[남은 데스카운트: %{%{_dungun}%::deathCount}%]" to {%{_temp}%::m3}
+			send "&c&l[던전] &e%victim%&f님 사망 &a[남은 데스카운트: %{%{_dungun}%::deathCount}%]" to {%{_temp}%::m4}
 		wait 1 tick
 		if {%{_dungun}%::deathCount} is 0:
-			send "test" to victim
 			execute console command "/던전실패 %{_dungun}% %{%{_temp}%::m1}%"
 
 on respawn:
