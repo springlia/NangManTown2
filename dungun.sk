@@ -1,4 +1,4 @@
-﻿command /던전입장 <text>:
+﻿command /던전입장 <text> <text>:
 	permission: op
 	trigger:
 		set {_temp} to {nowParty::%player%}
@@ -15,7 +15,8 @@
 				send "&a던전에 입장했습니다!" to {%{_temp}%::m2}
 				send "&a던전에 입장했습니다!" to {%{_temp}%::m3}
 				send "&a던전에 입장했습니다!" to {%{_temp}%::m4}
-				set {%{_dungun}%::deathCount} to 2
+				set {%{_dungun}%::deathCount} to arg-2
+
 				set {%{_dungun}%::ing} to {_temp}
 				set {%{_temp}%::dungun} to {_dungun}
 			else if {nowParty::%player%} is not set:
