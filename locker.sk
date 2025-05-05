@@ -89,12 +89,12 @@ function openGUIAdmin(p: player):
 	set slot 49 of {_lockergui} to {targetUser::%{_p}%}'s skull named "&e&l%name of {targetUser::%{_p}%}%&f님의 사물함 (Page %{_page}%)"
 	set slot 53 of {_lockergui} to {next} named "&b&l▶"
 
-	set slot 46 of {_lockergui} to black stained glass pane named ""
-	set slot 47 of {_lockergui} to black stained glass pane named ""
-	set slot 48 of {_lockergui} to black stained glass pane named ""
-	set slot 50 of {_lockergui} to black stained glass pane named ""
-	set slot 51 of {_lockergui} to black stained glass pane named ""
-	set slot 52 of {_lockergui} to black stained glass pane named ""
+	set slot 46 of {_lockergui} to black stained glass pane named "&f"
+	set slot 47 of {_lockergui} to black stained glass pane named "&f"
+	set slot 48 of {_lockergui} to black stained glass pane named "&f"
+	set slot 50 of {_lockergui} to black stained glass pane named "&f"
+	set slot 51 of {_lockergui} to black stained glass pane named "&f"
+	set slot 52 of {_lockergui} to black stained glass pane named "&f"
 
 	open {_lockergui} to {_p}
 	play sound "block.iron_door.open" to {_p}
@@ -125,12 +125,12 @@ function openGUI(p: player):
 	set slot 49 of {_lockergui} to {_p}'s skull named "&e&l%name of {_p}%&f님의 사물함 (Page %{_page}%)"
 	set slot 53 of {_lockergui} to {next} named "&b&l▶"
 
-	set slot 46 of {_lockergui} to black stained glass pane named ""
-	set slot 47 of {_lockergui} to black stained glass pane named ""
-	set slot 48 of {_lockergui} to black stained glass pane named ""
-	set slot 50 of {_lockergui} to black stained glass pane named ""
-	set slot 51 of {_lockergui} to black stained glass pane named ""
-	set slot 52 of {_lockergui} to black stained glass pane named ""
+	set slot 46 of {_lockergui} to black stained glass pane named "&f"
+	set slot 47 of {_lockergui} to black stained glass pane named "&f"
+	set slot 48 of {_lockergui} to black stained glass pane named "&f"
+	set slot 50 of {_lockergui} to black stained glass pane named "&f"
+	set slot 51 of {_lockergui} to black stained glass pane named "&f"
+	set slot 52 of {_lockergui} to black stained glass pane named "&f"
 
 	open {_lockergui} to {_p}
 	play sound "block.iron_door.open" to {_p}
