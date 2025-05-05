@@ -1,0 +1,34 @@
+﻿command /선물 [<offlineplayer>]:
+	trigger:
+		if arg-1 is not set:
+			send "&c&l[!] &f선물을 보낼 플레이어의 닉네임을 적어주세요." to player
+		else:
+			set {_targetPlayer} to arg-1
+			set {_giftGUI} to chest inventory with 3 rows named "%{_targetPlayer}%님께 선물 보내기"
+
+			#머리 및 확인버튼#
+			set slot 4 of {_giftGUI} to {_targetPlayer}'s skull named "&e%{_targetPlayer}%&f에게..."
+			set slot 22 of {_giftGUI} to lime wool named "&a&l선물 보내기"
+
+			#장식#
+			set slot 0 of {_giftGUI} to black stained glass pane named "&f"
+			set slot 1 of {_giftGUI} to black stained glass pane named "&f"
+			set slot 2 of {_giftGUI} to black stained glass pane named "&f"
+			set slot 3 of {_giftGUI} to black stained glass pane named "&f"
+			set slot 5 of {_giftGUI} to black stained glass pane named "&f"
+			set slot 6 of {_giftGUI} to black stained glass pane named "&f"
+			set slot 7 of {_giftGUI} to black stained glass pane named "&f"
+			set slot 8 of {_giftGUI} to black stained glass pane named "&f"
+			set slot 9 of {_giftGUI} to black stained glass pane named "&f"
+			set slot 17 of {_giftGUI} to black stained glass pane named "&f"
+			set slot 18 of {_giftGUI} to black stained glass pane named "&f"
+			set slot 19 of {_giftGUI} to black stained glass pane named "&f"
+			set slot 20 of {_giftGUI} to black stained glass pane named "&f"
+			set slot 21 of {_giftGUI} to black stained glass pane named "&f"
+			set slot 23 of {_giftGUI} to black stained glass pane named "&f"
+			set slot 24 of {_giftGUI} to black stained glass pane named "&f"
+			set slot 25 of {_giftGUI} to black stained glass pane named "&f"
+			set slot 26 of {_giftGUI} to black stained glass pane named "&f"
+
+			open {_giftGUI} to player
+
