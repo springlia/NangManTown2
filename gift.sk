@@ -7,20 +7,23 @@ command /선물 [<offlineplayer>]:
 		if arg-1 is not set:
 			send "&c&l[!] &f선물을 보낼 플레이어의 닉네임을 적어주세요." to player
 		else:
-			set {targetPlayer::%player%} to arg-1
-			set {_giftGUI} to chest inventory with 5 rows named "%{targetPlayer::%player%}%님께 선물 보내기"
+			if {giftCan::%{targetPlayer::%player%}%} is false:
+				send "&c&l[!] &f해당 플레이어에게 선물을 보낼 수 없습니다." to player
+			else:
+				set {targetPlayer::%player%} to arg-1
+				set {_giftGUI} to chest inventory with 5 rows named "%{targetPlayer::%player%}%님께 선물 보내기"
 
-			#장식#
-			set {_i} to 0
-			while {_i} < 45:
-				set slot {_i} of {_giftGUI} to black stained glass pane named "&f"
-				add 1 to {_i}
+				#장식#
+				set {_i} to 0
+				while {_i} < 45:
+					set slot {_i} of {_giftGUI} to black stained glass pane named "&f"
+					add 1 to {_i}
 
-			set slot 4 of {_giftGUI} to {targetPlayer::%player%}'s skull named "&e%{targetPlayer::%player%}%&f에게..."
-			set slot 22 of {_giftGUI} to air
-			set slot 40 of {_giftGUI} to lime wool named "&a&l선물 보내기"
+				set slot 4 of {_giftGUI} to {targetPlayer::%player%}'s skull named "&e%{targetPlayer::%player%}%&f에게..."
+				set slot 22 of {_giftGUI} to air
+				set slot 40 of {_giftGUI} to lime wool named "&a&l선물 보내기"
 
-			open {_giftGUI} to player
+				open {_giftGUI} to player
 
 on inventory click:
 	if name of event-inventory contains "선물 보내기":
@@ -56,6 +59,15 @@ on inventory click:
 					stop 
 		else:
 			send "&c아이템을 가져올 수 없습니다." to player
+
+command /선물허용:
+	trigger:
+		if {giftCan::%player%} is false:
+			set {giftCan::%player%} to true
+			send "&6&l[선물함] &f선물 받기가 &a활성화&f되었습니다." to player
+		else:
+			set {giftCan::%player%} to false
+			send "&6&l[선물함] &f선물 받기가 &c비활성화&f되었습니다." to player
 
 command /선물함:
 	trigger:
