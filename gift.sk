@@ -3,11 +3,11 @@
 		if arg-1 is not set:
 			send "&c&l[!] &f선물을 보낼 플레이어의 닉네임을 적어주세요." to player
 		else:
-			set {_targetPlayer} to arg-1
-			set {_giftGUI} to chest inventory with 3 rows named "%{_targetPlayer}%님께 선물 보내기"
+			set {targetPlayer::%player%} to arg-1
+			set {_giftGUI} to chest inventory with 3 rows named "%{targetPlayer::%player%}%님께 선물 보내기"
 
 			#머리 및 확인버튼#
-			set slot 4 of {_giftGUI} to {_targetPlayer}'s skull named "&e%{_targetPlayer}%&f에게..."
+			set slot 4 of {_giftGUI} to {targetPlayer::%player%}'s skull named "&e%{targetPlayer::%player%}%&f에게..."
 			set slot 22 of {_giftGUI} to lime wool named "&a&l선물 보내기"
 
 			#장식#
@@ -32,3 +32,38 @@
 
 			open {_giftGUI} to player
 
+on inventory click:
+	if name of event-inventory contains "선물 보내기":
+
+		event-inventory is not player's inventory:
+			clicked slot is 22:
+				##선물 저장##
+				if item in slot 10 of event-inventory is not air:
+					add item in slot 10 of event-inventory to {%{targetPlayer::%player%}%giftbox::*}
+				if item in slot 11 of event-inventory is not air:
+					add item in slot 11 of event-inventory to {%{targetPlayer::%player%}%giftbox::*}
+				if item in slot 12 of event-inventory is not air:
+					add item in slot 12 of event-inventory to {%{targetPlayer::%player%}%giftbox::*}
+				if item in slot 13 of event-inventory is not air:
+					add item in slot 13 of event-inventory to {%{targetPlayer::%player%}%giftbox::*}
+				if item in slot 14 of event-inventory is not air:
+					add item in slot 14 of event-inventory to {%{targetPlayer::%player%}%giftbox::*}
+				if item in slot 15 of event-inventory is not air:
+					add item in slot 15 of event-inventory to {%{targetPlayer::%player%}%giftbox::*}
+	
+				close player's inventory
+				send "&e&l%{targetPlayer::%player%}%&f님에게 선물을 전송했습니다!" to player
+				delete {targetPlayer::%player%}
+			
+			clicked slot is 0 or 1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 17 or 18 or 19 or 20 or 21 or 23 or 24 or 25 or 26:
+				cancel event
+
+command /선물테스트:
+	trigger:
+		set {_myGift} to chest inventory with 3 rows named "나의 선물함"
+
+		set {_i} to 0
+		loop {%player%giftbox::*}:
+			set slot {_i} of {_myGift} to loop-value
+			add 1 to {_i}
+		open {_myGift} to player
