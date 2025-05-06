@@ -38,6 +38,7 @@ on inventory click:
 					delete {InvClose::%player%}
 					close player's inventory
 					send "&e&l%{targetPlayer::%player%}%&f님에게 선물을 전송했습니다!" to player
+					play sound "block.note_block.bell"
 					send "&7[관리모드] &6&l[선물함] &e%player% &f-> &a%{targetPlayer::%player%}% &f보낸 아이템 : %item in slot 22 of event-inventory%" to console
 					delete {targetPlayer::%player%}
 					
