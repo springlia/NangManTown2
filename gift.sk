@@ -4,59 +4,37 @@
 			send "&c&l[!] &f선물을 보낼 플레이어의 닉네임을 적어주세요." to player
 		else:
 			set {targetPlayer::%player%} to arg-1
-			set {_giftGUI} to chest inventory with 3 rows named "%{targetPlayer::%player%}%님께 선물 보내기"
-
-			#머리 및 확인버튼#
-			set slot 4 of {_giftGUI} to {targetPlayer::%player%}'s skull named "&e%{targetPlayer::%player%}%&f에게..."
-			set slot 22 of {_giftGUI} to lime wool named "&a&l선물 보내기"
+			set {_giftGUI} to chest inventory with 5 rows named "%{targetPlayer::%player%}%님께 선물 보내기"
 
 			#장식#
-			set slot 0 of {_giftGUI} to black stained glass pane named "&f"
-			set slot 1 of {_giftGUI} to black stained glass pane named "&f"
-			set slot 2 of {_giftGUI} to black stained glass pane named "&f"
-			set slot 3 of {_giftGUI} to black stained glass pane named "&f"
-			set slot 5 of {_giftGUI} to black stained glass pane named "&f"
-			set slot 6 of {_giftGUI} to black stained glass pane named "&f"
-			set slot 7 of {_giftGUI} to black stained glass pane named "&f"
-			set slot 8 of {_giftGUI} to black stained glass pane named "&f"
-			set slot 9 of {_giftGUI} to black stained glass pane named "&f"
-			set slot 17 of {_giftGUI} to black stained glass pane named "&f"
-			set slot 18 of {_giftGUI} to black stained glass pane named "&f"
-			set slot 19 of {_giftGUI} to black stained glass pane named "&f"
-			set slot 20 of {_giftGUI} to black stained glass pane named "&f"
-			set slot 21 of {_giftGUI} to black stained glass pane named "&f"
-			set slot 23 of {_giftGUI} to black stained glass pane named "&f"
-			set slot 24 of {_giftGUI} to black stained glass pane named "&f"
-			set slot 25 of {_giftGUI} to black stained glass pane named "&f"
-			set slot 26 of {_giftGUI} to black stained glass pane named "&f"
+			set {_i} to 0
+			while {_i} < 45:
+				set slot {_i} of {_giftGUI} to black stained glass pane named "&f"
+				add 1 to {_i}
+
+			set slot 4 of {_giftGUI} to {targetPlayer::%player%}'s skull named "&e%{targetPlayer::%player%}%&f에게..."
+			set slot 22 of {_giftGUI} to air
+			set slot 40 of {_giftGUI} to lime wool named "&a&l선물 보내기"
 
 			open {_giftGUI} to player
 
 on inventory click:
 	if name of event-inventory contains "선물 보내기":
 		event-inventory is not player's inventory:
-			clicked slot is 22:
-				##선물 저장##
-				if item in slot 10 of event-inventory is not air:
-					add item in slot 10 of event-inventory to {%{targetPlayer::%player%}%giftbox::*}
-				if item in slot 11 of event-inventory is not air:
-					add item in slot 11 of event-inventory to {%{targetPlayer::%player%}%giftbox::*}
-				if item in slot 12 of event-inventory is not air:
-					add item in slot 12 of event-inventory to {%{targetPlayer::%player%}%giftbox::*}
-				if item in slot 13 of event-inventory is not air:
-					add item in slot 13 of event-inventory to {%{targetPlayer::%player%}%giftbox::*}
-				if item in slot 14 of event-inventory is not air:
-					add item in slot 14 of event-inventory to {%{targetPlayer::%player%}%giftbox::*}
-				if item in slot 15 of event-inventory is not air:
-					add item in slot 15 of event-inventory to {%{targetPlayer::%player%}%giftbox::*}
+			clicked slot is 40:
+				if size of {%player%giftbox::*} is 27:
+					send "&e&l%{targetPlayer::%player%}%&c님의 선물함에 선물을 보낼 수 없습니다." to player
+					cancel event
+				else:
+					add item in slot 22 of event-inventory to {%{targetPlayer::%player%}%giftbox::*}
 
-				close player's inventory
-				send "&e&l%{targetPlayer::%player%}%&f님에게 선물을 전송했습니다!" to player
-				delete {targetPlayer::%player%}
+					close player's inventory
+					send "&e&l%{targetPlayer::%player%}%&f님에게 선물을 전송했습니다!" to player
+					delete {targetPlayer::%player%}
 
-			clicked slot is 0 or 1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 17 or 18 or 19 or 20 or 21 or 23 or 24 or 25 or 26:
+			clicked slot is 0 or 1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 10 or 11 or 12 or 13 or 14 or 15 or 16 or 17 or 18 or 19 or 20 or 21 or 23 or 24 or 25 or 26 or 27 or 28 or 29 or 30 or 31 or 32 or 33 or 34 or 35 or 36 or 37 or 38 or 39 or 41 or 42 or 43 or 44:
 				cancel event
-				
+
 	if name of event-inventory is "나의 선물함":
 		cancel event
 
@@ -84,3 +62,9 @@ command /선물함:
 			set slot {_i} of {_myGift} to loop-value
 			add 1 to {_i}
 		open {_myGift} to player
+
+command /관리자명령어_선물함초기화 <offlineplayer>:
+	permission: op
+	trigger:
+		send "&7[관리모드] %arg-1%님의 선물함이 초기화되었습니다." to player
+		delete {%arg-1%giftbox::*}
