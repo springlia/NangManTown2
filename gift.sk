@@ -1,4 +1,8 @@
-﻿command /선물 [<offlineplayer>]:
+﻿on join:
+	if size of {%player%giftbox::*} > 0:
+		send "&6&l[선물함] &f받을 수 있는 선물이 있습니다." to player
+
+command /선물 [<offlineplayer>]:
 	trigger:
 		if arg-1 is not set:
 			send "&c&l[!] &f선물을 보낼 플레이어의 닉네임을 적어주세요." to player
