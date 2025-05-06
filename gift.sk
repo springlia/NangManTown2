@@ -34,7 +34,6 @@
 
 on inventory click:
 	if name of event-inventory contains "선물 보내기":
-
 		event-inventory is not player's inventory:
 			clicked slot is 22:
 				##선물 저장##
@@ -50,15 +49,33 @@ on inventory click:
 					add item in slot 14 of event-inventory to {%{targetPlayer::%player%}%giftbox::*}
 				if item in slot 15 of event-inventory is not air:
 					add item in slot 15 of event-inventory to {%{targetPlayer::%player%}%giftbox::*}
-	
+
 				close player's inventory
 				send "&e&l%{targetPlayer::%player%}%&f님에게 선물을 전송했습니다!" to player
 				delete {targetPlayer::%player%}
-			
+
 			clicked slot is 0 or 1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 17 or 18 or 19 or 20 or 21 or 23 or 24 or 25 or 26:
 				cancel event
+				
+	if name of event-inventory is "나의 선물함":
+		cancel event
 
-command /선물테스트:
+		event-inventory is player's inventory:
+			stop
+
+		set {_clickedItem} to event-item
+
+		if player's inventory can hold {_clickedItem}:
+			give {_clickedItem} to player
+			set clicked slot to air
+			loop {%player%giftbox::*}:
+				if loop-value is {_clickedItem}:
+					remove loop-value from {%player%giftbox::*}
+					stop 
+		else:
+			send "&c아이템을 가져올 수 없습니다." to player
+
+command /선물함:
 	trigger:
 		set {_myGift} to chest inventory with 3 rows named "나의 선물함"
 
