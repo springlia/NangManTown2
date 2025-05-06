@@ -63,6 +63,24 @@ on inventory click:
 		else:
 			send "&c아이템을 가져올 수 없습니다." to player
 
+	if name of event-inventory contains "선물함 [관리모드]":
+		cancel event
+
+		event-inventory is player's inventory:
+			stop
+
+		set {_clickedItem} to event-item
+
+		if player's inventory can hold {_clickedItem}:
+			give {_clickedItem} to player
+			set clicked slot to air
+			loop {%{giftAdminMod::%player%}%giftbox::*}:
+				if loop-value is {_clickedItem}:
+					remove loop-value from {%{giftAdminMod::%player%}%giftbox::*}
+					stop 
+		else:
+			send "&c아이템을 가져올 수 없습니다." to player
+
 on inventory close:
 	if name of event-inventory contains "선물 보내기":
 		if {InvClose::%player%} is set:
@@ -73,6 +91,9 @@ on inventory close:
 			else:
 				send "&c인벤토리에 공간이 없어 아이템을 돌려받을 수 없었습니다. 관리자에게 문의하세요." to player
 				send "&7[관리모드] &6&l[선물함] &e%player% &f사라진 아이템 : %{_backItem}%" to console
+
+	if name of event-inventory contains "선물함 [관리모드]":
+		delete {giftAdminMod::%player%}
 		
 command /선물허용:
 	trigger:
@@ -92,6 +113,17 @@ command /선물함:
 			set slot {_i} of {_myGift} to loop-value
 			add 1 to {_i}
 		open {_myGift} to player
+
+command /관리자명령어_선물함확인 <offlineplayer>:
+	permission: op
+	trigger:
+		set {giftAdminMod::%player%} to arg-1
+		set {_checkGift} to chest inventory with 3 rows named "%arg-1%의 선물함 [관리모드]"
+		set {_i} to 0
+		loop {%arg-1%giftbox::*}:
+			set slot {_i} of {_checkGift} to loop-value
+			add 1 to {_i}
+		open {_checkGift} to player
 
 command /관리자명령어_선물함초기화 <offlineplayer>:
 	permission: op
