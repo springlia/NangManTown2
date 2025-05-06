@@ -38,6 +38,7 @@ on inventory click:
 					delete {InvClose::%player%}
 					close player's inventory
 					send "&e&l%{targetPlayer::%player%}%&f님에게 선물을 전송했습니다!" to player
+					send "&7[관리모드] &6&l[선물함] &e%player% &f-> &a%{targetPlayer::%player%}% &f보낸 아이템 : %item in slot 22 of event-inventory%" to console
 					delete {targetPlayer::%player%}
 					
 
@@ -71,7 +72,7 @@ on inventory close:
 				delete {InvClose::%player%}
 			else:
 				send "&c인벤토리에 공간이 없어 아이템을 돌려받을 수 없었습니다. 관리자에게 문의하세요." to player
-				send "&7[관리모드] &6&l[선물함] &e%player% &f사라진 아이템 %{_backItem}%: " to console
+				send "&7[관리모드] &6&l[선물함] &e%player% &f사라진 아이템 : %{_backItem}%" to console
 		
 command /선물허용:
 	trigger:
