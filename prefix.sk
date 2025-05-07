@@ -44,6 +44,23 @@ command /스페셜칭호:
 		set slot 53 of {_specialPrefixGUI} to black stained glass pane named ""
 		open {_specialPrefixGUI} to player
 
+command /관리자명령어_칭호북지급 <text>:
+	trigger:
+		set {_prefix} to arg-1
+		set {_book} to book
+		set string tag "prefix" of custom nbt of {_book} to "%{_prefix}%"
+		give player {_book} named "&e칭호북 &7%{_prefix}%"
+
+on right click with book:
+	set {_prefix} to string tag "prefix" of custom nbt of player's tool
+	send "%{_prefix}%" to player #테스트용
+	if {%{_prefix}%_Have::%player%} is true:
+		send "&c이미 보유중인 칭호 입니다." to player
+	else:
+		execute console command "/lp user %player% parent settrack prefix %{_prefix}%"
+		set {%{_prefix}%_Have::%player%} to true
+
+
 on inventory click:
 	event-inventory's name is "칭호 목록":
 		cancel event
