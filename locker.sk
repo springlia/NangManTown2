@@ -92,7 +92,7 @@ function openGUIAdmin(p: player):
 	set {_i} to 46
 	while {_i} < 53:
 		set slot {_i} of {_lockergui} to black stained glass pane named "&f"
-		add 1 to 
+		add 1 to {_I}
 
 	open {_lockergui} to {_player}
 	play sound "block.iron_door.open" to {_player}
@@ -126,7 +126,7 @@ function openGUI(player: player):
 	set {_i} to 46
 	while {_i} < 53:
 		set slot {_i} of {_lockergui} to black stained glass pane named "&f"
-		add 1 to 
+		add 1 to {_i}
 
 	open {_lockergui} to {_player}
 	play sound "block.iron_door.open" to {_player}
