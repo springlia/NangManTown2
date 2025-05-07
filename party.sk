@@ -4,30 +4,21 @@ command /파티 [<text>] [<text>]:
 			set {_partyGUI} to chest inventory with 3 rows named "파티"
 
 			##### 장식 #####
-			set slot 0 of {_partyGUI} to black stained glass pane named ""
-			set slot 1 of {_partyGUI} to black stained glass pane named ""
-			set slot 2 of {_partyGUI} to black stained glass pane named ""
-			set slot 3 of {_partyGUI} to black stained glass pane named ""
-			set slot 4 of {_partyGUI} to black stained glass pane named ""
-			set slot 5 of {_partyGUI} to black stained glass pane named ""
-			set slot 6 of {_partyGUI} to black stained glass pane named ""
-			set slot 7 of {_partyGUI} to black stained glass pane named ""
-			set slot 8 of {_partyGUI} to black stained glass pane named ""
-			set slot 18 of {_partyGUI} to black stained glass pane named ""
-			set slot 19 of {_partyGUI} to black stained glass pane named ""
-			set slot 20 of {_partyGUI} to black stained glass pane named ""
-			set slot 21 of {_partyGUI} to black stained glass pane named ""
-			set slot 22 of {_partyGUI} to black stained glass pane named ""
-			set slot 23 of {_partyGUI} to black stained glass pane named ""
-			set slot 24 of {_partyGUI} to black stained glass pane named ""
-			set slot 25 of {_partyGUI} to black stained glass pane named ""
-			set slot 26 of {_partyGUI} to black stained glass pane named ""
+			set {_i} to 0
+			while {_i} < 9:
+				set slot {_i} of {_partyGUI} to black stained glass pane named "&f"
+				add 1 to {_i}
 
-			set {_temp} to {nowParty::%player%}
+			set {_i} to 18
+			while {_i} < 27:
+				set slot {_i} of {_partyGUI} to black stained glass pane named "&f"
+				add 1 to {_i}
+
+			set {_party} to {nowParty::%player%}
 			if {nowParty::%player%} is not set:
 				set slot 12 of {_partyGUI} to {emptyHead} named "&e내 파티 확인" with lore "&7가입된 파티가 없습니다."
 			else:
-				set slot 12 of {_partyGUI} to {%{_temp}%::m1}'s skull named "&e내 파티 확인" with lore "&a%{%{_temp}%::name}%"
+				set slot 12 of {_partyGUI} to {%{_party}%::m1}'s skull named "&e내 파티 확인" with lore "&a%{%{_party}%::name}%"
 
 			set slot 14 of {_partyGUI} to book named "&e파티 목록"
 
@@ -54,22 +45,22 @@ command /파티 [<text>] [<text>]:
 				send "&e/관리자명령어_파티삭제 [이름] &f: [이름]의 파티를 강제 삭제합니다." to player
 
 		else if arg-1 is "생성":
-			set {_temp} to arg-2
+			set {_party} to arg-2
 			if arg-2 is not set:
 				send "&c파티 이름을 입력해주세요." to player
 			else:
-				if {%{_temp}%::name} is not set:
+				if {%{_party}%::name} is not set:
 					if {nowParty::%player%} is not set:
-						set {%{_temp}%::name} to arg-2
-						set {%{_temp}%::m1} to player
-						set {%{_temp}%::public} to false
-						set {nowParty::%player%} to {_temp}
-						add {%{_temp}%::name} to {partyList::*}
+						set {%{_party}%::name} to arg-2
+						set {%{_party}%::m1} to player
+						set {%{_party}%::public} to false
+						set {nowParty::%player%} to {_party}
+						add {%{_party}%::name} to {partyList::*}
 						send "" to player
 						send "&e파티가 성공적으로 생성되었습니다!" to player
 						send "" to player
-						send "&a파티 이름: &f%{%{_temp}%::name}%" to player
-						send "&a파티장: &f%{%{_temp}%::m1}%" to player
+						send "&a파티 이름: &f%{%{_party}%::name}%" to player
+						send "&a파티장: &f%{%{_party}%::m1}%" to player
 						send "" to player
 					else:
 						send "&c이미 파티에 가입되어 있습니다." to player
@@ -80,52 +71,44 @@ command /파티 [<text>] [<text>]:
 			if {nowParty::%player%} is not set:
 				send "&c현재 가입된 파티가 없습니다." to player
 			else:
-				set {_temp} to {nowParty::%player%}
+				set {_party} to {nowParty::%player%}
 				set {_myPartyGUI} to chest inventory with 6 rows named "내 파티 정보"
 				##### 장식 #####
-				set slot 0 of {_myPartyGUI} to black stained glass pane named ""
-				set slot 1 of {_myPartyGUI} to black stained glass pane named ""
-				set slot 2 of {_myPartyGUI} to black stained glass pane named ""
-				set slot 3 of {_myPartyGUI} to black stained glass pane named ""
-				set slot 4 of {_myPartyGUI} to black stained glass pane named ""
-				set slot 5 of {_myPartyGUI} to black stained glass pane named ""
-				set slot 6 of {_myPartyGUI} to black stained glass pane named ""
-				set slot 7 of {_myPartyGUI} to black stained glass pane named ""
-				set slot 8 of {_myPartyGUI} to black stained glass pane named ""
-				set slot 45 of {_myPartyGUI} to black stained glass pane named ""
-				set slot 46 of {_myPartyGUI} to black stained glass pane named ""
-				set slot 47 of {_myPartyGUI} to black stained glass pane named ""
-				set slot 48 of {_myPartyGUI} to black stained glass pane named ""
-				set slot 49 of {_myPartyGUI} to black stained glass pane named ""
-				set slot 50 of {_myPartyGUI} to black stained glass pane named ""
-				set slot 51 of {_myPartyGUI} to black stained glass pane named ""
-				set slot 52 of {_myPartyGUI} to black stained glass pane named ""
-				set slot 53 of {_myPartyGUI} to black stained glass pane named ""
 
-				if {%{_temp}%::m1} is player's name:
-					set slot 13 of {_myPartyGUI} to cake named "&e%{%{_temp}%::name}%" with lore "&f%{%{_temp}%::lore}%" and "&7클릭하여 설명 변경"
+				set {_i} to 0
+				while {_i} < 9:
+					set slot {_i} of {_myPartyGUI} to black stained glass pane named "&f"
+					add 1 to {_i}
+				
+				set {_i} to 45
+				while {_i} < 54:
+					set slot {_i} of {_myPartyGUI} to black stained glass pane named "&f"
+					add 1 to {_i}
+
+				if {%{_party}%::m1} is player's name:
+					set slot 13 of {_myPartyGUI} to cake named "&e%{%{_party}%::name}%" with lore "&f%{%{_party}%::lore}%" and "&7클릭하여 설명 변경"
 				else:
-					set slot 13 of {_myPartyGUI} to cake named "&e%{%{_temp}%::name}%" with lore "&f%{%{_temp}%::lore}%"
+					set slot 13 of {_myPartyGUI} to cake named "&e%{%{_party}%::name}%" with lore "&f%{%{_party}%::lore}%"
 
 
-				if {%{_temp}%::m1} is set:
-					set slot 20 of {_myPartyGUI} to {%{_temp}%::m1}'s skull named "&f%{%{_temp}%::m1}% &d[파티장]"
+				if {%{_party}%::m1} is set:
+					set slot 20 of {_myPartyGUI} to {%{_party}%::m1}'s skull named "&f%{%{_party}%::m1}% &d[파티장]"
 				else:
 					set slot 20 of {_myPartyGUI} to {emptyHead} named "&7(비어있음)"
 
 
-				if {%{_temp}%::m2} is set:
-					set slot 21 of {_myPartyGUI} to {%{_temp}%::m2}'s skull named "&f%{%{_temp}%::m2}%"
+				if {%{_party}%::m2} is set:
+					set slot 21 of {_myPartyGUI} to {%{_party}%::m2}'s skull named "&f%{%{_party}%::m2}%"
 				else:
 					set slot 21 of {_myPartyGUI} to {emptyHead} named "&7(비어있음)"
 
-				if {%{_temp}%::m3} is set:
-					set slot 23 of {_myPartyGUI} to {%{_temp}%::m3}'s skull named "&f%{%{_temp}%::m3}%"
+				if {%{_party}%::m3} is set:
+					set slot 23 of {_myPartyGUI} to {%{_party}%::m3}'s skull named "&f%{%{_party}%::m3}%"
 				else:
 					set slot 23 of {_myPartyGUI} to {emptyHead} named "&7(비어있음)"
 
-				if {%{_temp}%::m4} is set:
-					set slot 24 of {_myPartyGUI} to {%{_temp}%::m4}'s skull named "&f%{%{_temp}%::m4}%"
+				if {%{_party}%::m4} is set:
+					set slot 24 of {_myPartyGUI} to {%{_party}%::m4}'s skull named "&f%{%{_party}%::m4}%"
 				else:
 					set slot 24 of {_myPartyGUI} to {emptyHead} named "&7(비어있음)"
 
@@ -134,16 +117,16 @@ command /파티 [<text>] [<text>]:
 				else:
 					set slot 40 of {_myPartyGUI} to lime dye named "&e현재 채팅 모드 : &a전체 채팅" with lore "&7클릭하여 전환"
 				
-				if {%{_temp}%::m1} is player's name:
+				if {%{_party}%::m1} is player's name:
 					set slot 31 of {_myPartyGUI} to writable book named "&e파티원 초대" with lore "&7클릭하여 파티원 초대"
 					set slot 42 of {_myPartyGUI} to barrier named "&c파티 탈퇴" with lore "&7파티장이 탈퇴할 경우 파티가 해체됩니다."
-					if {%{_temp}%::public} is true:
+					if {%{_party}%::public} is true:
 						set slot 38 of {_myPartyGUI} to lime wool named "&a공개 모드" with lore "&7클릭하여 전환"
 					else:
 						set slot 38 of {_myPartyGUI} to gray wool named "&7비공개 모드" with lore "&7클릭하여 전환"
 				else:
 					set slot 42 of {_myPartyGUI} to barrier named "&c파티 탈퇴"
-					if {%{_temp}%::public} is true:
+					if {%{_party}%::public} is true:
 						set slot 38 of {_myPartyGUI} to lime wool named "&a공개 모드" 
 					else:
 						set slot 38 of {_myPartyGUI} to gray wool named "&7비공개 모드" 
@@ -153,49 +136,49 @@ command /파티 [<text>] [<text>]:
 			if {nowParty::%player%} is not set:
 				send "&c현재 가입된 파티가 없습니다." to player
 			else:
-				set {_temp} to {nowParty::%player%}
-				if {%{_temp}%::m1} is player's name:
+				set {_party} to {nowParty::%player%}
+				if {%{_party}%::m1} is player's name:
 					
-					send "&b파티장에 의해 파티가 해체되었습니다." to {%{_temp}%::m2}
-					send "&b파티장에 의해 파티가 해체되었습니다." to {%{_temp}%::m3}
-					send "&b파티장에 의해 파티가 해체되었습니다." to {%{_temp}%::m4}
+					send "&b파티장에 의해 파티가 해체되었습니다." to {%{_party}%::m2}
+					send "&b파티장에 의해 파티가 해체되었습니다." to {%{_party}%::m3}
+					send "&b파티장에 의해 파티가 해체되었습니다." to {%{_party}%::m4}
 
-					delete {nowParty::%{%{_temp}%::m2}%}
-					delete {nowParty::%{%{_temp}%::m3}%}
-					delete {nowParty::%{%{_temp}%::m4}%}
+					delete {nowParty::%{%{_party}%::m2}%}
+					delete {nowParty::%{%{_party}%::m3}%}
+					delete {nowParty::%{%{_party}%::m4}%}
 					delete {nowParty::%player%}
 
 					delete {nowPartyChat::%player%}
-					delete {nowPartyChat::%{%{_temp}%::m2}%}
-					delete {nowPartyChat::%{%{_temp}%::m3}%}
-					delete {nowPartyChat::%{%{_temp}%::m4}%}
+					delete {nowPartyChat::%{%{_party}%::m2}%}
+					delete {nowPartyChat::%{%{_party}%::m3}%}
+					delete {nowPartyChat::%{%{_party}%::m4}%}
 
-					delete {%{_temp}%::m1}
-					delete {%{_temp}%::m2}
-					delete {%{_temp}%::m3}
-					delete {%{_temp}%::m4}
+					delete {%{_party}%::m1}
+					delete {%{_party}%::m2}
+					delete {%{_party}%::m3}
+					delete {%{_party}%::m4}
 
-					delete {%{_temp}%::name}
-					delete {%{_temp}%::lore}
-					delete {%{_temp}%::public}
+					delete {%{_party}%::name}
+					delete {%{_party}%::lore}
+					delete {%{_party}%::public}
 
-					remove {_temp} from {partyList::*}
+					remove {_party} from {partyList::*}
 
 					send "&b성공적으로 파티가 해체되었습니다." to player
 				else:
-					if player's name is {%{_temp}%::m2}:
-						delete {%{_temp}%::m2}
-					else if player's name is {%{_temp}%::m3}:
-						delete {%{_temp}%::m3}
-					else if player's name is {%{_temp}%::m4}:
-						delete {%{_temp}%::m4}
+					if player's name is {%{_party}%::m2}:
+						delete {%{_party}%::m2}
+					else if player's name is {%{_party}%::m3}:
+						delete {%{_party}%::m3}
+					else if player's name is {%{_party}%::m4}:
+						delete {%{_party}%::m4}
 
 					send "&b성공적으로 파티에서 탈퇴하였습니다." to player
 
-					send "&e%player%&f님이 파티에서 탈퇴하였습니다." to {%{_temp}%::m1}
-					send "&e%player%&f님이 파티에서 탈퇴하였습니다." to {%{_temp}%::m2}
-					send "&e%player%&f님이 파티에서 탈퇴하였습니다." to {%{_temp}%::m3}
-					send "&e%player%&f님이 파티에서 탈퇴하였습니다." to {%{_temp}%::m4}
+					send "&e%player%&f님이 파티에서 탈퇴하였습니다." to {%{_party}%::m1}
+					send "&e%player%&f님이 파티에서 탈퇴하였습니다." to {%{_party}%::m2}
+					send "&e%player%&f님이 파티에서 탈퇴하였습니다." to {%{_party}%::m3}
+					send "&e%player%&f님이 파티에서 탈퇴하였습니다." to {%{_party}%::m4}
 
 					delete {nowParty::%player%}
 					delete {nowPartyChat::%player%}
@@ -204,13 +187,13 @@ command /파티 [<text>] [<text>]:
 			if {nowParty::%player%} is not set:
 				send "&c현재 가입된 파티가 없습니다." to player
 			else:
-				set {_temp} to {nowParty::%player%}
-				if {%{_temp}%::m1} is player's name:
-					if {%{_temp}%::public} is true:
-						set {%{_temp}%::public} to false
+				set {_party} to {nowParty::%player%}
+				if {%{_party}%::m1} is player's name:
+					if {%{_party}%::public} is true:
+						set {%{_party}%::public} to false
 						send "&a파티가 비공개 상태로 전환되었습니다." to player
 					else:
-						set {%{_temp}%::public} to true
+						set {%{_party}%::public} to true
 						send "&b파티가 공개 상태로 전환되었습니다." to player
 				else:
 					send "&c파티장이 아닙니다." to player
@@ -219,10 +202,10 @@ command /파티 [<text>] [<text>]:
 			if {nowParty::%player%} is not set:
 				send "&c현재 가입된 파티가 없습니다." to player
 			else:
-				set {_temp} to {nowParty::%player%}
-				if {%{_temp}%::m1} is player's name:
-					set {%{_temp}%::lore} to arg-2
-					send "&a파티 설명 설정이 완료되었습니다. &f[ %{%{_temp}%::lore}% ]" to player
+				set {_party} to {nowParty::%player%}
+				if {%{_party}%::m1} is player's name:
+					set {%{_party}%::lore} to arg-2
+					send "&a파티 설명 설정이 완료되었습니다. &f[ %{%{_party}%::lore}% ]" to player
 				else:
 					send "&c파티장이 아닙니다." to player
 
@@ -234,12 +217,12 @@ command /파티 [<text>] [<text>]:
 			if {nowParty::%player%} is not set:
 				send "&c현재 가입된 파티가 없습니다." to player
 			else:
-				set {_temp} to {nowParty::%player%}
-				if {%{_temp}%::m1} is player's name:
+				set {_party} to {nowParty::%player%}
+				if {%{_party}%::m1} is player's name:
 					if {_player} is online:
 						send "&e%{_player}%&f님에게 파티 초대를 보냈습니다." to player
 						send "&e%player%&f님으로부터 파티 초대가 도착했습니다. <ttp:클릭 시 파티 초대를 수락합니다.><cmd:/파티 수락>&a&l[✅]<reset> <ttp:클릭 시 파티 초대를 거절합니다.><cmd:/파티 거절>&c&l[❌]<reset>" to {_player}
-						set {waitParty::%{_player}%} to {_temp}
+						set {waitParty::%{_player}%} to {_party}
 					else:
 						send "&c해당 플레이어가 온라인이 아닙니다." to player
 				else:
@@ -250,29 +233,29 @@ command /파티 [<text>] [<text>]:
 				send "&c받은 파티 초대가 없습니다." to player
 			else:
 				if {nowParty::%player%} is not set:
-					set {_temp} to {waitParty::%player%}
-					if {%{_temp}%::m2} is not set:
-						set {%{_temp}%::m2} to player
-						set {nowParty::%player%} to {_temp}
+					set {_party} to {waitParty::%player%}
+					if {%{_party}%::m2} is not set:
+						set {%{_party}%::m2} to player
+						set {nowParty::%player%} to {_party}
 
-					else if {%{_temp}%::m3} is not set:
-						set {%{_temp}%::m3} to player
-						set {nowParty::%player%} to {_temp}
+					else if {%{_party}%::m3} is not set:
+						set {%{_party}%::m3} to player
+						set {nowParty::%player%} to {_party}
 		
-					else if {%{_temp}%::m4} is not set:
-						set {%{_temp}%::m4} to player
-						set {nowParty::%player%} to {_temp}
+					else if {%{_party}%::m4} is not set:
+						set {%{_party}%::m4} to player
+						set {nowParty::%player%} to {_party}
 
 					else:
 						send "&c파티 인원이 꽉차 가입할 수 없습니다." to player
 						stop
 
-					send "&a%{%{_temp}%::name}% &f파티에 가입했습니다!" to player
+					send "&a%{%{_party}%::name}% &f파티에 가입했습니다!" to player
 						
-					send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m1}
-					send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m2}
-					send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m3}
-					send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m4}
+					send "&e%player%&f님이 파티에 가입했습니다." to {%{_party}%::m1}
+					send "&e%player%&f님이 파티에 가입했습니다." to {%{_party}%::m2}
+					send "&e%player%&f님이 파티에 가입했습니다." to {%{_party}%::m3}
+					send "&e%player%&f님이 파티에 가입했습니다." to {%{_party}%::m4}
 				else:
 					send "&c이미 파티에 가입되어 있습니다." to player
 				delete {waitParty::%player%}
@@ -281,31 +264,26 @@ command /파티 [<text>] [<text>]:
 			if {waitParty::%player%} is not set:
 				send "&c받은 파티 초대가 없습니다." to player
 			else:
-				set {_temp} to {waitParty::%player%}
+				set {_party} to {waitParty::%player%}
 				send "&c파티 초대를 거절하였습니다." to player
-				send "&e%player%&f님이 파티 초대를 거절하였습니다." to {%{_temp}%::m1}
+				send "&e%player%&f님이 파티 초대를 거절하였습니다." to {%{_party}%::m1}
 				delete {waitParty::%player%}
 
 		else if arg-1 is "목록":
 			set {_partyListGUI} to chest inventory with 6 rows named "파티 목록"
 			##### 장식 #####
-			set slot 0 of {_partyListGUI} to black stained glass pane named ""
-			set slot 1 of {_partyListGUI} to black stained glass pane named ""
-			set slot 2 of {_partyListGUI} to black stained glass pane named ""
-			set slot 3 of {_partyListGUI} to black stained glass pane named ""
+
+			set {_i} to 0
+			while {_i} < 9:
+				set slot {_i} of {_partyListGUI} to black stained glass pane named "&f"
+				add 1 to {_i}
+
 			set slot 4 of {_partyListGUI} to book named "&e파티 목록"
-			set slot 5 of {_partyListGUI} to black stained glass pane named ""
-			set slot 6 of {_partyListGUI} to black stained glass pane named ""
-			set slot 7 of {_partyListGUI} to black stained glass pane named ""
-			set slot 8 of {_partyListGUI} to black stained glass pane named ""
-			set slot 45 of {_partyListGUI} to black stained glass pane named ""
-			set slot 46 of {_partyListGUI} to black stained glass pane named ""
-			set slot 47 of {_partyListGUI} to black stained glass pane named ""
-			set slot 48 of {_partyListGUI} to black stained glass pane named ""
-			set slot 50 of {_partyListGUI} to black stained glass pane named ""
-			set slot 51 of {_partyListGUI} to black stained glass pane named ""
-			set slot 52 of {_partyListGUI} to black stained glass pane named ""
-			set slot 53 of {_partyListGUI} to black stained glass pane named ""
+		
+			set {_i} to 45
+			while {_i} < 54:
+				set slot {_i} of {_partyListGUI} to black stained glass pane named "&f"
+				add 1 to {_i}
 
 			set slot 49 of {_partyListGUI} to emerald named "&a파티 생성하기" with lore "&7클릭하여 파티 생성"
 
@@ -349,41 +327,41 @@ command /파티 [<text>] [<text>]:
 			open {_partyListGUI} to player
 
 		else if arg-1 is "위임":
-			set {_temp} to {nowParty::%player%}
-			if {%{_temp}%::m1} is player's name:
+			set {_party} to {nowParty::%player%}
+			if {%{_party}%::m1} is player's name:
 				set {_nextLeader} to arg-2
 
-				if {%{_temp}%::m2} is {_nextLeader}:
-					set {_tempMember} to {%{_temp}%::m2}
-					set {%{_temp}%::m2} to {%{_temp}%::m1}
-					set {%{_temp}%::m1} to {_tempMember}
+				if {%{_party}%::m2} is {_nextLeader}:
+					set {_partyMember} to {%{_party}%::m2}
+					set {%{_party}%::m2} to {%{_party}%::m1}
+					set {%{_party}%::m1} to {_partyMember}
 
-				else if {%{_temp}%::m3} is {_nextLeader}:
-					set {_tempMember} to {%{_temp}%::m3}
-					set {%{_temp}%::m3} to {%{_temp}%::m1}
-					set {%{_temp}%::m1} to {_tempMember}
+				else if {%{_party}%::m3} is {_nextLeader}:
+					set {_partyMember} to {%{_party}%::m3}
+					set {%{_party}%::m3} to {%{_party}%::m1}
+					set {%{_party}%::m1} to {_partyMember}
 
-				else if {%{_temp}%::m4} is {_nextLeader}:
-					set {_tempMember} to {%{_temp}%::m4}
-					set {%{_temp}%::m4} to {%{_temp}%::m1}
-					set {%{_temp}%::m1} to {_tempMember}
+				else if {%{_party}%::m4} is {_nextLeader}:
+					set {_partyMember} to {%{_party}%::m4}
+					set {%{_party}%::m4} to {%{_party}%::m1}
+					set {%{_party}%::m1} to {_partyMember}
 				else:
 					send "&e%arg-2%&f님은 파티원이 아닙니다." to player
 					stop
 
-				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {%{_temp}%::m1}
-				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {%{_temp}%::m2}
-				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {%{_temp}%::m3}
-				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {%{_temp}%::m4}
+				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {%{_party}%::m1}
+				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {%{_party}%::m2}
+				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {%{_party}%::m3}
+				send "&f파티장이 &e%{_nextLeader}%&f님으로 변경되었습니다." to {%{_party}%::m4}
 
 			else:
 				send "&c파티장이 아닙니다." to player
 
 		else if arg-1 is "홍보":
-			set {_temp} to {nowParty::%player%}
-			if {%{_temp}%::m1} is player's name:
-				if {%{_temp}%::public} is true:
-					broadcast "&b&l[파티] &e%{_temp}%&f에서 파티원을 모집합니다. &7[ /파티 가입 %{_temp}% ]<reset>"
+			set {_party} to {nowParty::%player%}
+			if {%{_party}%::m1} is player's name:
+				if {%{_party}%::public} is true:
+					broadcast "&b&l[파티] &e%{_party}%&f에서 파티원을 모집합니다. &7[ /파티 가입 %{_party}% ]<reset>"
 				else:
 					send "&c파티가 공개상태가 아닙니다." to player
 			else:
@@ -391,27 +369,27 @@ command /파티 [<text>] [<text>]:
 
 
 		else if arg-1 is "추방":
-			set {_temp} to {nowParty::%player%}
-			if {%{_temp}%::m1} is player's name:
+			set {_party} to {nowParty::%player%}
+			if {%{_party}%::m1} is player's name:
 				set {_removeMember} to arg-2
-				set {waitParty::%player%} to {_temp}
+				set {waitParty::%player%} to {_party}
 				
-				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {%{_temp}%::m1}
-				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {%{_temp}%::m2}
-				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {%{_temp}%::m3}
-				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {%{_temp}%::m4}
+				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {%{_party}%::m1}
+				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {%{_party}%::m2}
+				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {%{_party}%::m3}
+				send "&f&e%{_removeMember}%&f님이 파티에서 추방당하였습니다." to {%{_party}%::m4}
 
-				if {%{_temp}%::m2} is {_removeMember}:
-					delete {nowParty::%{%{_temp}%::m2}%}
-					delete {%{_temp}%::m2}
+				if {%{_party}%::m2} is {_removeMember}:
+					delete {nowParty::%{%{_party}%::m2}%}
+					delete {%{_party}%::m2}
 					
-				else if {%{_temp}%::m3} is {_removeMember}:
-					delete {nowParty::%{%{_temp}%::m3}%}
-					delete {%{_temp}%::m3}
+				else if {%{_party}%::m3} is {_removeMember}:
+					delete {nowParty::%{%{_party}%::m3}%}
+					delete {%{_party}%::m3}
 
-				else if {%{_temp}%::m4} is {_removeMember}:
-					delete {nowParty::%{%{_temp}%::m4}%}
-					delete {%{_temp}%::m4}
+				else if {%{_party}%::m4} is {_removeMember}:
+					delete {nowParty::%{%{_party}%::m4}%}
+					delete {%{_party}%::m4}
 
 				else:
 					send "&e%arg-2%&f님은 파티원이 아닙니다." to player
@@ -420,37 +398,37 @@ command /파티 [<text>] [<text>]:
 				send "&c파티장이 아닙니다." to player
 
 		else if arg-1 is "가입":
-			set {_temp} to arg-2
+			set {_party} to arg-2
 			if {nowParty::%player%} is not set:
-				if {%{_temp}%::public} is true:
-					if {%{_temp}%::m2} is not set:
-						set {%{_temp}%::m2} to player
-						set {nowParty::%player%} to {_temp}
-						send "&a%{_temp}% 파티에 가입했습니다!" to player
-						send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m1}
-						send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m3}
-						send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m4}
+				if {%{_party}%::public} is true:
+					if {%{_party}%::m2} is not set:
+						set {%{_party}%::m2} to player
+						set {nowParty::%player%} to {_party}
+						send "&a%{_party}% 파티에 가입했습니다!" to player
+						send "&e%player%&f님이 파티에 가입했습니다." to {%{_party}%::m1}
+						send "&e%player%&f님이 파티에 가입했습니다." to {%{_party}%::m3}
+						send "&e%player%&f님이 파티에 가입했습니다." to {%{_party}%::m4}
 
-					else if {%{_temp}%::m3} is not set:
-						set {%{_temp}%::m3} to player
-						set {nowParty::%player%} to {_temp}
-						send "&a%{_temp}% 파티에 가입했습니다!" to player
-						send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m1}
-						send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m2}
-						send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m4}
+					else if {%{_party}%::m3} is not set:
+						set {%{_party}%::m3} to player
+						set {nowParty::%player%} to {_party}
+						send "&a%{_party}% 파티에 가입했습니다!" to player
+						send "&e%player%&f님이 파티에 가입했습니다." to {%{_party}%::m1}
+						send "&e%player%&f님이 파티에 가입했습니다." to {%{_party}%::m2}
+						send "&e%player%&f님이 파티에 가입했습니다." to {%{_party}%::m4}
 
-					else if {%{_temp}%::m4} is not set:
-						set {%{_temp}%::m4} to player
-						set {nowParty::%player%} to {_temp}
-						send "&a%{_temp}% 파티에 가입했습니다!" to player
-						send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m1}
-						send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m2}
-						send "&e%player%&f님이 파티에 가입했습니다." to {%{_temp}%::m3}
+					else if {%{_party}%::m4} is not set:
+						set {%{_party}%::m4} to player
+						set {nowParty::%player%} to {_party}
+						send "&a%{_party}% 파티에 가입했습니다!" to player
+						send "&e%player%&f님이 파티에 가입했습니다." to {%{_party}%::m1}
+						send "&e%player%&f님이 파티에 가입했습니다." to {%{_party}%::m2}
+						send "&e%player%&f님이 파티에 가입했습니다." to {%{_party}%::m3}
 
 					else:
 						send "&c파티 인원이 꽉차 가입할 수 없습니다." to player
 
-				else if {%{_temp}%::public} is false:
+				else if {%{_party}%::public} is false:
 					send "&c비공개 파티에는 가입할 수 없습니다." to player
 
 				else:
@@ -472,36 +450,36 @@ command /파티 [<text>] [<text>]:
 command /관리자명령어_파티삭제 <text>:
 	permission: op
 	trigger:
-		set {_temp} to arg-1
+		set {_party} to arg-1
 
-		if {%{_temp}%::name} is not set:
+		if {%{_party}%::name} is not set:
 			send "&7[관리모드] 존재하지 않는 파티입니다." to player
 		else:
-			send "&c관리자에 의해 파티가 해체되었습니다." to {%{_temp}%::m1}
-			send "&c관리자에 의해 파티가 해체되었습니다." to {%{_temp}%::m2}
-			send "&c관리자에 의해 파티가 해체되었습니다." to {%{_temp}%::m3}
-			send "&c관리자에 의해 파티가 해체되었습니다." to {%{_temp}%::m4}
+			send "&c관리자에 의해 파티가 해체되었습니다." to {%{_party}%::m1}
+			send "&c관리자에 의해 파티가 해체되었습니다." to {%{_party}%::m2}
+			send "&c관리자에 의해 파티가 해체되었습니다." to {%{_party}%::m3}
+			send "&c관리자에 의해 파티가 해체되었습니다." to {%{_party}%::m4}
 
-			delete {nowParty::%{%{_temp}%::m1}%}
-			delete {nowParty::%{%{_temp}%::m2}%}
-			delete {nowParty::%{%{_temp}%::m3}%}
-			delete {nowParty::%{%{_temp}%::m4}%}
+			delete {nowParty::%{%{_party}%::m1}%}
+			delete {nowParty::%{%{_party}%::m2}%}
+			delete {nowParty::%{%{_party}%::m3}%}
+			delete {nowParty::%{%{_party}%::m4}%}
 
-			delete {nowPartyChat::%{%{_temp}%::m1}%}
-			delete {nowPartyChat::%{%{_temp}%::m2}%}
-			delete {nowPartyChat::%{%{_temp}%::m3}%}
-			delete {nowPartyChat::%{%{_temp}%::m4}%}
+			delete {nowPartyChat::%{%{_party}%::m1}%}
+			delete {nowPartyChat::%{%{_party}%::m2}%}
+			delete {nowPartyChat::%{%{_party}%::m3}%}
+			delete {nowPartyChat::%{%{_party}%::m4}%}
 
-			delete {%{_temp}%::m1}
-			delete {%{_temp}%::m2}
-			delete {%{_temp}%::m3}
-			delete {%{_temp}%::m4}
+			delete {%{_party}%::m1}
+			delete {%{_party}%::m2}
+			delete {%{_party}%::m3}
+			delete {%{_party}%::m4}
 
-			delete {%{_temp}%::name}
-			delete {%{_temp}%::lore}
-			delete {%{_temp}%::public}			
+			delete {%{_party}%::name}
+			delete {%{_party}%::lore}
+			delete {%{_party}%::public}			
 
-			remove {_temp} from {partyList::*}
+			remove {_party} from {partyList::*}
 
 			send "&7[관리모드] 성공적으로 파티가 해체되었습니다." to player
 
@@ -645,28 +623,19 @@ command /파티원정보확인 <player> <player>:
 		set {_player} to arg-1
 		set {_targetPlayer} to arg-2
 
-		set {_temp} to {nowParty::%{_player}%}
+		set {_party} to {nowParty::%{_player}%}
 		set {_partyMemberGUI} to chest inventory with 3 rows named "파티원 정보"
 
 		##### 장식 #####
-		set slot 0 of {_partyMemberGUI} to black stained glass pane named ""
-		set slot 1 of {_partyMemberGUI} to black stained glass pane named ""
-		set slot 2 of {_partyMemberGUI} to black stained glass pane named ""
-		set slot 3 of {_partyMemberGUI} to black stained glass pane named ""
-		set slot 4 of {_partyMemberGUI} to black stained glass pane named ""
-		set slot 5 of {_partyMemberGUI} to black stained glass pane named ""
-		set slot 6 of {_partyMemberGUI} to black stained glass pane named ""
-		set slot 7 of {_partyMemberGUI} to black stained glass pane named ""
-		set slot 8 of {_partyMemberGUI} to black stained glass pane named ""
-		set slot 18 of {_partyMemberGUI} to black stained glass pane named ""
-		set slot 19 of {_partyMemberGUI} to black stained glass pane named ""
-		set slot 20 of {_partyMemberGUI} to black stained glass pane named ""
-		set slot 21 of {_partyMemberGUI} to black stained glass pane named ""
-		set slot 22 of {_partyMemberGUI} to black stained glass pane named ""
-		set slot 23 of {_partyMemberGUI} to black stained glass pane named ""
-		set slot 24 of {_partyMemberGUI} to black stained glass pane named ""
-		set slot 25 of {_partyMemberGUI} to black stained glass pane named ""
-		set slot 26 of {_partyMemberGUI} to black stained glass pane named ""
+		set {_i} to 0
+		while {_i} < 9:
+			set slot {_i} of {_partyMemberGUI} to black stained glass pane named "&f"
+			add 1 to {_i}
+
+		set {_i} to 18
+		while {_i} < 27:
+			set slot {_i} of {_partyMemberGUI} to black stained glass pane named "&f"
+			add 1 to {_i}
 
 		set slot 10 of {_partyMemberGUI} to {last} named "&b파티 정보로 돌아가기"
 		set slot 11 of {_partyMemberGUI} to {_targetPlayer}'s skull named "&f%{_targetPlayer}%"

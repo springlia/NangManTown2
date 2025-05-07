@@ -65,8 +65,8 @@ on right click:
 function openGUIAdmin(p: player):
 	#초기화#
 
-	set {_uuid} to uuid of {targetUser::%{_p}%}
-	set {_Puuid} to uuid of {_p}
+	set {_uuid} to uuid of {AdminMode::%{_player}%}
+	set {_Puuid} to uuid of {_player}
 	set {_page} to {사물함페이지::%{_uuid}%}
 
 	#예외 처리#
@@ -86,23 +86,21 @@ function openGUIAdmin(p: player):
 
 	#장식#
 	set slot 45 of {_lockergui} to {last} named "&b&l◀"
-	set slot 49 of {_lockergui} to {targetUser::%{_p}%}'s skull named "&e&l%name of {targetUser::%{_p}%}%&f님의 사물함 (Page %{_page}%)"
+	set slot 49 of {_lockergui} to {AdminMode::%{_player}%}'s skull named "&e&l%name of {AdminMode::%{_player}%}%&f님의 사물함 (Page %{_page}%)"
 	set slot 53 of {_lockergui} to {next} named "&b&l▶"
 
-	set slot 46 of {_lockergui} to black stained glass pane named "&f"
-	set slot 47 of {_lockergui} to black stained glass pane named "&f"
-	set slot 48 of {_lockergui} to black stained glass pane named "&f"
-	set slot 50 of {_lockergui} to black stained glass pane named "&f"
-	set slot 51 of {_lockergui} to black stained glass pane named "&f"
-	set slot 52 of {_lockergui} to black stained glass pane named "&f"
+	set {_i} to 46
+	while {_i} < 53:
+		set slot {_i} of {_lockergui} to black stained glass pane named "&f"
+		add 1 to 
 
-	open {_lockergui} to {_p}
-	play sound "block.iron_door.open" to {_p}
+	open {_lockergui} to {_player}
+	play sound "block.iron_door.open" to {_player}
 
 
-function openGUI(p: player):
+function openGUI(player: player):
 	#초기화#
-	set {_uuid} to uuid of {_p}
+	set {_uuid} to uuid of {_player}
 	set {_page} to {사물함페이지::%{_uuid}%}
 
 	#예외 처리#
@@ -122,18 +120,16 @@ function openGUI(p: player):
 
 	#장식#
 	set slot 45 of {_lockergui} to {last} named "&b&l◀"
-	set slot 49 of {_lockergui} to {_p}'s skull named "&e&l%name of {_p}%&f님의 사물함 (Page %{_page}%)"
+	set slot 49 of {_lockergui} to {_player}'s skull named "&e&l%name of {_player}%&f님의 사물함 (Page %{_page}%)"
 	set slot 53 of {_lockergui} to {next} named "&b&l▶"
 
-	set slot 46 of {_lockergui} to black stained glass pane named "&f"
-	set slot 47 of {_lockergui} to black stained glass pane named "&f"
-	set slot 48 of {_lockergui} to black stained glass pane named "&f"
-	set slot 50 of {_lockergui} to black stained glass pane named "&f"
-	set slot 51 of {_lockergui} to black stained glass pane named "&f"
-	set slot 52 of {_lockergui} to black stained glass pane named "&f"
+	set {_i} to 46
+	while {_i} < 53:
+		set slot {_i} of {_lockergui} to black stained glass pane named "&f"
+		add 1 to 
 
-	open {_lockergui} to {_p}
-	play sound "block.iron_door.open" to {_p}
+	open {_lockergui} to {_player}
+	play sound "block.iron_door.open" to {_player}
 
 
 on inventory close:
@@ -144,8 +140,8 @@ on inventory close:
 			stop
 
 		#어드민 모드인지 확인#
-		if {AdminMode::%player%} is true:
-			set {_player} to {targetUser::%player%}
+		if {AdminMode::%player%} is set:
+			set {_player} to {AdminMode::%player%}
 		else:
 			set {_player} to player
 
@@ -157,19 +153,16 @@ on inventory close:
 			if slot is not air:
 				set {창고::%{_uuid}%::%{_page}%::%loop-number - 1%} to slot loop-number - 1 of event-inventory
 
-		if {AdminMode::%player%} is true:
-			delete {targetUser::%player%}
+		if {AdminMode::%player%} is set:
 			delete {AdminMode::%player%}
 			send "&7[관리모드] 사물함 확인이 종료되었습니다." to player
 
 
-
-	
 on inventory click:
 	if name of event-inventory contains "사물함":
 		# 어드민 모드 확인 및 UUID 획득
-		if {AdminMode::%player%} is true:
-			set {_target} to {targetUser::%player%}
+		if {AdminMode::%player%} is set:
+			set {_target} to {AdminMode::%player%}
 			set {_uuid} to uuid of {_target}
 			set {_player} to {_target}
 		else:
@@ -195,7 +188,7 @@ on inventory click:
 				set {is_closing_lockerGUI::%player%} to true
 				subtract 1 from {_page}
 				set {사물함페이지::%{_uuid}%} to {_page}
-				if {AdminMode::%player%} is true:
+				if {AdminMode::%player%} is set:
 					openGUIAdmin(player)
 				else:
 					openGUI({_player})
@@ -209,7 +202,7 @@ on inventory click:
 				set {is_closing_lockerGUI::%player%} to true
 				add 1 to {_page}
 				set {사물함페이지::%{_uuid}%} to {_page}
-				if {AdminMode::%player%} is true:
+				if {AdminMode::%player%} is set:
 					openGUIAdmin(player)
 				else:
 					openGUI({_player})
@@ -253,14 +246,12 @@ command /관리자명령어_사물함페이지 [<number>]:
 command /관리자명령어_사물함확인 <player>:
 	permission: op
 	trigger:
-		set {targetUser::%player%} to arg-1
-		set {AdminMode::%player%} to true
+		set {AdminMode::%player%} to arg-1
 		openGUIAdmin(player)
 
 command /관리자명령어_사물함확인해제:
 	permission: op
 	trigger:
-		delete {targetUser::%player%}
 		delete {AdminMode::%player%}
 		send "&7[관리모드] 사물함 확인이 종료되었습니다." to player
 
