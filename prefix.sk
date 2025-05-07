@@ -54,23 +54,25 @@ command /관리자명령어_칭호북지급 <text>:
 
 on right click with book:
 	set {_prefix} to string tag "prefix" of custom nbt of player's tool
-	send "%{_prefix}%" to player #테스트용
-	if {%{_prefix}%_Have::%player%} is true:
-		send "&c이미 보유중인 칭호 입니다." to player
-	else:
-		execute console command "/lp user %player% parent settrack prefix %{_prefix}%"
-		set {%{_prefix}%_Have::%player%} to true
+	loop {prefixList::%player%::*}:
+		if loop-value is {_prefix}:
+			send "&c이미 보유중인 칭호 입니다." to player
+			stop
+	execute console command "/lp user %player% parent settrack prefix %{_prefix}%"
+	add {_prefix} to {prefixList::%player%::*}
 
 command /관리자명령어_칭호삭제 <offlineplayer> <text>:
 	permission: op
 	trigger:
 		set {_player} to arg-1
 		set {_prefix} to arg-2
-		if {%{_prefix}%_Have::%{_player}%} is true:
-			delete {%{_prefix}%_Have::%{_player}%}
-			send "&7[관리모드] %{_player}%님에게서 %{_prefix}% 칭호를 삭제하였습니다." to player
-		else:
-			send "&7[관리모드] %{_player}%님은 %{_prefix}% 칭호를 보유 중이지 않습니다." to player
+
+		loop {prefixList::%{_player}%::*}:
+			if loop-value is {_prefix}:
+				remove loop-value from {prefixList::%{_player}%::*}
+				send "&7[관리모드] %{_player}%님에게서 %{_prefix}% 칭호를 삭제하였습니다." to player
+				stop
+		send "&7[관리모드] %{_player}%님은 %{_prefix}% 칭호를 보유 중이지 않습니다." to player
 
 on inventory click:
 	event-inventory's name is "칭호 목록":
