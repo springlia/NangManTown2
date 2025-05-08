@@ -7,11 +7,14 @@
 			set slot {_i} of {_prefixGUI} to black stained glass pane named "&f"
 			add 1 to {_i}
 
-		set {_i} to 45
-		while {_i} < 54:
+		set {_i} to 46
+		while {_i} < 53:
 			set slot {_i} of {_prefixGUI} to black stained glass pane named "&f"
 			add 1 to {_i}
+
+		set slot 45 of {_prefixGUI} to {last} named "&b&l◀"
 		set slot 4 of {_prefixGUI} to skull of player named "&b%player%&f의 &e칭호 목록"
+		set slot 53 of {_prefixGUI} to {next} named "&b&l▶"
 
 		set {_slot} to 9
 		loop {prefixList::%player%::*}:
@@ -40,9 +43,8 @@ on right click with book:
 		if loop-value is {_prefix}:
 			send "&c이미 보유중인 칭호 입니다." to player
 			stop
-	execute console command "/lp user %player% parent settrack prefix %{_prefix}%"
-	add {_prefix} to {prefixList::%player%::*}
 
+	add {_prefix} to {prefixList::%player%::*}
 
 
 command /관리자명령어_칭호삭제 <offlineplayer> <text>:
@@ -63,12 +65,21 @@ on inventory click:
 		cancel event
 		event-inventory is player's inventory:
 			stop
-		clicked slot is 49:
+
+		set {_clickedSlot} to event-item
+		if {_clickedSlot} is book:
+			loop {prefixList::%player%::*}:
+				set {_prefix} to loop-value
+
+				if name of {_clickedSlot} is "&e&l칭호 &f%{_prefix}%":
+					execute console command "/lp user %player% parent settrack prefix %{_prefix}%"
+					close player's inventory
+					send "&e칭호가 적용되었습니다." to player
+
+
+		clicked slot is 45:
 			execute player command "/스페셜칭호"
+
+		clicked slot is 53:
+
 	
-	event-inventory's name is "스페셜 칭호 목록":
-		cancel event
-		event-inventory is player's inventory:
-			stop
-		clicked slot is 49:
-			execute player command "/칭호"
