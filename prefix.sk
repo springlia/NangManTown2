@@ -1,48 +1,30 @@
 ﻿command /칭호:
 	trigger:
 		set {_prefixGUI} to chest inventory with 6 rows named "칭호 목록"
-		set slot 4 of {_prefixGUI} to book named "&b%player%&f의 &e칭호 목록"
-		set slot 49 of {_prefixGUI} to emerald named "&e&l스페셜 칭호 보기" with lore "&7클릭 하여 스페셜 칭호 목록을 확인합니다."
-		set slot 0 of {_prefixGUI} to black stained glass pane named ""
-		set slot 1 of {_prefixGUI} to black stained glass pane named ""
-		set slot 2 of {_prefixGUI} to black stained glass pane named ""
-		set slot 3 of {_prefixGUI} to black stained glass pane named ""
-		set slot 5 of {_prefixGUI} to black stained glass pane named ""
-		set slot 6 of {_prefixGUI} to black stained glass pane named ""
-		set slot 7 of {_prefixGUI} to black stained glass pane named ""
-		set slot 8 of {_prefixGUI} to black stained glass pane named ""
-		set slot 45 of {_prefixGUI} to black stained glass pane named ""
-		set slot 46 of {_prefixGUI} to black stained glass pane named ""
-		set slot 47 of {_prefixGUI} to black stained glass pane named ""
-		set slot 48 of {_prefixGUI} to black stained glass pane named ""
-		set slot 50 of {_prefixGUI} to black stained glass pane named ""
-		set slot 51 of {_prefixGUI} to black stained glass pane named ""
-		set slot 52 of {_prefixGUI} to black stained glass pane named ""
-		set slot 53 of {_prefixGUI} to black stained glass pane named ""
-		open {_prefixGUI} to player
+		
+		set {_i} to 0
+		while {_i} < 9:
+			set slot {_i} of {_prefixGUI} to black stained glass pane named "&f"
+			add 1 to {_i}
 
-command /스페셜칭호:
-	trigger:
-		set {_specialPrefixGUI} to chest inventory with 6 rows named "스페셜 칭호 목록"
-		set slot 4 of {_specialPrefixGUI} to book named "&b%player%&f의 &a스페셜 &e칭호 목록"
-		set slot 49 of {_specialPrefixGUI} to gray dye named "&7&l일반 칭호 보기" with lore "&7클릭 하여 일반 칭호 목록을 확인합니다."
-		set slot 0 of {_specialPrefixGUI} to black stained glass pane named ""
-		set slot 1 of {_specialPrefixGUI} to black stained glass pane named ""
-		set slot 2 of {_specialPrefixGUI} to black stained glass pane named ""
-		set slot 3 of {_specialPrefixGUI} to black stained glass pane named ""
-		set slot 5 of {_specialPrefixGUI} to black stained glass pane named ""
-		set slot 6 of {_specialPrefixGUI} to black stained glass pane named ""
-		set slot 7 of {_specialPrefixGUI} to black stained glass pane named ""
-		set slot 8 of {_specialPrefixGUI} to black stained glass pane named ""
-		set slot 45 of {_specialPrefixGUI} to black stained glass pane named ""
-		set slot 46 of {_specialPrefixGUI} to black stained glass pane named ""
-		set slot 47 of {_specialPrefixGUI} to black stained glass pane named ""
-		set slot 48 of {_specialPrefixGUI} to black stained glass pane named ""
-		set slot 50 of {_specialPrefixGUI} to black stained glass pane named ""
-		set slot 51 of {_specialPrefixGUI} to black stained glass pane named ""
-		set slot 52 of {_specialPrefixGUI} to black stained glass pane named ""
-		set slot 53 of {_specialPrefixGUI} to black stained glass pane named ""
-		open {_specialPrefixGUI} to player
+		set {_i} to 45
+		while {_i} < 54:
+			set slot {_i} of {_prefixGUI} to black stained glass pane named "&f"
+			add 1 to {_i}
+		set slot 4 of {_prefixGUI} to skull of player named "&b%player%&f의 &e칭호 목록"
+
+		set {_slot} to 9
+		loop {prefixList::%player%::*}:
+			set {_prefix} to loop-value
+
+			set {_item} to book
+			set name of {_item} to "&e&l칭호 &f%{_prefix}%"
+			set lore of {_item} to "&7클릭하여 착용"
+
+			set slot {_slot} of {_prefixGUI} to {_item}
+			add 1 to {_slot}
+
+		open {_prefixGUI} to player
 
 command /관리자명령어_칭호북지급 <text>:
 	permission: op
@@ -60,6 +42,8 @@ on right click with book:
 			stop
 	execute console command "/lp user %player% parent settrack prefix %{_prefix}%"
 	add {_prefix} to {prefixList::%player%::*}
+
+
 
 command /관리자명령어_칭호삭제 <offlineplayer> <text>:
 	permission: op
