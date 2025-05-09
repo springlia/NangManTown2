@@ -47,6 +47,7 @@ on right click with book:
 			stop
 
 	add {_prefix} to {prefixList::%player%::*}
+	send "&a칭호가 추가되었습니다. %{_prefix}%" to player
 
 on inventory click:
 	event-inventory's name contains "칭호 목록":
