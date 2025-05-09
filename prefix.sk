@@ -1,41 +1,43 @@
 ﻿command /칭호:
 	trigger:
-		set {_prefixGUI} to chest inventory with 6 rows named "칭호 목록"
+		if {nowPrefixPage::%player%} is not set:
+			set {nowPrefixPage::%player%} to 1
+
+		set {_page} to {nowPrefixPage::%player%}
+		set {_prefixGUI%{_page}%} to chest inventory with 6 rows named "칭호 목록 (%{_page}%/%{maxPrefixPage::%player%}%)"
 		
 		set {_i} to 0
 		while {_i} < 9:
-			set slot {_i} of {_prefixGUI} to black stained glass pane named "&f"
+			set slot {_i} of {_prefixGUI%{_page}%} to black stained glass pane named "&f"
 			add 1 to {_i}
 
 		set {_i} to 46
 		while {_i} < 53:
-			set slot {_i} of {_prefixGUI} to black stained glass pane named "&f"
+			set slot {_i} of {_prefixGUI%{_page}%} to black stained glass pane named "&f"
 			add 1 to {_i}
 
-		set slot 45 of {_prefixGUI} to {last} named "&b&l◀"
-		set slot 4 of {_prefixGUI} to skull of player named "&b%player%&f의 &e칭호 목록"
-		set slot 53 of {_prefixGUI} to {next} named "&b&l▶"
+		set slot 45 of {_prefixGUI%{_page}%} to {last} named "&b&l◀"
+		set slot 4 of {_prefixGUI%{_page}%} to skull of player named "&b%player%&f의 &e칭호 목록"
+		set slot 53 of {_prefixGUI%{_page}%} to {next} named "&b&l▶"
 
 		set {_slot} to 9
+		set {_page} to 1
 		loop {prefixList::%player%::*}:
+			if {_slot} > 44:
+				set {_slot} to 9
+				add 1 to {_page}
+				
 			set {_prefix} to loop-value
-
 			set {_item} to book
 			set name of {_item} to "&e&l칭호 &f%{_prefix}%"
 			set lore of {_item} to "&7클릭하여 착용"
-
-			set slot {_slot} of {_prefixGUI} to {_item}
+			set slot {_slot} of {_prefixGUI%{_page}%} to {_item}
 			add 1 to {_slot}
 
-		open {_prefixGUI} to player
+		set {maxPrefixPage::%player%} to {_page}
 
-command /관리자명령어_칭호북지급 <text>:
-	permission: op
-	trigger:
-		set {_prefix} to arg-1
-		set {_book} to book
-		set string tag "prefix" of custom nbt of {_book} to "%{_prefix}%"
-		give player {_book} named "&e칭호북 &7%{_prefix}%"
+		open {_prefixGUI%{nowPrefixPage::%player%}%} to player
+
 
 on right click with book:
 	set {_prefix} to string tag "prefix" of custom nbt of player's tool
@@ -46,6 +48,46 @@ on right click with book:
 
 	add {_prefix} to {prefixList::%player%::*}
 
+on inventory click:
+	event-inventory's name contains "칭호 목록":
+		cancel event
+		event-inventory is player's inventory:
+			stop
+
+		set {_clickedSlot} to event-item
+		if {_clickedSlot} is book:
+			loop {prefixList::%player%::*}:
+				set {_prefix} to loop-value
+
+				if name of {_clickedSlot} is "&e&l칭호 &f%{_prefix}%":
+					execute console command "/lp user %player% parent settrack prefix %{_prefix}%"
+					close player's inventory
+					send "&e칭호가 적용되었습니다. %{_prefix}%" to player	
+
+		clicked slot is 45:
+			#이전페이지로
+			if {nowPrefixPage::%player%} is 1:
+				send "&c이전 페이지가 없습니다." to player
+			else:
+				add -1 to {nowPrefixPage::%player%}
+				execute player command "/칭호"
+
+		clicked slot is 53:
+			#다음페이지로
+			if {nowPrefixPage::%player%} < {maxPrefixPage::%player%}:
+				add 1 to {nowPrefixPage::%player%}
+				execute player command "/칭호"
+			else:
+				send "&c다음 페이지가 없습니다." to player
+
+
+command /관리자명령어_칭호북지급 <text>:
+	permission: op
+	trigger:
+		set {_prefix} to arg-1
+		set {_book} to book
+		set string tag "prefix" of custom nbt of {_book} to "%{_prefix}%"
+		give player {_book} named "&e칭호북 &7%{_prefix}%"
 
 command /관리자명령어_칭호삭제 <offlineplayer> <text>:
 	permission: op
@@ -59,27 +101,5 @@ command /관리자명령어_칭호삭제 <offlineplayer> <text>:
 				send "&7[관리모드] %{_player}%님에게서 %{_prefix}% 칭호를 삭제하였습니다." to player
 				stop
 		send "&7[관리모드] %{_player}%님은 %{_prefix}% 칭호를 보유 중이지 않습니다." to player
-
-on inventory click:
-	event-inventory's name is "칭호 목록":
-		cancel event
-		event-inventory is player's inventory:
-			stop
-
-		set {_clickedSlot} to event-item
-		if {_clickedSlot} is book:
-			loop {prefixList::%player%::*}:
-				set {_prefix} to loop-value
-
-				if name of {_clickedSlot} is "&e&l칭호 &f%{_prefix}%":
-					execute console command "/lp user %player% parent settrack prefix %{_prefix}%"
-					close player's inventory
-					send "&e칭호가 적용되었습니다." to player
-
-
-		clicked slot is 45:
-			execute player command "/스페셜칭호"
-
-		clicked slot is 53:
 
 	
