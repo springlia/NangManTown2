@@ -62,7 +62,7 @@ on right click:
 					send ":npc: &e&l마법의 사물함&f: 안녕, 난 &e%{%{whatLocker::%player%}%_Owner}%&f의 사물함이야." to player
 					delete {whatLocker::%player%}
 
-function openGUIAdmin(p: player):
+function openGUIAdmin(player: player):
 	#초기화#
 
 	set {_uuid} to uuid of {AdminMode::%{_player}%}
