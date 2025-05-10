@@ -29,15 +29,16 @@
 				
 			set {_prefix} to loop-value
 			set {_item} to book
-			set name of {_item} to "&e&l칭호 &f%{_prefix}%"
+			findPrefixName(player, {_prefix})
+			set name of {_item} to "&e&l칭호 &f%{name::%player%}%"
 			set lore of {_item} to "&7클릭하여 착용"
 			set slot {_slot} of {_prefixGUI%{_page}%} to {_item}
 			add 1 to {_slot}
+			delete {name::%player%}
 
 		set {maxPrefixPage::%player%} to {_page}
 
 		open {_prefixGUI%{nowPrefixPage::%player%}%} to player
-
 
 on right click with book:
 	set {_prefix} to string tag "prefix" of custom nbt of player's tool
@@ -45,9 +46,10 @@ on right click with book:
 		if loop-value is {_prefix}:
 			send "&c이미 보유중인 칭호 입니다." to player
 			stop
-
 	add {_prefix} to {prefixList::%player%::*}
-	send "&a칭호가 추가되었습니다. %{_prefix}%" to player
+	findPrefixName(player, {_prefix})
+	send "&a칭호가 추가되었습니다. %{name::%player%}%" to player
+	delete {name::%player%}
 
 on inventory click:
 	event-inventory's name contains "칭호 목록":
@@ -59,12 +61,14 @@ on inventory click:
 		if {_clickedSlot} is book:
 			loop {prefixList::%player%::*}:
 				set {_prefix} to loop-value
-
-				if name of {_clickedSlot} is "&e&l칭호 &f%{_prefix}%":
+				findPrefixName(player, {_prefix})
+				if name of {_clickedSlot} is "&e&l칭호 %{name::%player%}%":
 					execute console command "/lp user %player% parent settrack prefix %{_prefix}%"
 					close player's inventory
-					send "&e칭호가 적용되었습니다. %{_prefix}%" to player	
-
+					send "&e칭호가 적용되었습니다. %{name::%player%}%" to player
+					delete {name::%player%}
+					stop
+					
 		clicked slot is 45:
 			#이전페이지로
 			if {nowPrefixPage::%player%} is 1:
@@ -81,6 +85,15 @@ on inventory click:
 			else:
 				send "&c다음 페이지가 없습니다." to player
 
+function findPrefixName(player: player, prefix: text) :: text:
+	if {_prefix} is "water":
+		set {name::%{_player}%} to "&f[ &b물 마법사 &f]"
+	else if {_prefix} is "fire":
+		set {name::%{_player}%} to "&f[ &c불 마법사 &f]"
+	else if {_prefix} is "wind":
+		set {name::%{_player}%} to "&f[ &e바람 마법사 &f]"
+	else if {_prefix} is "earth":
+		set {name::%{_player}%} to "&f[ &a자연 마법사 &f]"
 
 command /관리자명령어_칭호북지급 <text>:
 	permission: op
@@ -102,5 +115,3 @@ command /관리자명령어_칭호삭제 <offlineplayer> <text>:
 				send "&7[관리모드] %{_player}%님에게서 %{_prefix}% 칭호를 삭제하였습니다." to player
 				stop
 		send "&7[관리모드] %{_player}%님은 %{_prefix}% 칭호를 보유 중이지 않습니다." to player
-
-	
