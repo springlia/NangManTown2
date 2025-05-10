@@ -42,6 +42,10 @@ command /던전실패 <text> <player>:
 				send "&b던전을 실패했습니다." to {%{_party}%::m2}
 				send "&b던전을 실패했습니다." to {%{_party}%::m3}
 				send "&b던전을 실패했습니다." to {%{_party}%::m4}
+				send title "&b던전을 실패했습니다..." with subtitle "&7다시 도전해보세요." to {%{_party}%::m1} for 3 seconds
+				send title "&b던전을 실패했습니다..." with subtitle "&7다시 도전해보세요." to {%{_party}%::m2} for 3 seconds
+				send title "&b던전을 실패했습니다..." with subtitle "&7다시 도전해보세요." to {%{_party}%::m3} for 3 seconds
+				send title "&b던전을 실패했습니다..." with subtitle "&7다시 도전해보세요." to {%{_party}%::m4} for 3 seconds
 				delete {%{_dungun}%::ing}
 				delete {%{_party}%::dungun}
 				delete {%{_dungun}%::deathCount}
