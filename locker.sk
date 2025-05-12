@@ -1,6 +1,13 @@
 ﻿import:
 	dev.lone.itemsadder.api.ItemsAdder
 
+command /락커추가 <text>:
+	permission: op
+	trigger:
+		set {_lockerName} to arg-1
+		set {nowLockerAddMod::%player%} to {_lockerName}
+		add {_lockerName} to {lockerList::*}
+
 
 on right click:
 	## 주문서 ##
@@ -14,30 +21,26 @@ on right click:
 		else:
 			send "&c보유 중인 사물함이 없습니다." to player
 
-	## 락커 지정 삭제 필요 ##
+	## 락커 지정 ##
 	if player's tool is wooden sword:
-		set {FireLocker2_1} to location of clicked block
-		set {FireLocker2_2} to location at (x-coordinate of clicked block), (y-coordinate of clicked block + 1), (z-coordinate of clicked block)
-		send "&b&l완료 &f좌표: &7 %{FireLocker1}%" to player	
+		if {nowLockerAddMod::%player%} is set:
+			set {nowLockerAddMod::%player%::1} to location of clicked block
+			set {nowLockerAddMod::%player%::2} to location at (x-coordinate of clicked block), (y-coordinate of clicked block + 1), (z-coordinate of clicked block)
+			send "&7[관리모드] &b&l락커 추가 완료 &f좌표: &7 %{nowLockerAddMod::%player%::1}% &%{nowLockerAddMod::%player%::2}% " to player	
+			add {nowLockerAddMod::%player%::1} to {lockerList::*}
+			add {nowLockerAddMod::%player%::2} to {lockerList::*}
+			delete {nowLockerAddMod::%player%}
 
 	## 락커 판단 ##
 	if event-block is barrier:
 		set {_loc} to location of event-block
 
 		## 불 락커 ##
-		if {_loc} is {FireLocker1_1} or {FireLocker1_2}:
-			set {whatLocker::%player%} to "FireLocker1"
-		else if {_loc} is {FireLocker2_1} or {FireLocker2_2}:
-			set {whatLocker::%player%} to "FireLocker2"
-		## 물 락커 ##
-		else if {_loc} is {WaterLocker1_1} or {WaterLocker1_2}:
-			set {whatLocker::%player%} to "WaterLocker1"
-		## 자연 락커 ##
-		else if {_loc} is {EarthLocker1_1} or {EarthLocker1_2}:
-			set {whatLocker::%player%} to "EarthLocker1"
-		## 바람 락커 ##
-		else if {_loc} is {WindLocker1_1} or {WindLocker1_2}:
-			set {whatLocker::%player%} to "WindLocker1"
+
+		loop {lockerList::*}:
+			set {_locker} to loop-value
+			if {_loc} is {_locker}
+				set {whatLocker::%player%} to "%{_locker}%"
 
 		if {whatLocker::%player%} is not set:
 			cancel event
