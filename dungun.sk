@@ -15,6 +15,10 @@
 				send "&a던전에 입장했습니다!" to {%{_party}%::m2}
 				send "&a던전에 입장했습니다!" to {%{_party}%::m3}
 				send "&a던전에 입장했습니다!" to {%{_party}%::m4}
+				send title "&b던전을 입장했습니다!" with subtitle "&e행운을 빕니다." to {%{_party}%::m1} for 3 seconds
+				send title "&b던전을 입장했습니다!" with subtitle "&e행운을 빕니다." to {%{_party}%::m2} for 3 seconds
+				send title "&b던전을 입장했습니다!" with subtitle "&e행운을 빕니다." to {%{_party}%::m3} for 3 seconds
+				send title "&b던전을 입장했습니다!" with subtitle "&e행운을 빕니다." to {%{_party}%::m4} for 3 seconds
 				set {%{_dungun}%::deathCount} to arg-2
 				set {%{_dungun}%::ing} to {_party}
 				set {%{_party}%::dungun} to {_dungun}
