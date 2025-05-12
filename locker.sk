@@ -41,6 +41,8 @@ on right click:
 			set {_locker} to loop-value
 			if {_loc} is {_locker}
 				set {whatLocker::%player%} to "%{_locker}%"
+				exit loop
+
 
 		if {whatLocker::%player%} is not set:
 			cancel event

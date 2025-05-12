@@ -214,6 +214,7 @@ command /파티 [<text>] [<text>]:
 			loop all players:
 				if loop-player's name is {_target}:
 					set {_player} to loop-player
+					exit loop
 			if {nowParty::%player%} is not set:
 				send "&c현재 가입된 파티가 없습니다." to player
 			else:
