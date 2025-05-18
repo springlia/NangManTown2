@@ -7,6 +7,7 @@ command /락커추가 <text>:
 		set {_lockerName} to arg-1
 		set {nowLockerAddMod::%player%} to {_lockerName}
 		add {_lockerName} to {lockerList::*}
+		send "&7[관리모드] 지정할 락커를 나무 검으로 우클릭해주세요." to player
 
 
 on right click:
@@ -39,7 +40,7 @@ on right click:
 
 		loop {lockerList::*}:
 			set {_locker} to loop-value
-			if {_loc} is {_locker}
+			if {_loc} is {_locker}:
 				set {whatLocker::%player%} to "%{_locker}%"
 				exit loop
 
