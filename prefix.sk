@@ -101,8 +101,10 @@ command /관리자명령어_칭호북지급 <text>:
 		set {_prefix} to arg-1
 		set {_book} to book
 		set string tag "prefix" of custom nbt of {_book} to "%{_prefix}%"
-		give player {_book} named "&e칭호북 &7%{_prefix}%"
-
+		findPrefixName(player, {_prefix})
+		give player {_book} named "&e칭호북 &7%{name::%player%}%"
+		delete {name::%player%}
+		
 command /관리자명령어_칭호삭제 <offlineplayer> <text>:
 	permission: op
 	trigger:
