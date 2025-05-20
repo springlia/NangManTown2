@@ -1,0 +1,5 @@
+﻿command /내정보:
+	trigger:
+		set {_profileGUI} to chest inventory with 6 rows named "내 프로필"
+
+		open {_profileGUI} to player
