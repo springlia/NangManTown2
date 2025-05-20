@@ -1,6 +1,6 @@
 ﻿command /내정보:
 	trigger:
-		set {_profileGUI} to chest inventory with 6 rows named "내 프로필"
+		set {_profileGUI} to chest inventory with 6 rows named "나의 프로필"
 
 		set {_i} to 0
 		while {_i} < 9:
@@ -8,18 +8,88 @@
 			add 1 to {_i}
 
 		set {_i} to 45
-		while {_i} < 53:
+		while {_i} < 54:
 			set slot {_i} of {_profileGUI} to black stained glass pane named "&f"
 			add 1 to {_i}
 
-		set slot 19 of {_profileGUI} to skull of player named "&d&l%player%"
-		set slot 28 of {_profileGUI} to oak hanging sign named "&f%{myIntro::%player%}%"
+		set slot 19 of {_profileGUI} to skull of player named "&d&l%player%&f의 프로필"
+		set slot 28 of {_profileGUI} to oak hanging sign named "&e%{myIntro::%player%}%" with lore "&7클릭하여 수정"
 
-		set slot 22 of {_profileGUI} to paper named "&f학년"
-		set slot 24 of {_profileGUI} to amethyst shard named "&f성적"
-		set slot 30 of {_profileGUI} to emerald named "&a레벨"
-		set slot 32 of {_profileGUI} to end crystal named "&f직업"
-		set slot 34 of {_profileGUI} to golden sword named "&f파티"
+		set slot 22 of {_profileGUI} to paper named "&b%{grade::%player%}%&f학년"
+		set slot 24 of {_profileGUI} to amethyst shard named "&7성적: &c%{score::%player%}%"
 
-		set slot 53 of {_profileGUI} to writable book named "&5&l내정보 수정" with lore "&7클릭하여 내 정보를 수정합니다."
+		##레벨##
+		set {_level} to level of player
+		set slot 30 of {_profileGUI} to emerald named "&7레벨: &a%{_level}%"
+
+		##직업##
+		if the luckperms permissions of player is "job.fire":
+			set slot 32 of {_profileGUI} to end crystal named "&7직업: &c불 마법사"
+		else if luckperms permissions of player is "job.water":
+			set slot 32 of {_profileGUI} to end crystal named "&7직업: &b물 마법사"
+		else if luckperms permissions of player is "job.earth":
+			set slot 32 of {_profileGUI} to end crystal named "&7직업: &a자연 마법사"
+		else if luckperms permissions of player is "job.wind":
+			set slot 32 of {_profileGUI} to end crystal named "&7직업: &e바람 마법사"
+
+		##파티##
+		set {_party} to {nowParty::%player%}
+		if {_party} is not set:
+			set slot 34 of {_profileGUI} to gray dye named "&7파티: 없음"
+		else:
+			set slot 34 of {_profileGUI} to {%{_party}%::m1}'s skull named "&7파티: &6%{%{_party}%::name}%"
+
 		open {_profileGUI} to player
+
+command /내정보수정:
+	trigger:
+		set {_profileEditGUI} to chest inventory with 6 rows named "나의 프로필 수정"
+		set slot 1 of {_profileEditGUI} to oak hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
+		set slot 3 of {_profileEditGUI} to spruce hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
+		set slot 5 of {_profileEditGUI} to birch hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
+		set slot 7 of {_profileEditGUI} to jungle hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
+		set slot 10 of {_profileEditGUI} to acacia hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
+		set slot 12 of {_profileEditGUI} to dark oak hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
+		set slot 14 of {_profileEditGUI} to mangrove hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
+		set slot 16 of {_profileEditGUI} to cherry hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
+		set slot 19 of {_profileEditGUI} to bamboo hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
+		set slot 21 of {_profileEditGUI} to crimson hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
+		set slot 23 of {_profileEditGUI} to warped hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
+
+		set slot 25 of {_profileEditGUI} to writable book named "&e자기소개 입력" with lore "&7클릭하여 변경"
+
+		set slot 36 of {_profileEditGUI} to white stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
+		set slot 37 of {_profileEditGUI} to light gray stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
+		set slot 38 of {_profileEditGUI} to gray stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
+		set slot 39 of {_profileEditGUI} to black stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
+		set slot 41 of {_profileEditGUI} to brown stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
+		set slot 42 of {_profileEditGUI} to red stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
+		set slot 43 of {_profileEditGUI} to orange stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
+		set slot 44 of {_profileEditGUI} to yellow stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
+		set slot 45 of {_profileEditGUI} to lime stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
+		set slot 46 of {_profileEditGUI} to green stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
+		set slot 47 of {_profileEditGUI} to cyan stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
+		set slot 48 of {_profileEditGUI} to light blue stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
+		set slot 50 of {_profileEditGUI} to blue stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
+		set slot 51 of {_profileEditGUI} to purple stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
+		set slot 52 of {_profileEditGUI} to magenta stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
+		set slot 53 of {_profileEditGUI} to pink stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
+		open {_profileEditGUI} to player
+
+on inventory click:
+	event-inventory's name is "나의 프로필":
+		event-inventory is player's inventory:
+			cancel event
+
+		clicked slot is 28:
+			send "&e자기소개를 입력해주세요." to player
+			set {editMyIntro::%player%} to true
+			close player's inventory
+		cancel event
+
+on chat:
+	if {editMyIntro::%player%} is set:
+		cancel event
+		delete {editMyIntro::%player%}
+		set {myIntro::%player%} to message
+		execute player command "/내정보"
