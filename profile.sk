@@ -8,12 +8,14 @@
 			add 1 to {_i}
 
 		set {_i} to 45
-		while {_i} < 54:
+		while {_i} < 53:
 			set slot {_i} of {_profileGUI} to {myProfileGlass::%player%} named "&f"
 			add 1 to {_i}
 
+		set slot 53 of {_profileGUI} to writable book named "&e&l프로필 꾸미기"
+
 		set slot 19 of {_profileGUI} to skull of player named "&d&l%player%&f의 프로필"
-		set slot 28 of {_profileGUI} to oak hanging sign named "&e%{myIntro::%player%}%" with lore "&7클릭하여 수정"
+		set slot 28 of {_profileGUI} to {myProfileSign::%player%} named "&e%{myIntro::%player%}%"
 
 		set slot 22 of {_profileGUI} to paper named "&b%{grade::%player%}%&f학년"
 		set slot 24 of {_profileGUI} to amethyst shard named "&7성적: &c%{score::%player%}%"
@@ -44,6 +46,7 @@
 command /프로필꾸미기:
 	trigger:
 		set {_profileEditGUI} to chest inventory with 6 rows named "나의 프로필 수정"
+		set slot 0 of {_profileEditGUI} to {last} named "&b돌아가기"
 		set slot 1 of {_profileEditGUI} to oak hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
 		set slot 3 of {_profileEditGUI} to spruce hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
 		set slot 5 of {_profileEditGUI} to birch hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
@@ -80,17 +83,68 @@ on inventory click:
 	event-inventory's name is "나의 프로필":
 		event-inventory is player's inventory:
 			cancel event
-
-		clicked slot is 28:
-			send "&e자기소개를 입력해주세요." to player
-			set {editMyIntro::%player%} to true
-			close player's inventory
-		cancel event
+		
+		clicked slot is 53:
+			execute player command "/프로필꾸미기"
+			cancel event
 
 	event-inventory's name is "나의 프로필 수정":
 		event-inventory is player's inventory:
 			cancel event
 
+		clicked slot is 0:
+			execute player command "/내정보"
+
+		clicked slot is 1:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileSign::%player%} to oak hanging sign
+
+		clicked slot is 3:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileSign::%player%} to spruce hanging sign
+
+		clicked slot is 5:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileSign::%player%} to birch hanging sign
+
+		clicked slot is 7:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileSign::%player%} to jungle hanging sign
+
+		clicked slot is 10:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileSign::%player%} to acacia hanging sign
+
+		clicked slot is 12:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileSign::%player%} to dark oak hanging sign
+
+		clicked slot is 14:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileSign::%player%} to mangrove hanging sign
+
+		clicked slot is 16:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileSign::%player%} to cherry hanging sign
+
+		clicked slot is 19:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileSign::%player%} to bamboo hanging sign
+
+		clicked slot is 21:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileSign::%player%} to crimson hanging sign
+
+		clicked slot is 23:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileSign::%player%} to warped hanging sign
+
+		clicked slot is 25:
+			send "&e자기소개를 입력해주세요." to player
+			set {editMyIntro::%player%} to true
+			close player's inventory
+
+		##유리판##
 		clicked slot is 36:
 			send "&e프로필 장식이 변경되었습니다!" to player
 			set {myProfileGlass::%player%} to white stained glass pane
@@ -158,10 +212,10 @@ on inventory click:
 		cancel event
 
 
-
 on chat:
 	if {editMyIntro::%player%} is set:
 		cancel event
 		delete {editMyIntro::%player%}
 		set {myIntro::%player%} to message
-		execute player command "/내정보"
+		execute player command "/프로필꾸미기"
+		send "&e자기소개가 수정되었습니다. &f[ %{myIntro::%player%}% ]" to player
