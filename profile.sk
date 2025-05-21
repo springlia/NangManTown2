@@ -4,12 +4,12 @@
 
 		set {_i} to 0
 		while {_i} < 9:
-			set slot {_i} of {_profileGUI} to black stained glass pane named "&f"
+			set slot {_i} of {_profileGUI} to {myProfileGlass::%player%} named "&f"
 			add 1 to {_i}
 
 		set {_i} to 45
 		while {_i} < 54:
-			set slot {_i} of {_profileGUI} to black stained glass pane named "&f"
+			set slot {_i} of {_profileGUI} to {myProfileGlass::%player%} named "&f"
 			add 1 to {_i}
 
 		set slot 19 of {_profileGUI} to skull of player named "&d&l%player%&f의 프로필"
@@ -41,7 +41,7 @@
 
 		open {_profileGUI} to player
 
-command /내정보수정:
+command /프로필꾸미기:
 	trigger:
 		set {_profileEditGUI} to chest inventory with 6 rows named "나의 프로필 수정"
 		set slot 1 of {_profileEditGUI} to oak hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
@@ -86,6 +86,78 @@ on inventory click:
 			set {editMyIntro::%player%} to true
 			close player's inventory
 		cancel event
+
+	event-inventory's name is "나의 프로필 수정":
+		event-inventory is player's inventory:
+			cancel event
+
+		clicked slot is 36:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileGlass::%player%} to white stained glass pane
+
+		clicked slot is 37:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileGlass::%player%} to light gray stained glass pane 
+
+		clicked slot is 38:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileGlass::%player%} to gray stained glass pane 
+
+		clicked slot is 39:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileGlass::%player%} to black stained glass pane 
+
+		clicked slot is 41:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileGlass::%player%} to brown stained glass pane 
+
+		clicked slot is 42:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileGlass::%player%} to red stained glass pane 
+
+		clicked slot is 43:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileGlass::%player%} to orange stained glass pane 
+
+		clicked slot is 44:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileGlass::%player%} to yellow stained glass pane 
+
+		clicked slot is 45:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileGlass::%player%} to lime stained glass pane 
+
+		clicked slot is 46:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileGlass::%player%} to green stained glass pane 
+
+		clicked slot is 47:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileGlass::%player%} to cyan stained glass pane 
+
+		clicked slot is 48:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileGlass::%player%} to light blue stained glass pane 
+
+		clicked slot is 50:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileGlass::%player%} to blue stained glass pane 
+
+		clicked slot is 51:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileGlass::%player%} to purple stained glass pane 
+
+		clicked slot is 52:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileGlass::%player%} to magenta stained glass pane 
+
+		clicked slot is 53:
+			send "&e프로필 장식이 변경되었습니다!" to player
+			set {myProfileGlass::%player%} to pink stained glass pane 
+
+		cancel event
+
+
 
 on chat:
 	if {editMyIntro::%player%} is set:
