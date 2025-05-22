@@ -1,4 +1,39 @@
-﻿command /관리자명령어_성적입력 <offlineplayer> <text>:
+﻿command /관리자명령어_공지 [<text>]:
+	permission: op
+	trigger:
+		set {_text} to arg-1
+		broadcast ""
+		broadcast "&c&l[전체 공지] &f%{_text}%"
+		broadcast ""
+
+command /관리자명령어_기숙사공지 [<text>]:
+	permission: op
+	trigger:
+		set {_text} to arg-1
+		if player's name is "CT_Lia" or "Happy_Beaver":
+			broadcast ""
+			broadcast "&c&l[불기숙사 공지] &f%{_text}%"
+			broadcast ""
+		else if player's name is "__Zibsa__":
+			broadcast ""
+			broadcast "&b&l[물기숙사 공지] &f%{_text}%"
+			broadcast ""
+		else if player's name is "YangGang_H":
+			broadcast ""
+			broadcast "&a&l[자연기숙사 공지] &f%{_text}%"
+			broadcast ""
+		else if player's name is "Im_Yehan":
+			broadcast ""
+			broadcast "&e&l[바람기숙사 공지] &f%{_text}%"
+			broadcast ""
+
+command /관리자명령어_메세지 [<text>]: 
+	permission: op
+	trigger:
+		set {_text} to arg-1
+		send "%{_text}%" to player
+
+command /관리자명령어_성적입력 <offlineplayer> <text>:
 	permission: op
 	trigger:
 		set {_target} to arg-1
