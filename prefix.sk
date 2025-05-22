@@ -18,6 +18,7 @@
 
 		set slot 45 of {_prefixGUI%{_page}%} to {last} named "&b&l◀"
 		set slot 4 of {_prefixGUI%{_page}%} to skull of player named "&b%player%&f의 &e칭호 목록"
+		set slot 49 of {_prefixGUI%{_page}%} to barrier named "&c&l칭호 해제"
 		set slot 53 of {_prefixGUI%{_page}%} to {next} named "&b&l▶"
 
 		set {_slot} to 9
@@ -84,6 +85,10 @@ on inventory click:
 				execute player command "/칭호"
 			else:
 				send "&c다음 페이지가 없습니다." to player
+
+		clicked slot is 49:
+			execute console command "/lp user %player% parent cleartrack prefix"
+			close player's inventory
 
 function findPrefixName(player: player, prefix: text) :: text:
 	if {_prefix} is "water":
