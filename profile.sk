@@ -2,6 +2,12 @@
 	trigger:
 		set {_profileGUI} to chest inventory with 6 rows named "나의 프로필"
 
+
+		if {myProfileGlass::%player%} is not set:
+			set {myProfileGlass::%player%} to black stained glass pane
+		if {myProfileSign::%player%} is not set:
+			set {myProfileGlass::%player%} to oak hanging sign
+
 		set {_i} to 0
 		while {_i} < 9:
 			set slot {_i} of {_profileGUI} to {myProfileGlass::%player%} named "&f"
