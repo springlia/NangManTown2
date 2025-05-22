@@ -39,6 +39,8 @@
 			set slot 32 of {_profileGUI} to end crystal named "&7직업: &a자연 마법사"
 		else if luckperms permissions of player is "job.wind":
 			set slot 32 of {_profileGUI} to end crystal named "&7직업: &e바람 마법사"
+		else:
+			set slot 32 of {_profileGUI} to end crystal named "&7직업: &f없음"
 
 		##파티##
 		set {_party} to {nowParty::%player%}
@@ -48,6 +50,60 @@
 			set slot 34 of {_profileGUI} to {%{_party}%::m1}'s skull named "&7파티: &6%{%{_party}%::name}%"
 
 		open {_profileGUI} to player
+
+command /정보 <offlineplayer>:
+	trigger:
+		set {_target} to arg-1
+
+		set {_profileGUI} to chest inventory with 6 rows named "%{_target}%의 프로필"
+
+		if {myProfileGlass::%{_target}%} is not set:
+			set {myProfileGlass::%{_target}%} to black stained glass pane
+		if {myProfileSign::%{_target}%} is not set:
+			set {myProfileSign::%{_target}%} to oak hanging sign
+
+		set {_i} to 0
+		while {_i} < 9:
+			set slot {_i} of {_profileGUI} to {myProfileGlass::%{_target}%} named "&f"
+			add 1 to {_i}
+
+		set {_i} to 45
+		while {_i} < 54:
+			set slot {_i} of {_profileGUI} to {myProfileGlass::%{_target}%} named "&f"
+			add 1 to {_i}
+
+		set slot 19 of {_profileGUI} to skull of {_target} named "&d&l%{_target}%&f의 프로필"
+		set slot 28 of {_profileGUI} to {myProfileSign::%{_target}%} named "&e%{myIntro::%{_target}%}%"
+
+		set slot 22 of {_profileGUI} to paper named "&b%{grade::%{_target}%}%&f학년"
+		set slot 24 of {_profileGUI} to amethyst shard named "&7성적: &c%{score::%{_target}%}%"
+
+		##레벨##
+		set {_level} to level of {_target}
+		set slot 30 of {_profileGUI} to emerald named "&7레벨: &a%{_level}%"
+
+		##직업##
+		if the luckperms permissions of {_target} is "job.fire":
+			set slot 32 of {_profileGUI} to end crystal named "&7직업: &c불 마법사"
+		else if luckperms permissions of {_target} is "job.water":
+			set slot 32 of {_profileGUI} to end crystal named "&7직업: &b물 마법사"
+		else if luckperms permissions of {_target} is "job.earth":
+			set slot 32 of {_profileGUI} to end crystal named "&7직업: &a자연 마법사"
+		else if luckperms permissions of {_target} is "job.wind":
+			set slot 32 of {_profileGUI} to end crystal named "&7직업: &e바람 마법사"
+		else:
+			set slot 32 of {_profileGUI} to end crystal named "&7직업: &f없음"
+		send "%luckperms permissions of {_target}%" to player
+
+		##파티##
+		set {_party} to {nowParty::%{_target}%}
+		if {_party} is not set:
+			set slot 34 of {_profileGUI} to gray dye named "&7파티: 없음"
+		else:
+			set slot 34 of {_profileGUI} to {%{_party}%::m1}'s skull named "&7파티: &6%{%{_party}%::name}%"
+
+		open {_profileGUI} to player
+
 
 command /프로필꾸미기:
 	trigger:
