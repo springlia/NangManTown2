@@ -1,0 +1,25 @@
+﻿command /관리자명령어_성적입력 <offlineplayer> <text>:
+	permission: op
+	trigger:
+		set {_target} to arg-1
+		set {_score} to arg-2
+		if {_score} is "A" or "B" or "C" or "D" or "F":
+			set {score::%{_target}%} to {_score}
+			send "&7[관리모드] 성적 입력 완료. %{_target}% 의 성적 : %{_score}%" to player
+			send "&7[관리모드] 성적 입력 완료. %{_target}% 의 성적 : %{_score}%" to console
+			send "&e관리자에 의해 성적이 변경되었습니다. &f[현재 성적 : &d%{_score}% &f]" to {_target}
+		else:
+			send "&7[관리모드] 성적은 A, B, C, D, F 중 하나로 입력해주세요." to player
+
+command /관리자명령어_학년입력 <offlineplayer> <text>:
+	permission: op
+	trigger:
+		set {_target} to arg-1
+		set {_grade} to arg-2
+		if {_grade} is "1" or "2" or "3" or "4" or "5" or "6" or "7":
+			set {grade::%{_target}%} to {_grade}
+			send "&7[관리모드] 학년 입력 완료. %{_target}% 의 학년 : %{_grade}%" to player
+			send "&7[관리모드] 학년 입력 완료. %{_target}% 의 학년 : %{_grade}%" to console
+			send "&e관리자에 의해 학년이 변경되었습니다. &f[현재 학년 : &d%{_grade}% &f]" to {_target}
+		else:
+			send "&7[관리모드] 학년은 1, 2, 3, 4, 5, 6, 7 중 하나로 입력해주세요." to player
