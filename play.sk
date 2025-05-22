@@ -18,3 +18,20 @@ command /주사위:
 	trigger:
 		set {_random} to random integer between 1 and 6
 		broadcast "&e%player% &f: &f%{_random}%"
+
+command /노래방:
+	trigger:
+		set {_random} to random integer between 50 and 100
+		broadcast "&e%player%&f님의 노래방 점수는... &d%{_random}%점!"
+
+command /판사님 [<text>]:
+	trigger:
+		if arg-1 is not set:
+			send ":npc: &e&l판사님&f: 질문을 하면 답을 해주도록 하마." to player
+		else:
+			broadcast "&d&l%player%&f: %arg-1%"
+			set {_random} to random integer between 1 and 2
+			if {_random} is 1:
+				broadcast ":npc: &e&l판사님&f: 응. 맞아."
+			else:
+				broadcast ":npc: &e&l판사님&f: 응. 아니야."
