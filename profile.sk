@@ -51,8 +51,11 @@
 
 		open {_profileGUI} to player
 
-command /정보 <offlineplayer>:
+command /정보 [<offlineplayer>]:
 	trigger:
+		if arg-1 is not set:
+			send "&c정보를 확인할 플레이어의 닉네임을 입력해주세요." to player
+			stop
 		set {_target} to arg-1
 
 		set {_profileGUI} to chest inventory with 6 rows named "%{_target}%의 프로필"
@@ -93,7 +96,6 @@ command /정보 <offlineplayer>:
 			set slot 32 of {_profileGUI} to end crystal named "&7직업: &e바람 마법사"
 		else:
 			set slot 32 of {_profileGUI} to end crystal named "&7직업: &f없음"
-		send "%luckperms permissions of {_target}%" to player
 
 		##파티##
 		set {_party} to {nowParty::%{_target}%}
