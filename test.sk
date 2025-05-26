@@ -13,3 +13,25 @@ command /후원1000 <text>:
 		broadcast ""
 		broadcast "&3&l[후원] &e%arg-1%님&f, &b1000원 &f후원 감사합니다!"
 		broadcast ""
+
+command /강화성공확률지정 <text>:
+    permission: op
+    trigger:
+        set {_num} to arg-1 parsed as number
+        set {testProbability} to {_num}
+        send "&a[✔] 강화 성공 확률이 %{testProbability}%&a로 설정되었습니다." to player
+
+
+command /테스트강화:
+    permission: op
+    trigger:
+        if {testProbability} is not set:
+            send "&c[✘] 확률이 설정되지 않았습니다. /강화성공확률지정 (예: 55.7)" to player
+        else:
+            set {_random} to random number between 0 and 100
+            send "&7[DEBUG] 랜덤 값: %{_random}% / 설정된 확률: %{testProbability}%" to player
+            if {_random} <= {testProbability}:
+                send "&a[✔] 강화 성공!" to player
+            else:
+                send "&c[✘] 강화 실패..." to player
+
