@@ -27,11 +27,20 @@ command /테스트강화:
     trigger:
         if {testProbability} is not set:
             send "&c[✘] 확률이 설정되지 않았습니다. /강화성공확률지정 (예: 55.7)" to player
+            stop
+        else if {tryCount} is not set:
+            set {tryCount} to 0
+        set {_random} to random number between 0 and 100
+        add 1 to {tryCount}
+        send "&7[DEBUG] 랜덤 값: %{_random}% / 설정된 확률: %{testProbability}% / 시도횟수: %{tryCount}%" to player
+        if {_random} <= {testProbability}:
+            send "&a[✔] 강화 성공!" to player
         else:
-            set {_random} to random number between 0 and 100
-            send "&7[DEBUG] 랜덤 값: %{_random}% / 설정된 확률: %{testProbability}%" to player
-            if {_random} <= {testProbability}:
-                send "&a[✔] 강화 성공!" to player
-            else:
-                send "&c[✘] 강화 실패..." to player
+            send "&c[✘] 강화 실패..." to player
+
+command /횟수초기화:
+    permission: op
+    trigger:
+        set {tryCount} to 0
+        send "&c[✔] 시도 횟수가 초기화되었습니다." to player
 
