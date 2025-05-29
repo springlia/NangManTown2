@@ -42,10 +42,8 @@ on inventory click:
 					play sound "block.note_block.bell"
 					send "&7[관리모드] &6&l[선물함] &e%player% &f-> &a%{targetPlayer::%player%}% &f보낸 아이템 : %item in slot 22 of event-inventory%" to console
 					delete {targetPlayer::%player%}
-					
 
-			clicked slot is 0 or 1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 10 or 11 or 12 or 13 or 14 or 15 or 16 or 17 or 18 or 19 or 20 or 21 or 23 or 24 or 25 or 26 or 27 or 28 or 29 or 30 or 31 or 32 or 33 or 34 or 35 or 36 or 37 or 38 or 39 or 41 or 42 or 43 or 44:
-				cancel event
+			cancel event
 
 	if name of event-inventory is "나의 선물함":
 		cancel event
