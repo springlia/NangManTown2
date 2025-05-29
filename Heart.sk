@@ -1,3 +1,27 @@
-﻿command /호감도:
+import:
+	dev.lone.itemsadder.api.ItemsAdder
+
+command /셋팅:
 	trigger:
-		send "" to player
+		set {alexi} to ItemsAdder.getCustomItem("customitem:alexi_head")
+		set {rona} to ItemsAdder.getCustomItem("customitem:rona_head")
+		set {edmund} to ItemsAdder.getCustomItem("customitem:edmund_head")
+		set {aiden} to ItemsAdder.getCustomItem("customitem:aiden_head")
+		set {mir} to ItemsAdder.getCustomItem("customitem:mir_head")
+
+command /호감도:
+	trigger:
+		set {_heartGUI} to chest inventory with 6 rows named "호감도 목록 (%{_haertPage}%/3)"
+
+		set slot 45 of {_heartGUI} to {last} named "&b&l◀"
+		set slot 53 of {_heartGUI} to {next} named "&b&l▶"
+
+		set slot 0 of {_heartGUI} to {alexi} named "&b&l▶"
+		set slot 9 of {_heartGUI} to {rona} named "&b&l▶"
+		set slot 18 of {_heartGUI} to {edmund} named "&b&l▶"
+		set slot 27 of {_heartGUI} to {aiden} named "&b&l▶"
+		set slot 36 of {_heartGUI} to {mir} named "&b&l▶"
+
+		open {_heartGUI} to player
+
+
