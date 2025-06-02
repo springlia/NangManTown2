@@ -21,6 +21,11 @@ command /셋팅:
 		set {mina} to ItemsAdder.getCustomItem("customitem:mina_head")
 		set {rona} to ItemsAdder.getCustomItem("customitem:rona_head")
 		set {rosalyn} to ItemsAdder.getCustomItem("customitem:rosalyn_head")
+		set {mir} to ItemsAdder.getCustomItem("customitem:mir_head")
+
+		set {empty} to ItemsAdder.getCustomItem("customitem:empty")
+		set {full} to ItemsAdder.getCustomItem("customitem:full")
+
 
 command /호감도 [<number>]:
 	trigger:
@@ -36,6 +41,33 @@ command /호감도 [<number>]:
 			set slot 27 of {_heartGUI} to {belin} named "&a벨린"
 			set slot 36 of {_heartGUI} to {seira} named "&a세이라"
 
+			#set slot {_i} of {_heartGUI} to {full} named "&d♥"
+
+			set {_i} to 1
+			while {_i} < 9:
+				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
+				add 1 to {_i}
+
+			set {_i} to 10
+			while {_i} < 18:
+				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
+				add 1 to {_i}
+
+			set {_i} to 19
+			while {_i} < 27:
+				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
+				add 1 to {_i}	
+
+			set {_i} to 28
+			while {_i} < 36:
+				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
+				add 1 to {_i}
+
+			set {_i} to 37
+			while {_i} < 45:
+				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
+				add 1 to {_i}
+
 			open {_heartGUI} to player
 
 		else if arg-1 is 3:
@@ -44,7 +76,7 @@ command /호감도 [<number>]:
 			set slot 45 of {_heartGUI} to {last} named "&b&l◀"
 			set slot 53 of {_heartGUI} to {next} named "&b&l▶"
 
-			set slot 0 of {_heartGUI} to {yerin} named "&a알렉시"
+			set slot 0 of {_heartGUI} to {alexi} named "&a알렉시"
 			set slot 9 of {_heartGUI} to {zeke} named "&e지크"
 			set slot 18 of {_heartGUI} to {adrian} named "&e에드리안"
 			set slot 27 of {_heartGUI} to {mina} named "&e미나"
@@ -59,13 +91,40 @@ command /호감도 [<number>]:
 			set slot 53 of {_heartGUI} to {next} named "&b&l▶"
 
 			set slot 0 of {_heartGUI} to {rona} named "&c로나"
-			set slot 9 of {_heartGUI} to {kara} named "&c카라라"
+			set slot 9 of {_heartGUI} to {kara} named "&c카라"
 			set slot 18 of {_heartGUI} to {edmund} named "&c에드먼드"
 			set slot 27 of {_heartGUI} to {aiden} named "&b에이든"
 			set slot 36 of {_heartGUI} to {mir} named "&b미르"
 
 			open {_heartGUI} to player
 
+on inventory click:
+	event-inventory's name is "호감도 목록 (1/3)":
+		cancel event
+		event-inventory is player's inventory:
+			stop
+		clicked slot is 45:
+			execute player command "/호감도 3"
+		clicked slot is 53:
+			execute player command "/호감도 2"
+
+	event-inventory's name is "호감도 목록 (2/3)":
+		cancel event
+		event-inventory is player's inventory:
+			stop
+		clicked slot is 45:
+			execute player command "/호감도 1"
+		clicked slot is 53:
+			execute player command "/호감도 3"
+
+	event-inventory's name is "호감도 목록 (3/3)":
+		cancel event
+		event-inventory is player's inventory:
+			stop
+		clicked slot is 45:
+			execute player command "/호감도 2"
+		clicked slot is 53:
+			execute player command "/호감도 1"
 
 
 
