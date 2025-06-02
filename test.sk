@@ -44,3 +44,9 @@ command /횟수초기화:
         set {tryCount} to 0
         send "&c[✔] 시도 횟수가 초기화되었습니다." to player
 
+command /skrl:
+    permission: op
+    trigger:
+        broadcast "&a[!] &f관리자가 스크립트를 리로드했습니다! &7[ 관리자 : %player% ]"
+        execute console command "skript reload all"
+        send "&a[✔] 모든 스크립트를 리로드했습니다." to player
