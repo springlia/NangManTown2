@@ -44,7 +44,6 @@ on right click:
 				set {whatLocker::%player%} to "%{_locker}%"
 				exit loop
 
-
 		if {whatLocker::%player%} is not set:
 			cancel event
 		else:
@@ -63,6 +62,8 @@ on right click:
 					send "<ttp:클릭 시 사물함의 주인이 되기를 포기합니다.><cmd:/player_no>&c&l[▶] &f아니, 싫어.<reset>" to player
 					send "" to player
 					set {락커선택지오픈::%player%} to true	
+					set {tempLocker::%player%} to {whatLocker::%player%}
+					delete {whatLocker::%player%}
 
 				else:
 					send ":npc: &e&l마법의 사물함&f: 안녕, 난 &e%{%{whatLocker::%player%}%_Owner}%&f의 사물함이야." to player
@@ -228,11 +229,11 @@ command /player_yes:
 			if {nowHaveLocker::%player%} is true:
 				send ":npc: &e&l마법의 사물함&f: 어, 근데 너 이미 다른 사물함의 주인이잖아? 안돼안돼~ 사물함은 한 명 당 하나씩!" to player
 			else:
-				set {%{whatLocker::%player%}%_Owner} to player's name
+				set {%{tempLocker::%player%}%_Owner} to player's name
 				send ":npc: &e&l마법의 사물함&f: 그래그래! 그럼 앞으로 잘 부탁해~" to player
 				set {nowHaveLocker::%player%} to true
 			delete {락커선택지오픈::%player%}
-			delete {whatLocker::%player%}
+			delete {tempLocker::%player%}
 
 command /player_no:
 	trigger:
