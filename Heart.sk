@@ -23,9 +23,13 @@ command /셋팅:
 		set {rosalyn} to ItemsAdder.getCustomItem("customitem:rosalyn_head")
 		set {mir} to ItemsAdder.getCustomItem("customitem:mir_head")
 
-		set {empty} to ItemsAdder.getCustomItem("customitem:empty")
-		set {full} to ItemsAdder.getCustomItem("customitem:full")
+		set {empty} to ItemsAdder.getCustomItem("customitem:likeability_no")
+		set {full} to ItemsAdder.getCustomItem("customitem:likeability")
 
+command /테스트:
+	permission: op
+	trigger:
+		set {empty} to player's tool
 
 command /호감도 [<number>]:
 	trigger:
@@ -82,6 +86,31 @@ command /호감도 [<number>]:
 			set slot 27 of {_heartGUI} to {mina} named "&e미나"
 			set slot 36 of {_heartGUI} to {doli} named "&e돌이"
 
+			set {_i} to 1
+			while {_i} < 9:
+				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
+				add 1 to {_i}
+
+			set {_i} to 10
+			while {_i} < 18:
+				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
+				add 1 to {_i}
+
+			set {_i} to 19
+			while {_i} < 27:
+				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
+				add 1 to {_i}	
+
+			set {_i} to 28
+			while {_i} < 36:
+				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
+				add 1 to {_i}
+
+			set {_i} to 37
+			while {_i} < 45:
+				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
+				add 1 to {_i}
+
 			open {_heartGUI} to player
 
 		else:
@@ -96,6 +125,32 @@ command /호감도 [<number>]:
 			set slot 27 of {_heartGUI} to {aiden} named "&b에이든"
 			set slot 36 of {_heartGUI} to {mir} named "&b미르"
 
+
+			set {_i} to 1
+			while {_i} < 9:
+				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
+				add 1 to {_i}
+
+			set {_i} to 10
+			while {_i} < 18:
+				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
+				add 1 to {_i}
+
+			set {_i} to 19
+			while {_i} < 27:
+				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
+				add 1 to {_i}	
+
+			set {_i} to 28
+			while {_i} < 36:
+				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
+				add 1 to {_i}
+
+			set {_i} to 37
+			while {_i} < 45:
+				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
+				add 1 to {_i}
+				
 			open {_heartGUI} to player
 
 on inventory click:
