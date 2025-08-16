@@ -1,0 +1,43 @@
+﻿
+command /워프테스트:
+	trigger:
+		set {_warpGUI} to chest inventory with 6 rows named ":offset_-8::sekai:"
+
+		set slot 1 of {_warpGUI} to {voidItem} named "&b&l데피스&f로 이동하기"
+		set slot 2 of {_warpGUI} to {voidItem} named "&b&l데피스&f로 이동하기"
+		set slot 10 of {_warpGUI} to {voidItem} named "&b&l데피스&f로 이동하기"
+		set slot 11 of {_warpGUI} to {voidItem} named "&b&l데피스&f로 이동하기"
+
+		set slot 7 of {_warpGUI} to {voidItem} named "&c&l네더&f로 이동하기"
+		set slot 8 of {_warpGUI} to {voidItem} named "&c&l네더&f로 이동하기"
+		set slot 16 of {_warpGUI} to {voidItem} named "&c&l네더&f로 이동하기"
+		set slot 17 of {_warpGUI} to {voidItem} named "&c&l네더&f로 이동하기"
+
+		set slot 22 of {_warpGUI} to {voidItem} named "&d&l아르카나&f로 이동하기"
+		set slot 23 of {_warpGUI} to {voidItem} named "&d&l아르카나&f로 이동하기"
+		set slot 31 of {_warpGUI} to {voidItem} named "&d&l아르카나&f로 이동하기"
+		set slot 32 of {_warpGUI} to {voidItem} named "&d&l아르카나&f로 이동하기"
+
+		set slot 27 of {_warpGUI} to {voidItem} named "&5&l엔더&f로 이동하기"
+		set slot 28 of {_warpGUI} to {voidItem} named "&5&l엔더&f로 이동하기"
+		set slot 36 of {_warpGUI} to {voidItem} named "&5&l엔더&f로 이동하기"
+		set slot 37 of {_warpGUI} to {voidItem} named "&5&l엔더&f로 이동하기"
+
+		set slot 39 of {_warpGUI} to {voidItem} named "&a&l에메이브&f로 이동하기"
+		set slot 40 of {_warpGUI} to {voidItem} named "&a&l에메이브&f로 이동하기"
+		set slot 48 of {_warpGUI} to {voidItem} named "&a&l에메이브&f로 이동하기"
+		set slot 49 of {_warpGUI} to {voidItem} named "&a&l에메이브&f로 이동하기"
+
+		set slot 42 of {_warpGUI} to {voidItem} named "&7&l아스탈&f로 이동하기"
+		set slot 43 of {_warpGUI} to {voidItem} named "&a&l아스탈&f로 이동하기"
+		set slot 51 of {_warpGUI} to {voidItem} named "&a&l아스탈&f로 이동하기"
+		set slot 52 of {_warpGUI} to {voidItem} named "&a&l아스탈&f로 이동하기"
+
+		open {_warpGUI} to player
+
+command /setitem [<string>]:
+	permission: op
+    trigger:
+        set {%arg 1%} to player's tool
+
+

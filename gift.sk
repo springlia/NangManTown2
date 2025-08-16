@@ -28,7 +28,7 @@ command /선물 [<offlineplayer>]:
 
 on inventory click:
 	if name of event-inventory contains "선물 보내기":
-		event-inventory is not player's inventory:
+		event-inventory is not player's inventory:	
 			clicked slot is 40:
 				if size of {%player%giftbox::*} is 27:
 					send "&e&l%{targetPlayer::%player%}%&c님의 선물함에 선물을 보낼 수 없습니다." to player
@@ -42,8 +42,8 @@ on inventory click:
 					play sound "block.note_block.bell"
 					send "&7[관리모드] &6&l[선물함] &e%player% &f-> &a%{targetPlayer::%player%}% &f보낸 아이템 : %item in slot 22 of event-inventory%" to console
 					delete {targetPlayer::%player%}
-
-			cancel event
+			clicked slot is 0 or 1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 10 or 11 or 12 or 13 or 14 or 15 or 16:
+				cancel event
 
 	if name of event-inventory is "나의 선물함":
 		cancel event

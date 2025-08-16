@@ -7,6 +7,37 @@
 		loop all players:
 			play sound "block.end_portal.spawn" to loop-player
 
+
+command /관리자명령어_도움말:
+    permission: op
+    trigger:
+        send "/tr : 쓰레기통 (임시)" to player
+        send "/관리자명령어_ : 까지 하면 자동완성으로 쫘라락~ " to player
+        send "/테스트강화 , /강화성공확률지정 (값) , /횟수초기화: 강화 테스트용" to player
+        send "/world spawn , /warp newbuild : 스폰 월드로 감" to player
+        send "/world dungun : 던전 월드로 감" to player
+        send "/world world , /spawn : 테스트월드로 감" to player
+        send "&7흠 더있나?" to player
+
+command /tr:
+    permission: op
+    trigger:
+        set {_tr} to chest inventory with 6 rows named "쓰레기통"
+        open {_tr} to player
+
+command /메세지테스트:
+    permission: op
+    trigger:
+        broadcast "&f들&k리&f나요...?"
+        wait 1 seconds
+        broadcast "&f도&k와주&f세요..."
+        wait 1 seconds
+        broadcast "&f빛도 어&k둠도&f 존&k재하&f지 &k않&f는"
+        wait 1 seconds
+        broadcast "&f이 공&k허 속&f에서..."
+        wait 1 seconds
+        broadcast "&f나&k의 꿈&f을..."
+
 command /후원1000 <text>:
 	permission: op
 	trigger:
