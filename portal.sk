@@ -29,9 +29,9 @@ command /워프테스트:
 		set slot 49 of {_warpGUI} to {voidItem} named "&a&l에메이브&f로 이동하기"
 
 		set slot 42 of {_warpGUI} to {voidItem} named "&7&l아스탈&f로 이동하기"
-		set slot 43 of {_warpGUI} to {voidItem} named "&a&l아스탈&f로 이동하기"
-		set slot 51 of {_warpGUI} to {voidItem} named "&a&l아스탈&f로 이동하기"
-		set slot 52 of {_warpGUI} to {voidItem} named "&a&l아스탈&f로 이동하기"
+		set slot 43 of {_warpGUI} to {voidItem} named "&7&l아스탈&f로 이동하기"
+		set slot 51 of {_warpGUI} to {voidItem} named "&7&l아스탈&f로 이동하기"
+		set slot 52 of {_warpGUI} to {voidItem} named "&7&l아스탈&f로 이동하기"
 
 		open {_warpGUI} to player
 
