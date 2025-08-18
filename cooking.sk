@@ -51,12 +51,17 @@ on inventory click:
 		clicked slot is 39:
 			remove 1 of {tomato} from player
 			remove 1 of {cabage} from player
+			add {tomato} to {useCook::%player%::*}
+			add {cabage} to {useCook::%player%::*}
 			Cooking(player)
 
 		clicked slot is 41:
 			send "&c요리가 취소되었습니다." to player
+			loop {useCook::%player%::*}:
+				give loop-value to player
 			set {stopCook::%player%} to true
 			delete {nowCook::%player%}
+			delete {useCook::%player%::*}
 			close player's inventory
 
 	if name of event-inventory is "요리 완성":
