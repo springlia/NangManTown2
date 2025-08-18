@@ -1,0 +1,87 @@
+﻿
+command /요리:
+	permission: op
+	trigger:
+		set {_cookGUI} to chest inventory with 6 rows named "요리 레시피"
+
+		set {_i} to 0
+		while {_i} < 9:
+			set slot {_i} of {_cookGUI} to white stained glass pane named "&f"
+			add 1 to {_i}
+
+		set {_i} to 45
+		while {_i} < 54:
+			set slot {_i} of {_cookGUI} to white stained glass pane named "&f"
+			add 1 to {_i}		
+
+		##요리 레시피##
+		set slot 9 of {_cookGUI} to {salad} named "&a&l샐러드" with lore "&7=== 필요 재료 ===" and "&f- 토마토 &ex1" and "&f- 양배추 &ex1"
+
+		open {_cookGUI} to player
+
+on inventory click:
+	if name of event-inventory is "요리 레시피":
+
+		set {_cookingGUI} to chest inventory with 6 rows named "요리하기"
+		set slot 39 of {_cookingGUI} to lime wool named "&a요리 시작"
+		set slot 41 of {_cookingGUI} to red wool named "&c요리 취소"
+
+		set {_i} to 28
+		while {_i} < 35:
+			set slot {_i} of {_cookingGUI} to gray stained glass pane named "&f"
+			add 1 to {_i}	
+
+		cancel event
+
+		clicked slot is 9:
+			set slot 13 of {_cookingGUI} to {salad} named "&a&l샐러드"
+			set {nowCook::%player%} to {salad}
+			open {_cookingGUI} to player
+
+	if name of event-inventory is "요리하기":
+		cancel event
+
+		clicked slot is 39:
+			Cooking(player)
+
+		clicked slot is 41:
+			send "&c요리가 취소되었습니다." to player
+			##진행중인 Cooking 함수 취소
+			delete {nowCook::%player%}
+			close player's inventory
+
+	if name of event-inventory is "요리 완성":
+		clicked slot is 0 or 1 or 2 or 3 or 5 or 6 or 7 or 8:
+			cancel event
+
+function Cooking(player: player):
+	send "&a요리 진행 중..." to {_player}
+	wait 1 seconds
+	set slot 28 of {_player}'s current inventory to lime stained glass pane named "&f"
+	wait 1 seconds
+	set slot 29 of {_player}'s current inventory to lime stained glass pane named "&f"
+	wait 1 seconds
+	set slot 30 of {_player}'s current inventory to lime stained glass pane named "&f"
+	wait 1 seconds
+	set slot 31 of {_player}'s current inventory to lime stained glass pane named "&f"
+	wait 1 seconds
+	set slot 32 of {_player}'s current inventory to lime stained glass pane named "&f"
+	wait 1 seconds
+	set slot 33 of {_player}'s current inventory to lime stained glass pane named "&f"
+	wait 1 seconds
+	set slot 34 of {_player}'s current inventory to lime stained glass pane named "&f"
+	wait 1 seconds
+	play sound "entity.experience_orb.pickup" with pitch 1.2 to {_player}
+
+
+	set {_giveCook} to chest inventory with 1 rows named "요리 완성"
+
+	set {_i} to 0
+	while {_i} < 9:
+		set slot {_i} of {_giveCook} to gray stained glass pane named "&f"
+		add 1 to {_i}	
+
+	set slot 4 of {_giveCook} to {nowCook::%{_player}%}
+	open {_giveCook} to {_player}
+
+	send "&7[로그] %{_player}%님이 요리를 완성했습니다. 완성된 요리: %{nowCook::%{_player}%}%" to console
