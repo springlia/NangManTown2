@@ -17,6 +17,8 @@ command /요리:
 		##요리 레시피##
 		set slot 9 of {_cookGUI} to {salad} named "&a&l샐러드" with lore "&7=== 필요 재료 ===" and "&f- 토마토 &ex1" and "&f- 양배추 &ex1"
 
+		##다른 요리들##
+
 		open {_cookGUI} to player
 
 on inventory click:
@@ -35,8 +37,11 @@ on inventory click:
 
 		clicked slot is 9:
 			set slot 13 of {_cookingGUI} to {salad} named "&a&l샐러드"
-			set {nowCook::%player%} to {salad}
-			open {_cookingGUI} to player
+			if check [player has 1 of {tomato}]->[player has 1 of {cabage}]:
+				set {nowCook::%player%} to {salad}
+				open {_cookingGUI} to player
+			else:
+				send "&c재료가 부족합니다." to player
 
 		##다른 음식들##
 
@@ -44,6 +49,8 @@ on inventory click:
 		cancel event
 
 		clicked slot is 39:
+			remove 1 of {tomato} from player
+			remove 1 of {cabage} from player
 			Cooking(player)
 
 		clicked slot is 41:
