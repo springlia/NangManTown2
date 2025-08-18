@@ -38,8 +38,8 @@ command /워프:
 
 command /setitem [<string>]:
 	permission: op
-    trigger:
-        set {%arg 1%} to player's tool
+	trigger:
+		set {%arg 1%} to player's tool
 
 on inventory click:
 	if name of event-inventory is ":offset_-8::sekai:":
