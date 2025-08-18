@@ -96,3 +96,4 @@ function Cooking(player: player):
 
 	send "&7[로그] %{_player}%님이 요리를 완성했습니다. 완성된 요리: %{nowCook::%{_player}%}%" to console
 	delete {nowCook::%{_player}%}
+	delete {useCook::%{_player}%::*}
