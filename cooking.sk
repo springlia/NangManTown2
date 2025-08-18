@@ -2,27 +2,17 @@
 command /요리:
 	permission: op
 	trigger:
-		set {_cookGUI} to chest inventory with 6 rows named "요리 레시피"
-
-		set {_i} to 0
-		while {_i} < 9:
-			set slot {_i} of {_cookGUI} to white stained glass pane named "&f"
-			add 1 to {_i}
-
-		set {_i} to 45
-		while {_i} < 54:
-			set slot {_i} of {_cookGUI} to white stained glass pane named "&f"
-			add 1 to {_i}		
+		set {_cookGUI} to chest inventory with 6 rows named ":offset_-8::recipe:"	
 
 		##요리 레시피##
-		set slot 9 of {_cookGUI} to {salad} named "&a&l샐러드" with lore "&7=== 필요 재료 ===" and "&f- 토마토 &ex1" and "&f- 양배추 &ex1"
+		set slot 10 of {_cookGUI} to {salad} named "&a&l샐러드" with lore "&7=== 필요 재료 ===" and "&f- 토마토 &ex1" and "&f- 양배추 &ex1"
 
 		##다른 요리들##
 
 		open {_cookGUI} to player
 
 on inventory click:
-	if name of event-inventory is "요리 레시피":
+	if name of event-inventory is ":offset_-8::recipe:":
 
 		set {_cookingGUI} to chest inventory with 6 rows named "요리하기"
 		set slot 39 of {_cookingGUI} to lime wool named "&a요리 시작"
@@ -35,7 +25,7 @@ on inventory click:
 
 		cancel event
 
-		clicked slot is 9:
+		clicked slot is 10:
 			set slot 13 of {_cookingGUI} to {salad} named "&a&l샐러드"
 			if check [player has 1 of {tomato}]->[player has 1 of {cabage}]:
 				set {nowCook::%player%} to {salad}
