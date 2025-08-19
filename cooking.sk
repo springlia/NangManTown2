@@ -84,8 +84,10 @@ function Cooking(player: player):
 	send "&a요리 진행 중..." to {_player}
 
 	set {_i} to 28
+	set {_w} to 1
 	while {_i} < 35:
-		wait 1 seconds
+		set {_neww} to "%{_w}% seconds" parsed as timespan
+		wait {_neww}
 		set slot {_i} of {_player}'s current inventory to lime stained glass pane named "&f"
 		
 
