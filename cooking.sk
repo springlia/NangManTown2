@@ -56,16 +56,20 @@ on inventory click:
 				send "&c이미 요리 중입니다." to player
 
 		clicked slot is 41:
-			set {stopCook::%player%} to true
-			send "&c요리가 취소되었습니다." to player
-			loop {useCook::%player%::*}:
-				give loop-value to player
-			delete {nowCook::%player%}
-			delete {useCook::%player%::*}
 			delete {isNowCooking::%player%}
+			send "&c요리가 취소되었습니다." to player
 			close player's inventory
+			set {stopCook::%player%} to true
+			
 
 on inventory close:
+	if name of event-inventory is ":offset_-8::cook:":
+		if check [{isNowCooking::%player%} is set]->[{stopCook::%player%} is not set]:
+			wait 1 tick
+			open event-inventory to player
+			send "&c요리 진행 중에는 인벤토리를 닫을 수 없습니다." to player
+
+
 	if name of event-inventory is ":offset_-8::finish_cook:":
 		set {_backItem} to item in slot 4 of event-inventory
 		if {_backItem} is not air:
@@ -83,14 +87,23 @@ function Cooking(player: player):
 	while {_i} < 35:
 		wait 1 seconds
 		set slot {_i} of {_player}'s current inventory to lime stained glass pane named "&f"
-		play sound "block.brewing_stand.brew" with pitch 1 to {_player}
+		
 
 		if {stopCook::%{_player}%} is true:
+			loop {useCook::%{_player}%::*}:
+				give loop-value to {_player}
+			delete {nowCook::%{_player}%}
+			delete {useCook::%{_player}%::*}
 			delete {stopCook::%{_player}%}
+			wait 1 tick
 			stop
 
-	
+		play sound "block.brewing_stand.brew" with pitch 1 to {_player}
 		add 1 to {_i}
+
+	delete {useCook::%{_player}%::*}
+	delete {isNowCooking::%{_player}%}
+	
 	set {_giveCook} to chest inventory with 1 rows named ":offset_-8::finish_cook:"
 	play sound "entity.experience_orb.pickup" with pitch 1.2 to {_player}
 	set slot 4 of {_giveCook} to {nowCook::%{_player}%}
@@ -98,5 +111,5 @@ function Cooking(player: player):
 
 	send "&7[관리모드] %{_player}%님이 요리를 완성했습니다. 완성된 요리: %{nowCook::%{_player}%}%" to console
 	delete {nowCook::%{_player}%}
-	delete {useCook::%{_player}%::*}
-	delete {isNowCooking::%{_player}%}
+	
+	
