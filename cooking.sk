@@ -14,9 +14,9 @@ command /요리:
 on inventory click:
 	if name of event-inventory is ":offset_-8::recipe:":
 
-		set {_cookingGUI} to chest inventory with 6 rows named "요리하기"
-		set slot 39 of {_cookingGUI} to lime wool named "&a요리 시작"
-		set slot 41 of {_cookingGUI} to red wool named "&c요리 취소"
+		set {_cookingGUI} to chest inventory with 6 rows named ":offset_-8::cook:"
+		set slot 39 of {_cookingGUI} to {voidItem} named "&a요리 시작"
+		set slot 41 of {_cookingGUI} to {voidItem} named "&c요리 취소"
 
 		set {_i} to 28
 		while {_i} < 35:
@@ -32,31 +32,49 @@ on inventory click:
 				open {_cookingGUI} to player
 			else:
 				send "&c재료가 부족합니다." to player
+				play sound "block.note_block.bass" with pitch 0.5 to player
+
 
 		##다른 음식들##
 
-	if name of event-inventory is "요리하기":
+	if name of event-inventory is ":offset_-8::cook:":
 		cancel event
 
 		clicked slot is 39:
-			remove 1 of {tomato} from player
-			remove 1 of {cabage} from player
-			add {tomato} to {useCook::%player%::*}
-			add {cabage} to {useCook::%player%::*}
-			Cooking(player)
+			if {isNowCooking::%player%} is not set:
+				if check [player has 1 of {tomato}]->[player has 1 of {cabage}]:
+					set {isNowCooking::%player%} to true
+					remove 1 of {tomato} from player
+					remove 1 of {cabage} from player
+					add {tomato} to {useCook::%player%::*}
+					add {cabage} to {useCook::%player%::*}
+					Cooking(player)
+				else:
+					send "&c재료가 부족합니다." to player
+					play sound "block.note_block.bass" with pitch 0.5 to player
+			else:
+				send "&c이미 요리 중입니다." to player
 
 		clicked slot is 41:
+			set {stopCook::%player%} to true
 			send "&c요리가 취소되었습니다." to player
 			loop {useCook::%player%::*}:
 				give loop-value to player
-			set {stopCook::%player%} to true
 			delete {nowCook::%player%}
 			delete {useCook::%player%::*}
+			delete {isNowCooking::%player%}
 			close player's inventory
 
-	if name of event-inventory is "요리 완성":
-		clicked slot is 0 or 1 or 2 or 3 or 5 or 6 or 7 or 8:
-			cancel event
+on inventory close:
+	if name of event-inventory is ":offset_-8::finish_cook:":
+		set {_backItem} to item in slot 4 of event-inventory
+		if {_backItem} is not air:
+			if player's inventory can hold {_backItem}:
+				give {_backItem} to player
+			else:
+				send "&c인벤토리에 공간이 없어 아이템을 받을 수 없었습니다. 관리자에게 문의하세요." to player
+				send "&7[관리모드] &6&l[요리] &e%player% &f사라진 아이템 : %{_backItem}%" to console
+
 
 function Cooking(player: player):
 	send "&a요리 진행 중..." to {_player}
@@ -74,16 +92,11 @@ function Cooking(player: player):
 
 	play sound "entity.experience_orb.pickup" with pitch 1.2 to {_player}
 
-	set {_giveCook} to chest inventory with 1 rows named "요리 완성"
-
-	set {_i} to 0
-	while {_i} < 9:
-		set slot {_i} of {_giveCook} to gray stained glass pane named "&f"
-		add 1 to {_i}	
-
+	set {_giveCook} to chest inventory with 1 rows named ":offset_-8::finish_cook:"
 	set slot 4 of {_giveCook} to {nowCook::%{_player}%}
 	open {_giveCook} to {_player}
 
-	send "&7[로그] %{_player}%님이 요리를 완성했습니다. 완성된 요리: %{nowCook::%{_player}%}%" to console
+	send "&7[관리모드] %{_player}%님이 요리를 완성했습니다. 완성된 요리: %{nowCook::%{_player}%}%" to console
 	delete {nowCook::%{_player}%}
 	delete {useCook::%{_player}%::*}
+	delete {isNowCooking::%{_player}%}
