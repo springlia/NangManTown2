@@ -83,16 +83,16 @@ function Cooking(player: player):
 	while {_i} < 35:
 		wait 1 seconds
 		set slot {_i} of {_player}'s current inventory to lime stained glass pane named "&f"
-		
+		play sound "block.brewing_stand.brew" with pitch 1 to {_player}
+
 		if {stopCook::%{_player}%} is true:
 			delete {stopCook::%{_player}%}
 			stop
 
+	
 		add 1 to {_i}
-
-	play sound "entity.experience_orb.pickup" with pitch 1.2 to {_player}
-
 	set {_giveCook} to chest inventory with 1 rows named ":offset_-8::finish_cook:"
+	play sound "entity.experience_orb.pickup" with pitch 1.2 to {_player}
 	set slot 4 of {_giveCook} to {nowCook::%{_player}%}
 	open {_giveCook} to {_player}
 
