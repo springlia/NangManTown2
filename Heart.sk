@@ -45,8 +45,6 @@ command /호감도 [<number>]:
 			set slot 27 of {_heartGUI} to {belin} named "&a벨린"
 			set slot 36 of {_heartGUI} to {seira} named "&a세이라"
 
-			#set slot {_i} of {_heartGUI} to {full} named "&d♥"
-
 			set {_i} to 1
 			while {_i} < 9:
 				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
@@ -125,8 +123,10 @@ command /호감도 [<number>]:
 			set slot 27 of {_heartGUI} to {aiden} named "&b에이든"
 			set slot 36 of {_heartGUI} to {mir} named "&b미르"
 
-
 			set {_i} to 1
+			while {_i} <= {ronaHeart::%uuid of player%}:
+				set slot {_i} of {_heartGUI} to {full} named "&d♥"
+				add 1 to {_i}
 			while {_i} < 9:
 				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
 				add 1 to {_i}
@@ -152,6 +152,34 @@ command /호감도 [<number>]:
 				add 1 to {_i}
 				
 			open {_heartGUI} to player
+
+
+command /관리자명령어_호감도설정 [<offlineplayer>] [<text>] [<number>]:
+	permission: op
+	trigger:
+		if check [arg-1 is not set]->[arg-2 is not set]->[arg-3 is not set]:
+			send "&7[관리모드] 명령어 오류 : 사용법 /관리자명령어_호감도설정 타겟플레이어 NPC이름(변수명) 숫자" to player
+		else:
+			set {_p} to arg-1
+			set {_targetP} to {_p}'s uuid
+			set {_targetN} to arg-2
+			set {%{_targetN}%Heart::%{_targetP}%} to arg-3
+			send "&7[관리모드] %{_p}%(%{_targetP}%)님의 %{_targetN}% 호감도가 %{%{_targetN}%Heart::%{_targetP}%}% 로 설정되었습니다." to player
+
+command /관리자명령어_호감도추가 [<offlineplayer>] [<text>] [<number>]:
+	permission: op
+	trigger:
+		if check [arg-1 is not set]->[arg-2 is not set]:
+			send "&7[관리모드] 명령어 오류 : 사용법 /관리자명령어_호감도추가 타겟플레이어 NPC이름(변수명) 숫자" to player
+		else:
+			set {_p} to arg-1
+			set {_targetP} to {_p}'s uuid
+			set {_targetN} to arg-2
+			if {%{_targetN}%Heart::%{_targetP}%} is 8:
+				send "&7[관리모드] %{_p}%(%{_targetP}%)님의 %{_targetN}% 호감도가 %{%{_targetN}%Heart::%{_targetP}%}% 로 설정되었습니다." to player
+			else:
+				add arg-3 to {%{_targetN}%Heart::%{_targetP}%}
+				send "&7[관리모드] %{_p}%(%{_targetP}%)님의 %{_targetN}% 호감도가 %{%{_targetN}%Heart::%{_targetP}%}% 로 설정되었습니다." to player
 
 on inventory click:
 	event-inventory's name is "호감도 목록 (1/3)":
