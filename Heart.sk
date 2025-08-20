@@ -84,27 +84,47 @@ command /호감도 [<number>]:
 			set slot 27 of {_heartGUI} to {mina} named "&e미나"
 			set slot 36 of {_heartGUI} to {doli} named "&e돌이"
 
+			#알렉시
 			set {_i} to 1
+			while {_i} <= {alexiHeart::%uuid of player%}:
+				set slot {_i} of {_heartGUI} to {full} named "&d♥"
+				add 1 to {_i}
 			while {_i} < 9:
 				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
 				add 1 to {_i}
 
+			#지크
 			set {_i} to 10
+			while {_i} < 10 + {zekeHeart::%uuid of player%}:
+				set slot {_i} of {_heartGUI} to {full} named "&d♥"
+				add 1 to {_i}
 			while {_i} < 18:
 				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
 				add 1 to {_i}
 
+			#에드리안
 			set {_i} to 19
+			while {_i} < 19 + {adrianHeart::%uuid of player%}:
+				set slot {_i} of {_heartGUI} to {full} named "&d♥"
+				add 1 to {_i}
 			while {_i} < 27:
 				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
-				add 1 to {_i}	
+				add 1 to {_i}
 
+			#미나
 			set {_i} to 28
+			while {_i} < 28 + {minaHeart::%uuid of player%}:
+				set slot {_i} of {_heartGUI} to {full} named "&d♥"
+				add 1 to {_i}
 			while {_i} < 36:
 				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
 				add 1 to {_i}
 
+			#돌이
 			set {_i} to 37
+			while {_i} < 37 + {doliHeart::%uuid of player%}:
+				set slot {_i} of {_heartGUI} to {full} named "&d♥"
+				add 1 to {_i}
 			while {_i} < 45:
 				set slot {_i} of {_heartGUI} to {empty} named "&7♡"
 				add 1 to {_i}
@@ -134,7 +154,7 @@ command /호감도 [<number>]:
 
 			#카라
 			set {_i} to 10
-			while {_i} < 10+ {karaHeart::%uuid of player%}:
+			while {_i} < 10 + {karaHeart::%uuid of player%}:
 				set slot {_i} of {_heartGUI} to {full} named "&d♥"
 				add 1 to {_i}
 			while {_i} < 18:
