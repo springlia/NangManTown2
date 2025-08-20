@@ -14,10 +14,10 @@ command /워프:
 		set slot 16 of {_warpGUI} to {voidItem} named "&c&l네더&f로 이동하기" with lore "&7- 네더 던전"
 		set slot 17 of {_warpGUI} to {voidItem} named "&c&l네더&f로 이동하기" with lore "&7- 네더 던전"
 
-		set slot 22 of {_warpGUI} to {voidItem} named "&d&l아르카나&f로 이동하기" with lore "&7- 마법학교 아르카나"
-		set slot 23 of {_warpGUI} to {voidItem} named "&d&l아르카나&f로 이동하기" with lore "&7- 마법학교 아르카나"
-		set slot 31 of {_warpGUI} to {voidItem} named "&d&l아르카나&f로 이동하기" with lore "&7- 마법학교 아르카나"
-		set slot 32 of {_warpGUI} to {voidItem} named "&d&l아르카나&f로 이동하기" with lore "&7- 마법학교 아르카나"
+		set slot 22 of {_warpGUI} to {voidItem} named "&d&l에테리온&f으로 이동하기" with lore "&7- 마법학교 에테리온"
+		set slot 23 of {_warpGUI} to {voidItem} named "&d&l에테리온&f으로 이동하기" with lore "&7- 마법학교 에테리온"
+		set slot 31 of {_warpGUI} to {voidItem} named "&d&l에테리온&f으로 이동하기" with lore "&7- 마법학교 에테리온"
+		set slot 32 of {_warpGUI} to {voidItem} named "&d&l에테리온&f으로 이동하기" with lore "&7- 마법학교 에테리온"
 
 		set slot 27 of {_warpGUI} to {voidItem} named "&5&l엔더&f로 이동하기" with lore "&7-엔더 던전"
 		set slot 28 of {_warpGUI} to {voidItem} named "&5&l엔더&f로 이동하기" with lore "&7-엔더 던전"
@@ -51,8 +51,8 @@ on inventory click:
 			send "&c&l네더&f로 이동합니다." to player
 			execute console command "/warp 네더 %player%"
 		clicked slot is 22 or 23 or 31 or 32:
-			send "&f&l마법학교 &d&l아르카나&f로 이동합니다." to player
-			execute console command "/warp 아르카나 %player%"
+			send "&f&l마법학교 &d&l에테리온&f으로 이동합니다." to player
+			execute console command "/warp 에테리온 %player%"
 		clicked slot is 27 or 28 or 36 or 37:
 			send "&5&l엔더&f로 이동합니다." to player	
 			execute console command "/warp 엔더 %player%"
