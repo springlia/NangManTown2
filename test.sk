@@ -81,3 +81,30 @@ command /skrl:
         broadcast "&a[!] &f관리자가 스크립트를 리로드했습니다! &7[ 관리자 : %player% ]"
         execute console command "skript reload all"
         send "&a[✔] 모든 스크립트를 리로드했습니다." to player
+
+
+command /데미지테스트 [<number>] [<number>]:
+    permission: op
+    trigger:
+        set {_base} to arg-1
+        set {_level} to arg-2
+        set {_dmg} to upgradeDamage({_base},{_level})
+        send "기본 공격력: %{_base}%, 강화: %{_level}%, 최종 데미지: %{_dmg}%" to player
+
+function upgradeDamage(base: number, level: number) :: number:
+    set {_a} to {_base} * {_level}
+    set {_b} to {_base} * ({_level} - 3)
+    set {_c} to {_base} * ({_level} - 6)
+
+    set {_m1} to max({_a}, {_b})
+    set {_m2} to max({_m1}, {_c})
+
+    return {_m2}
+
+command /계산:
+    trigger:
+        set {_n} to 10/3
+        set {_d} to floor({_n})
+        set {_p} to 10 mod 3
+        send "계산: %{_n}%, 몫: %{_d}%, 나머지: %{_p}%" to player
+    #계산: 3.33, 몫:3, 나머지: 1
