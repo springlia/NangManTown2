@@ -1,4 +1,18 @@
-﻿command /내정보:
+﻿command /프로필:
+	trigger:
+		set {_profile} to chest inventory with 6 rows named "프로필"
+		set slot 28 of {_profile} to skull of player named "&d&l%player%"
+		set slot 19 of {_profile} to {empty} named "&e%{myIntro::%player%}%"
+		set slot 12 of {_profile} to {empty} named "&c성적"
+		set slot 13 of {_profile} to {empty} named "&c성적"
+		set slot 14 of {_profile} to {empty} named "&6학년"
+		set slot 15 of {_profile} to {empty} named "&6학년"
+		set slot 16 of {_profile} to {empty} named "&e직업"
+		set slot 17 of {_profile} to {empty} named "&e직업"
+		
+
+
+command /내정보:
 	trigger:
 		set {_profileGUI} to chest inventory with 6 rows named "나의 프로필"
 
