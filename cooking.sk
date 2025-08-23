@@ -1,4 +1,7 @@
-﻿command /요리셋팅:
+﻿import:
+	dev.lone.itemsadder.api.ItemsAdder
+
+command /요리셋팅:
 	permission: op
 	trigger:
 		set {beehive_waffle} to ItemsAdder.getCustomItem("magicfood:beehive_waffle")
@@ -61,34 +64,24 @@ command /요리:
 		set {_cookGUI} to chest inventory with 6 rows named ":offset_-8::recipe:"	
 
 		##요리 레시피##
-		set slot 10 of {_cookGUI} to {salad} named "&a&l샐러드" with lore "&7=== 필요 재료 ===" and "&f- 토마토 &ex1" and "&f- 양배추 &ex1"
-
-		##다른 요리들##
+		set slot 10 of {_cookGUI} to {beehive_waffle} named "&f&l벌집 와플" with lore "&7=== 필요 재료 ===" and "&f- 벌꿀 &ex1" and "&f- 정글 향신초 &ex1" and "&f- 밀 &ex1"
 
 		open {_cookGUI} to player
 
 on inventory click:
-	if name of event-inventory is ":offset_-8::recipe:":
-
-		set {_cookingGUI} to chest inventory with 6 rows named ":offset_-8::cook:"
-		set slot 39 of {_cookingGUI} to {voidItem} named "&a요리 시작"
-		set slot 41 of {_cookingGUI} to {voidItem} named "&c요리 취소"
-
-		set {_i} to 28
-		while {_i} < 35:
-			set slot {_i} of {_cookingGUI} to gray stained glass pane named "&f"
-			add 1 to {_i}	
-
+	if name of event-inventory is ":offset_-8::recipe:":	
 		cancel event
-
+		#벌집 와플
 		clicked slot is 10:
-			set slot 13 of {_cookingGUI} to {salad} named "&a&l샐러드"
-			if check [player has 1 of {tomato}]->[player has 1 of {cabage}]:
-				set {nowCook::%player%} to {salad}
-				open {_cookingGUI} to player
-			else:
-				send "&c재료가 부족합니다." to player
-				play sound "block.note_block.bass" with pitch 0.5 to player
+			add {honey} to {nowCook::%player%::ingn::*}
+			add {jungle_spice} to {nowCook::%player%::ingn::*}
+			add wheat to {nowCook::%player%::ingn::*}
+			set {nowCook::%player%::target} to {beehive_waffle}
+			openNextGUI(player)
+
+
+
+
 
 
 		##다른 음식들##
@@ -98,16 +91,15 @@ on inventory click:
 
 		clicked slot is 39:
 			if {isNowCooking::%player%} is not set:
-				if check [player has 1 of {tomato}]->[player has 1 of {cabage}]:
-					set {isNowCooking::%player%} to true
-					remove 1 of {tomato} from player
-					remove 1 of {cabage} from player
-					add {tomato} to {useCook::%player%::*}
-					add {cabage} to {useCook::%player%::*}
-					Cooking(player)
-				else:
-					send "&c재료가 부족합니다." to player
-					play sound "block.note_block.bass" with pitch 0.5 to player
+				loop {nowCook::%player%::ingn::*}:
+					if player has 1 of loop-value:
+						remove 1 of loop-value from player
+					else:
+						send "&c재료가 부족합니다." to player
+						play sound "block.note_block.bass" with pitch 0.5 to player
+						stop
+				set {isNowCooking::%player%} to true
+				Cooking(player)		
 			else:
 				send "&c이미 요리 중입니다." to player
 
@@ -135,6 +127,23 @@ on inventory close:
 				send "&c인벤토리에 공간이 없어 아이템을 받을 수 없었습니다. 관리자에게 문의하세요." to player
 				send "&7[관리모드] &6&l[요리] &e%player% &f사라진 아이템 : %{_backItem}%" to console
 
+function openNextGUI(player: player):
+	loop {nowCook::%{_player}%::ingn::*}:
+		if {_player} does not have 1 of loop-value:
+			send "&c재료가 부족합니다." to {_player}
+			delete {nowCook::%{_player}%::ingn::*}
+			delete {nowCook::%{_player}%::target}
+			play sound "block.note_block.bass" with pitch 0.5 to {_player}
+			stop
+	set {_cookingGUI} to chest inventory with 6 rows named ":offset_-8::cook:"
+	set slot 39 of {_cookingGUI} to {voidItem} named "&a요리 시작"
+	set slot 41 of {_cookingGUI} to {voidItem} named "&c요리 취소"
+	set slot 13 of {_cookingGUI} to {nowCook::%{_player}%::target}
+	set {_i} to 28
+	while {_i} < 35:
+		set slot {_i} of {_cookingGUI} to gray stained glass pane named "&f"
+		add 1 to {_i}
+	open {_cookingGUI} to {_player}
 
 function Cooking(player: player):
 	send "&a요리 진행 중..." to {_player}
@@ -148,10 +157,10 @@ function Cooking(player: player):
 		
 
 		if {stopCook::%{_player}%} is true:
-			loop {useCook::%{_player}%::*}:
+			loop {nowCook::%{_player}%::ingn::*}:
 				give loop-value to {_player}
-			delete {nowCook::%{_player}%}
-			delete {useCook::%{_player}%::*}
+			delete {nowCook::%{_player}%::ingn::*}
+			delete {nowCook::%{_player}%::target}
 			delete {stopCook::%{_player}%}
 			wait 1 tick
 			stop
@@ -159,15 +168,15 @@ function Cooking(player: player):
 		play sound "block.brewing_stand.brew" with pitch 1 to {_player}
 		add 1 to {_i}
 
-	delete {useCook::%{_player}%::*}
+	delete {nowCook::%{_player}%::ingn::*}
 	delete {isNowCooking::%{_player}%}
 	
 	set {_giveCook} to chest inventory with 1 rows named ":offset_-8::finish_cook:"
 	play sound "entity.experience_orb.pickup" with pitch 1.2 to {_player}
-	set slot 4 of {_giveCook} to {nowCook::%{_player}%}
+	set slot 4 of {_giveCook} to {nowCook::%{_player}%::target}
 	open {_giveCook} to {_player}
 
-	send "&7[관리모드] %{_player}%님이 요리를 완성했습니다. 완성된 요리: %{nowCook::%{_player}%}%" to console
-	delete {nowCook::%{_player}%}
+	send "&7[관리모드] %{_player}%님이 요리를 완성했습니다. 완성된 요리: %{nowCook::%{_player}%::target}%" to console
+	delete {nowCook::%{_player}%::target}
 	
 	
