@@ -103,8 +103,33 @@ function upgradeDamage(base: number, level: number) :: number:
 
 command /계산:
     trigger:
-        set {_n} to 10/3
+        set {_n} to -1 / 3
         set {_d} to floor({_n})
-        set {_p} to 10 mod 3
+        set {_p} to -1 mod 3
         send "계산: %{_n}%, 몫: %{_d}%, 나머지: %{_p}%" to player
     #계산: 3.33, 몫:3, 나머지: 1
+
+command /타임어택시작:
+    trigger:
+        set {timeattack::%uuid of player%::start} to now
+        send "&a타임어택 시작!" to player
+
+command /타임어택끝:
+    trigger:
+        if {timeattack::%uuid of player%::start} is not set:
+            send "&c타임어택을 시작하지 않았습니다." to player
+            stop
+        set {_start} to {timeattack::%uuid of player%::start}
+        set {_diff} to difference between now and {_start} # timespan
+        send "&e경과 시간: %{_diff}%" to player
+        delete {timeattack::%uuid of player%::start}
+
+command /체력조정:
+    trigger:
+        if level of player = 2:
+            set player's max health to 10
+            set player's health to 10
+            send "&a체력이 10으로 설정되었습니다!"
+        else:
+            send "&7당신의 현재 레벨은 %{level of player}% 입니다."
+
