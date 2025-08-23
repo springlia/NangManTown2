@@ -65,6 +65,23 @@ command /요리:
 
 		##요리 레시피##
 		set slot 10 of {_cookGUI} to {beehive_waffle} named "&f&l벌집 와플" with lore "&7=== 필요 재료 ===" and "&f- 벌꿀 &ex1" and "&f- 정글 향신초 &ex1" and "&f- 밀 &ex1"
+		set slot 11 of {_cookGUI} to {sunroot_pancake} named "&e&l태양 뿌리전" with lore "&7=== 필요 재료 ===" and "&f- 고운 가루 &ex1" and "&f- 태양빛 뿌리 &ex1" and "&f- 정글 향신초 &ex1" and "&f- 밀 &ex1"
+		set slot 12 of {_cookGUI} to {wave_ricebowl} named "&f&l물결 회덮밥" with lore "&7=== 필요 재료 ===" and "&f- 생선살 &ex1" and "&f- 해초가루 &ex1" and "&f- 밀 &ex1"
+		set slot 19 of {_cookGUI} to {sea_pudding} named "&e&l바다 푸딩" with lore "&7=== 필요 재료 ===" and "&f- 심해 젤라틴 &ex1" and "&f- 청안초 소스 &ex1" and "&f- 해초가루 &ex1" and "&f- 설탕 &ex1"
+		set slot 20 of {_cookGUI} to {snowflake_toast} named "&f&l눈꽃 토스트" with lore "&7=== 필요 재료 ===" and "&f- 빙결 허브 &ex1" and "&f- 눈꽃얼음 &ex1" and "&f- 밀 &ex1"
+		set slot 21 of {_cookGUI} to {skewer_dessert} named "&e&l모듬 빙꼬치구이" with lore "&7=== 필요 재료 ===" and "&f- 빙하 고기 &ex1" and "&f- 서리뿔가루 &ex1" and "&f- 눈꽃얼음 &ex1" and "&f- 돼지고기 &ex1"
+		set slot 28 of {_cookGUI} to {lightning_macaron} named "&f&l낙뢰 마카롱" with lore "&7=== 필요 재료 ===" and "&f- 천공결정 &ex1" and "&f- 구름버터 &ex1" and "&f- 설탕 &ex1"
+		set slot 29 of {_cookGUI} to {cloud_souffle} named "&e&l구름 수플레" with lore "&7=== 필요 재료 ===" and "&f- 하늘과자 &ex1" and "&f- 구름 솜사탕 &ex1" and "&f- 천공결정 &ex1" and "&f- 밀 &ex1"
+		set slot 30 of {_cookGUI} to {amethyst_ade} named "&f&l자수정 에이드" with lore "&7=== 필요 재료 ===" and "&f- 수정과즙 &ex1" and "&f- 보석소금 &ex1" and "&f- 설탕 &ex1"
+		set slot 14 of {_cookGUI} to {spirit_ore_set} named "&e&l정령광석 정식" with lore "&7=== 필요 재료 ===" and "&f- 빛의정수 &ex1" and "&f- 수정과즙 &ex1" and "&f- 보석소금 &ex1" and "&f- 밀 &ex1"
+		set slot 15 of {_cookGUI} to {cannon_lunchbox} named "&f&l대포열량 도시락" with lore "&7=== 필요 재료 ===" and "&f- 구리 볶음쌀 &ex1" and "&f- 화약 향신료 &ex1" and "&f- 감자 &ex1"
+		set slot 16 of {_cookGUI} to {shield_porkbelly} named "&e&l방패삼겹살" with lore "&7=== 필요 재료 ===" and "&f- 검은 양념 &ex1" and "&f- 구리판 &ex1" and "&f- 화약 향신료 &ex1" and "&f- 돼지고기 &ex1"
+		set slot 23 of {_cookGUI} to {blue_cookie} named "&f&l감청쿠키" with lore "&7=== 필요 재료 ===" and "&f- 울음씨앗 &ex1" and "&f- 음향초 &ex1" and "&f- 밀 &ex1"
+		set slot 24 of {_cookGUI} to {giant_riceball} named "&e&l거대 주먹밥" with lore "&7=== 필요 재료 ===" and "&f- 증폭쌀 &ex1" and "&f- 암흑고기 &ex1" and "&f- 울음씨앗 &ex1" and "&f- 밀 &ex1"
+		set slot 25 of {_cookGUI} to {golden_cheeseball} named "&f&l금빛 치즈볼" with lore "&7=== 필요 재료 ===" and "&f- 금가루 &ex1" and "&f- 용암소스 &ex1" and "&f- 밀 &ex1" and "&f- 설탕 &ex1"
+		set slot 32 of {_cookGUI} to {lava_hotpot} named "&e&l용암 마라탕" with lore "&7=== 필요 재료 ===" and "&f- 지옥고기 &ex1" and "&f- 화염채소 &ex1" and "&f- 금가루 &ex1" and "&f- 감자 &ex1"
+		set slot 33 of {_cookGUI} to {crack_candy} named "&f&l균열 사탕" with lore "&7=== 필요 재료 ===" and "&f- 시공열매 &ex1" and "&f- 진공 설탕 &ex1" and "&f- 설탕 &ex1"
+		set slot 34 of {_cookGUI} to {core_butter_grill} named "&e&l코어버터구이" with lore "&7=== 필요 재료 ===" and "&f- 코어 &ex1" and "&f- 공허 조각 &ex1" and "&f- 진공 설탕 &ex1" and "&f- 설탕 &ex1"
 
 		open {_cookGUI} to player
 
@@ -79,12 +96,151 @@ on inventory click:
 			set {nowCook::%player%::target} to {beehive_waffle}
 			openNextGUI(player)
 
+		#태양 뿌리전
+		clicked slot is 11:
+			add {fine_powder} to {nowCook::%player%::ingn::*}
+			add {sunlight_root} to {nowCook::%player%::ingn::*}
+			add {jungle_spice} to {nowCook::%player%::ingn::*}
+			add wheat to {nowCook::%player%::ingn::*}
+			set {nowCook::%player%::target} to {sunroot_pancake}
+			openNextGUI(player)
 
+		#물결 회덮밥
+		clicked slot is 12:
+			add {fish_meat} to {nowCook::%player%::ingn::*}
+			add {seaweed_powder} to {nowCook::%player%::ingn::*}
+			add wheat to {nowCook::%player%::ingn::*}
+			set {nowCook::%player%::target} to {wave_ricebowl}
+			openNextGUI(player)
 
+		#바다 푸딩
+		clicked slot is 19:
+			add {deepsea_gelatin} to {nowCook::%player%::ingn::*}
+			add {blue_sauce} to {nowCook::%player%::ingn::*}
+			add {seaweed_powder} to {nowCook::%player%::ingn::*}
+			add sugar to {nowCook::%player%::ingn::*}
+			set {nowCook::%player%::target} to {sea_pudding}
+			openNextGUI(player)
 
+		#눈꽃 토스트
+		clicked slot is 20:
+			add {frozen_herb} to {nowCook::%player%::ingn::*}
+			add {snowflake_ice} to {nowCook::%player%::ingn::*}
+			add wheat to {nowCook::%player%::ingn::*}
+			set {nowCook::%player%::target} to {snowflake_toast}
+			openNextGUI(player)
 
+		#모둠 빙꼬치구이
+		clicked slot is 21:
+			add {frozen_meat} to {nowCook::%player%::ingn::*}
+			add {frost_horn_powder} to {nowCook::%player%::ingn::*}
+			add {snowflake_ice} to {nowCook::%player%::ingn::*}
+			add porkchop to {nowCook::%player%::ingn::*}
+			set {nowCook::%player%::target} to {skewer_dessert}
+			openNextGUI(player)
 
-		##다른 음식들##
+		#낙뢰 마카롱
+		clicked slot is 28:
+			add {sky_crystal} to {nowCook::%player%::ingn::*}
+			add {cloud_butter} to {nowCook::%player%::ingn::*}
+			add sugar to {nowCook::%player%::ingn::*}
+			set {nowCook::%player%::target} to {lightning_macaron}
+			openNextGUI(player)
+
+		#구름 수플레
+		clicked slot is 29:
+			add {sky_snack} to {nowCook::%player%::ingn::*}
+			add {cloud_cottoncandy} to {nowCook::%player%::ingn::*}
+			add {sky_crystal} to {nowCook::%player%::ingn::*}
+			add wheat to {nowCook::%player%::ingn::*}
+			set {nowCook::%player%::target} to {cloud_souffle}
+			openNextGUI(player)
+
+		#자수정 에이드
+		clicked slot is 30:
+			add {crystal_juice} to {nowCook::%player%::ingn::*}
+			add {gem_salt} to {nowCook::%player%::ingn::*}
+			add sugar to {nowCook::%player%::ingn::*}
+			set {nowCook::%player%::target} to {amethyst_ade}
+			openNextGUI(player)
+
+		#정령광석 정식
+		clicked slot is 14:
+			add {essence_of_light} to {nowCook::%player%::ingn::*}
+			add {crystal_juice} to {nowCook::%player%::ingn::*}
+			add {gem_salt} to {nowCook::%player%::ingn::*}
+			add wheat to {nowCook::%player%::ingn::*}
+			set {nowCook::%player%::target} to {spirit_ore_set}
+			openNextGUI(player)
+
+		#대포열량 도시락
+		clicked slot is 15:
+			add {copper_rice} to {nowCook::%player%::ingn::*}
+			add {gunpowder_spice} to {nowCook::%player%::ingn::*}
+			add potato to {nowCook::%player%::ingn::*}
+			set {nowCook::%player%::target} to {cannon_lunchbox}
+			openNextGUI(player)
+
+		#방패삼겹살
+		clicked slot is 16:
+			add {black_seasoning} to {nowCook::%player%::ingn::*}
+			add {copper_pan} to {nowCook::%player%::ingn::*}
+			add {gunpowder_spice} to {nowCook::%player%::ingn::*}
+			add porkchop to {nowCook::%player%::ingn::*}
+			set {nowCook::%player%::target} to {shield_porkbelly}
+			openNextGUI(player)
+
+		#감청쿠키
+		clicked slot is 23:
+			add {cry_seed} to {nowCook::%player%::ingn::*}
+			add {sound_herb} to {nowCook::%player%::ingn::*}
+			add wheat to {nowCook::%player%::ingn::*}
+			set {nowCook::%player%::target} to {blue_cookie}
+			openNextGUI(player)
+
+		#거대주먹밥
+		clicked slot is 24:
+			add {amplified_rice} to {nowCook::%player%::ingn::*}
+			add {dark_meat} to {nowCook::%player%::ingn::*}
+			add {cry_seed} to {nowCook::%player%::ingn::*}
+			add wheat to {nowCook::%player%::ingn::*}
+			set {nowCook::%player%::target} to {giant_riceball}
+			openNextGUI(player)
+
+		#금빛치즈볼
+		clicked slot is 25:
+			add {gold_powder} to {nowCook::%player%::ingn::*}
+			add {lava_sauce} to {nowCook::%player%::ingn::*}
+			add wheat to {nowCook::%player%::ingn::*}
+			add sugar to {nowCook::%player%::ingn::*}
+			set {nowCook::%player%::target} to {golden_cheeseball}
+			openNextGUI(player)
+
+		#용암 마라탕
+		clicked slot is 32:
+			add {hell_meat} to {nowCook::%player%::ingn::*}
+			add {flame_vegetable} to {nowCook::%player%::ingn::*}
+			add {gold_powder} to {nowCook::%player%::ingn::*}
+			add potato to {nowCook::%player%::ingn::*}
+			set {nowCook::%player%::target} to {lava_hotpot}
+			openNextGUI(player)
+
+		#균열 사탕
+		clicked slot is 33:
+			add {timefruit} to {nowCook::%player%::ingn::*}
+			add {vacuum_sugar} to {nowCook::%player%::ingn::*}
+			add sugar to {nowCook::%player%::ingn::*}
+			set {nowCook::%player%::target} to {crack_candy}
+			openNextGUI(player)
+
+		#코어버터구이
+		clicked slot is 34:
+			add {core} to {nowCook::%player%::ingn::*}
+			add {void_fragment} to {nowCook::%player%::ingn::*}
+			add {vacuum_sugar} to {nowCook::%player%::ingn::*}
+			add sugar to {nowCook::%player%::ingn::*}
+			set {nowCook::%player%::target} to {core_butter_grill}
+			openNextGUI(player)
 
 	if name of event-inventory is ":offset_-8::cook:":
 		cancel event
