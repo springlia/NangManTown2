@@ -69,7 +69,7 @@ command /요리:
 		set slot 12 of {_cookGUI} to {wave_ricebowl} named "&f&l물결 회덮밥" with lore "&7=== 필요 재료 ===" and "&f- 생선살 &ex1" and "&f- 해초가루 &ex1" and "&f- 밀 &ex1"
 		set slot 19 of {_cookGUI} to {sea_pudding} named "&e&l바다 푸딩" with lore "&7=== 필요 재료 ===" and "&f- 심해 젤라틴 &ex1" and "&f- 청안초 소스 &ex1" and "&f- 해초가루 &ex1" and "&f- 설탕 &ex1"
 		set slot 20 of {_cookGUI} to {snowflake_toast} named "&f&l눈꽃 토스트" with lore "&7=== 필요 재료 ===" and "&f- 빙결 허브 &ex1" and "&f- 눈꽃얼음 &ex1" and "&f- 밀 &ex1"
-		set slot 21 of {_cookGUI} to {skewer_dessert} named "&e&l모듬 빙꼬치구이" with lore "&7=== 필요 재료 ===" and "&f- 빙하 고기 &ex1" and "&f- 서리뿔가루 &ex1" and "&f- 눈꽃얼음 &ex1" and "&f- 돼지고기 &ex1"
+		set slot 21 of {_cookGUI} to {skewer_dessert} named "&e&l모둠 빙꼬치구이" with lore "&7=== 필요 재료 ===" and "&f- 빙하 고기 &ex1" and "&f- 서리뿔가루 &ex1" and "&f- 눈꽃얼음 &ex1" and "&f- 돼지고기 &ex1"
 		set slot 28 of {_cookGUI} to {lightning_macaron} named "&f&l낙뢰 마카롱" with lore "&7=== 필요 재료 ===" and "&f- 천공결정 &ex1" and "&f- 구름버터 &ex1" and "&f- 설탕 &ex1"
 		set slot 29 of {_cookGUI} to {cloud_souffle} named "&e&l구름 수플레" with lore "&7=== 필요 재료 ===" and "&f- 하늘과자 &ex1" and "&f- 구름 솜사탕 &ex1" and "&f- 천공결정 &ex1" and "&f- 밀 &ex1"
 		set slot 30 of {_cookGUI} to {amethyst_ade} named "&f&l자수정 에이드" with lore "&7=== 필요 재료 ===" and "&f- 수정과즙 &ex1" and "&f- 보석소금 &ex1" and "&f- 설탕 &ex1"
