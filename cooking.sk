@@ -321,6 +321,36 @@ on inventory close:
 				send "&c인벤토리에 공간이 없어 아이템을 받을 수 없었습니다. 관리자에게 문의하세요." to player
 				send "&7[관리모드] &6&l[요리] &e%player% &f사라진 아이템 : %{_backItem}%" to console
 
+command /관리자명령어_레시피해금 [<number>] [<player>]:
+	permission: op
+	trigger:
+		if arg-1 is not set:
+			send "&7[관리모드] 레시피 넘버를 입력해주세요. (0~17)" to player
+		else:
+			if arg-2 is not set:
+				set {_p} to player
+			else:
+				set {_p} to arg-2
+			set {_n} to arg-1
+			set {recipeUnlock::%{_p}%::%{_n}%} to true
+			send "&7[관리모드] %{_p}%님의 %{_n}%번 레시피가 해금되었습니다." to player
+		
+command /관리자명령어_레시피잠금 [<number>] [<player>]:
+	permission: op
+	trigger:
+		if arg-1 is not set:
+			send "&7[관리모드] 레시피 넘버를 입력해주세요. (0~17)" to player
+		else:
+			if arg-2 is not set:
+				set {_p} to player
+			else:
+				set {_p} to arg-2
+			set {_n} to arg-1
+			delete {recipeUnlock::%{_p}%::%{_n}%}
+			send "&7[관리모드] %{_p}%님의 %{_n}%번 레시피가 잠금되었습니다." to player
+
+
+
 function openNextGUI(player: player):
 	loop {nowCook::%{_player}%::ingn::*}:
 		if {_player} does not have 1 of loop-value:
