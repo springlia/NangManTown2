@@ -1,16 +1,25 @@
 ﻿command /프로필:
 	trigger:
-		set {_profile} to chest inventory with 6 rows named "프로필"
-		set slot 28 of {_profile} to skull of player named "&d&l%player%"
-		set slot 19 of {_profile} to {empty} named "&e%{myIntro::%player%}%"
-		set slot 12 of {_profile} to {empty} named "&c성적"
-		set slot 13 of {_profile} to {empty} named "&c성적"
-		set slot 14 of {_profile} to {empty} named "&6학년"
-		set slot 15 of {_profile} to {empty} named "&6학년"
-		set slot 16 of {_profile} to {empty} named "&e직업"
-		set slot 17 of {_profile} to {empty} named "&e직업"
-		
+		set {_profile} to chest inventory with 6 rows named ":offset_-8::profile:"
+		#기본 정보
+		set slot 19 of {_profile} to skull of player named "&d&l%player%"
+		set slot 10 of {_profile} to {voidItem} named "&e%{myIntro::%player%}%"
 
+		#세부 정보
+		set slot 3 of {_profile} to {voidItem} named "&7기숙사"
+		set slot 5 of {_profile} to {voidItem} named "&e레벨"
+		set slot 7 of {_profile} to {voidItem} named "&6성적"
+		set slot 21 of {_profile} to {voidItem} named "&a파티"
+		set slot 23 of {_profile} to {voidItem} named "&c전투력"
+		set slot 25 of {_profile} to {voidItem} named "&b학년"
+
+		#생활
+		set slot 46 of {_profile} to {voidItem} named "&a채집"
+		set slot 48 of {_profile} to {voidItem} named "&6요리"
+		set slot 50 of {_profile} to {voidItem} named "&b낚시"
+		set slot 52 of {_profile} to {voidItem} named "&d연금술"
+		
+		open {_profile} to player
 
 command /내정보:
 	trigger:
