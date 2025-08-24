@@ -349,6 +349,57 @@ command /관리자명령어_레시피잠금 [<number>] [<player>]:
 			delete {recipeUnlock::%{_p}%::%{_n}%}
 			send "&7[관리모드] %{_p}%님의 %{_n}%번 레시피가 잠금되었습니다." to player
 
+on right click with paper:
+	if name of player's tool contains "&f벌집 와플":
+		set {_n} to 0
+	else if name of player's tool contains "&e태양뿌리전":
+		set {_n} to 1
+	else if name of player's tool contains "&f물결 회덮밥":
+		set {_n} to 2
+	else if name of player's tool contains "&e바다 푸딩":
+		set {_n} to 3
+	else if name of player's tool contains "&f눈꽃 토스트":
+		set {_n} to 4
+	else if name of player's tool contains "&e모둠 빙꼬치구이":
+		set {_n} to 5
+	else if name of player's tool contains "&f낙뢰 마카롱":
+		set {_n} to 6
+	else if name of player's tool contains "&e구름 수플레":
+		set {_n} to 7
+	else if name of player's tool contains "&f자수정 에이드":
+		set {_n} to 8
+	else if name of player's tool contains "&e정령광석 정식":
+		set {_n} to 9
+	else if name of player's tool contains "&f대포열량 도시락":
+		set {_n} to 10
+	else if name of player's tool contains "&e방패삼겹살":
+		set {_n} to 11
+	else if name of player's tool contains "&f감청 쿠키":
+		set {_n} to 12
+	else if name of player's tool contains "&e거대 주먹밥":
+		set {_n} to 13
+	else if name of player's tool contains "&f금빛 치즈볼":
+		set {_n} to 14
+	else if name of player's tool contains "&e용암 마라탕":
+		set {_n} to 15
+	else if name of player's tool contains "&f균열 사탕":
+		set {_n} to 16
+	else if name of player's tool contains "&e코어버터구이":
+		set {_n} to 17
+	else:
+		stop
+	unlock(player, event-item, {_n})
+
+
+
+function unlock(player: player, item: item, number: number):
+	if {recipeUnlock::%{_player}%::%{_number}%} is true:
+		send "&c이미 보유 중인 레시피입니다." to {_player}
+	else:
+		set {recipeUnlock::%{_player}%::%{_number}%} to true
+		send "&a요리 해금 완료!" to {_player}
+		remove 1 of {_item} from {_player}
+
 
 
 function openNextGUI(player: player):
