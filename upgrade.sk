@@ -11,27 +11,18 @@ command /강화셋팅:
 command /강화:
     permission: op
     trigger:
-        set {_upgradeGUI} to chest inventory with 6 rows named "강화"
-        set slot 20 of {_upgradeGUI} to pink stained glass pane named "&d&l지팡이 강화하기"
-        set slot 21 of {_upgradeGUI} to pink stained glass pane named "&d&l지팡이 강화하기"
-        set slot 29 of {_upgradeGUI} to pink stained glass pane named "&d&l지팡이 강화하기"
-        set slot 30 of {_upgradeGUI} to pink stained glass pane named "&d&l지팡이 강화하기"
-
-        set slot 23 of {_upgradeGUI} to cyan stained glass pane named "&b&l방어구 강화하기"
-        set slot 24 of {_upgradeGUI} to cyan stained glass pane named "&b&l방어구 강화하기"
-        set slot 32 of {_upgradeGUI} to cyan stained glass pane named "&b&l방어구 강화하기"
-        set slot 33 of {_upgradeGUI} to cyan stained glass pane named "&b&l방어구 강화하기"
+        set {_upgradeGUI} to chest inventory with 6 rows named ":offset_-8::upgrade:"
 
         open {_upgradeGUI} to player
 
 on inventory click:
-    event-inventory's name contains "강화":
+    event-inventory's name contains ":offset_-8::upgrade:":
         cancel event
-        clicked slot is 20 or 21 or 29 or 30:
+        clicked slot is 10 or 11 or 12 or 19 or 20 or 21 or 28 or 29 or 30:
             OpenMagicGUI(player)
         #clicked slot is 23 or 24 or 32 or 33: 방어구 강화
 
-    event-inventory's name contains "지팡이":
+    event-inventory's name contains ":offset_-8::magic_upgrade:":
         cancel event
         clicked slot is 29 or 30 or 38 or 39: 
         #강화 판정 및 지급
@@ -69,7 +60,7 @@ command /nbt확인:
 
 
 on inventory close:
-    event-inventory's name contains "지팡이":
+    event-inventory's name contains ":offset_-8::magic_upgrade:":
         delete {nextUpg::%player%}
         delete {needAil::%player%}
         delete {needStoneSize::%player%}
@@ -80,7 +71,7 @@ function OpenMagicGUI(player: player):
     set {targetItem::%{_player}%} to slot 0 of {_player}'s inventory
     if name of {targetItem::%{_player}%} contains "&6지팡이":
         set {_nowUpg} to int tag "upgrade" of custom nbt of {targetItem::%{_player}%} 
-        set {_upgradeMagicGUI} to chest inventory with 6 rows named "지팡이"
+        set {_upgradeMagicGUI} to chest inventory with 6 rows named ":offset_-8::magic_upgrade:"
         set slot 12 of {_upgradeMagicGUI} to {targetItem::%{_player}%} 
 
         if {_nowUpg} is not set:
@@ -161,19 +152,19 @@ function OpenMagicGUI(player: player):
             close {_player}'s inventory
             stop
 
-        set slot 14 of {_upgradeMagicGUI} to oak hanging sign named "&e&l강화 정보" with lore "&7%{_nowUpg}%강 ▶ &d%{nextUpg::%{_player}%}%강" and "&f성공확률: &e%{upPer::%{_player}%}%" and "" and "&7=== &a필요 재화 &7===" and "&7- &e%{needAil::%{_player}%}% &f아일" and "&7- %name of {needStoneSize::%{_player}%}% &e%{needStone::%{_player}%}%개"
+        set slot 14 of {_upgradeMagicGUI} to {voidItem} named "&e&l강화 정보" with lore "&7%{_nowUpg}%강 ▶ &d%{nextUpg::%{_player}%}%강" and "&f성공확률: &e%{upPer::%{_player}%}%" and "" and "&7=== &a필요 재화 &7===" and "&7- &e%{needAil::%{_player}%}% &f아일" and "&7- %name of {needStoneSize::%{_player}%}% &e%{needStone::%{_player}%}%개"
         
         set slot 4 of {_upgradeMagicGUI} to skull of {_player} named "&d지팡이 강화" with lore "&e보유 아일 &7:: %{_player}'s balance%" and "&e누적된 포인트 &7:: &f%{pityPercent::%{_player}%}%&7/100"
 
-        set slot 29 of {_upgradeMagicGUI} to lime stained glass pane named "&a&l강화 시작"
-        set slot 30 of {_upgradeMagicGUI} to lime stained glass pane named "&a&l강화 시작"
-        set slot 38 of {_upgradeMagicGUI} to lime stained glass pane named "&a&l강화 시작"
-        set slot 39 of {_upgradeMagicGUI} to lime stained glass pane named "&a&l강화 시작"
+        set slot 29 of {_upgradeMagicGUI} to {voidItem} named "&a&l강화 시작"
+        set slot 30 of {_upgradeMagicGUI} to {voidItem} named "&a&l강화 시작"
+        set slot 38 of {_upgradeMagicGUI} to {voidItem} named "&a&l강화 시작"
+        set slot 39 of {_upgradeMagicGUI} to {voidItem} named "&a&l강화 시작"
         
-        set slot 32 of {_upgradeMagicGUI} to red stained glass pane named "&a&l강화 취소"
-        set slot 33 of {_upgradeMagicGUI} to red stained glass pane named "&a&l강화 취소"
-        set slot 41 of {_upgradeMagicGUI} to red stained glass pane named "&a&l강화 취소"
-        set slot 42 of {_upgradeMagicGUI} to red stained glass pane named "&a&l강화 취소"
+        set slot 32 of {_upgradeMagicGUI} to {voidItem} named "&c&l강화 취소"
+        set slot 33 of {_upgradeMagicGUI} to {voidItem} named "&c&l강화 취소"
+        set slot 41 of {_upgradeMagicGUI} to {voidItem} named "&c&l강화 취소"
+        set slot 42 of {_upgradeMagicGUI} to {voidItem} named "&c&l강화 취소"
 
         open {_upgradeMagicGUI} to {_player}
     else:
