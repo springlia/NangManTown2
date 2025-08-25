@@ -27,8 +27,16 @@ command /강화:
 on inventory click:
     event-inventory's name contains "강화":
         cancel event
-        clicked slot is 20:
+        clicked slot is 20 or 21 or 29 or 30:
             OpenMagicGUI(player)
+        #clicked slot is 23 or 24 or 32 or 33: 방어구 강화
+
+    event-inventory's name contains "지팡이":
+        cancel event
+        #clicked slot is 29 or 30 or 38 or 39: 강화 판정 및 지급
+        clicked slot is 32 or 33 or 41 or 42:
+            close player's inventory
+
 
 function OpenMagicGUI(player: player):
 
@@ -36,7 +44,7 @@ function OpenMagicGUI(player: player):
     if name of {_item} contains "&6지팡이":
         set {_nowUpg} to string tag "upgrade" of custom nbt of {_item}
         set {_upgradeMagicGUI} to chest inventory with 6 rows named "지팡이"
-        set slot 21 of {_upgradeMagicGUI} to {_item}
+        set slot 12 of {_upgradeMagicGUI} to {_item}
 
         if {_nowUpg} is not set:
             set {_nowUpg} to 0
@@ -55,7 +63,13 @@ function OpenMagicGUI(player: player):
             set {_stoneText} to "&e소형마석 15개"
             set {_upPer} to 60
 
-        set slot 23 of {_upgradeMagicGUI} to oak hanging sign named "&e&l강화 정보" with lore "&7%{_nowUpg}%강 ▶ &d%{_nextUpg}%강" and "&f성공확률: &e%{_upPer}%" and "&7=== &a필요 재화 &7===" and "&7- &e%{_needAil}% &f아일" and "&7- %{_stoneText}%"
+        #else if {_nowUpg} is 2~9:
+
+        set slot 14 of {_upgradeMagicGUI} to oak hanging sign named "&e&l강화 정보" with lore "&7%{_nowUpg}%강 ▶ &d%{_nextUpg}%강" and "&f성공확률: &e%{_upPer}%" and "&7=== &a필요 재화 &7===" and "&7- &e%{_needAil}% &f아일" and "&7- %{_stoneText}%"
+        
+        #29,30,38,39 강화하기 버튼
+        #32,33,41,42 강화취소 버튼
+
         open {_upgradeMagicGUI} to {_player}
     else:
         close {_player}'s inventory
