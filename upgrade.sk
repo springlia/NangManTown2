@@ -1,0 +1,62 @@
+﻿import:
+    dev.lone.itemsadder.api.ItemsAdder
+
+command /강화셋팅:
+    permission: op
+    trigger:
+        set {small_stone} to ItemsAdder.getCustomItem("magicitem:magic_stone_small")
+        set {medium_stone} to ItemsAdder.getCustomItem("magicitem:magic_stone_medium")
+        set {large_stone} to ItemsAdder.getCustomItem("magicitem:magic_stone_large")
+
+command /강화:
+    permission: op
+    trigger:
+        set {_upgradeGUI} to chest inventory with 6 rows named "강화"
+        set slot 20 of {_upgradeGUI} to pink stained glass pane named "&d&l지팡이 강화하기"
+        set slot 21 of {_upgradeGUI} to pink stained glass pane named "&d&l지팡이 강화하기"
+        set slot 29 of {_upgradeGUI} to pink stained glass pane named "&d&l지팡이 강화하기"
+        set slot 30 of {_upgradeGUI} to pink stained glass pane named "&d&l지팡이 강화하기"
+
+        set slot 23 of {_upgradeGUI} to cyan stained glass pane named "&b&l방어구 강화하기"
+        set slot 24 of {_upgradeGUI} to cyan stained glass pane named "&b&l방어구 강화하기"
+        set slot 32 of {_upgradeGUI} to cyan stained glass pane named "&b&l방어구 강화하기"
+        set slot 33 of {_upgradeGUI} to cyan stained glass pane named "&b&l방어구 강화하기"
+
+        open {_upgradeGUI} to player
+
+on inventory click:
+    event-inventory's name contains "강화":
+        cancel event
+        clicked slot is 20:
+            OpenMagicGUI(player)
+
+function OpenMagicGUI(player: player):
+
+    set {_item} to slot 0 of {_player}'s inventory
+    if name of {_item} contains "&6지팡이":
+        set {_nowUpg} to string tag "upgrade" of custom nbt of {_item}
+        set {_upgradeMagicGUI} to chest inventory with 6 rows named "지팡이"
+        set slot 21 of {_upgradeMagicGUI} to {_item}
+
+        if {_nowUpg} is not set:
+            set {_nowUpg} to 0
+            set {_nextUpg} to 1
+            set {_needAil} to 500
+            set {_needStoneSize} to {small_stone}
+            set {_needStone} to 10
+            set {_stoneText} to "&e소형마석 10개"
+            set {_upPer} to 80
+
+        else if {_nowUpg} is 1:
+            set {_nextUpg} to 2
+            set {_needAil} to 700
+            set {_needStoneSize} to {small_stone}
+            set {_needStone} to 15
+            set {_stoneText} to "&e소형마석 15개"
+            set {_upPer} to 60
+
+        set slot 23 of {_upgradeMagicGUI} to oak hanging sign named "&e&l강화 정보" with lore "&7%{_nowUpg}%강 ▶ &d%{_nextUpg}%강" and "&f성공확률: &e%{_upPer}%" and "&7=== &a필요 재화 &7===" and "&7- &e%{_needAil}% &f아일" and "&7- %{_stoneText}%"
+        open {_upgradeMagicGUI} to {_player}
+    else:
+        close {_player}'s inventory
+        send "&c1번 슬롯에 지팡이를 장착한 후 다시 시도해주세요." to {_player}
