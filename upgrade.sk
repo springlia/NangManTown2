@@ -33,13 +33,25 @@ on inventory click:
 
     event-inventory's name contains "지팡이":
         cancel event
-        #clicked slot is 29 or 30 or 38 or 39: 강화 판정 및 지급
+        clicked slot is 29 or 30 or 38 or 39: 
+        #강화 판정 및 지급
+            set {_random} to random number between 0 and 100
+            if {_random} <= {upPer::%player%}:
+                send "&a[✔] 강화 성공!" to player
+            else:
+                send "&c[✘] 강화 실패..." to player
         clicked slot is 32 or 33 or 41 or 42:
             close player's inventory
-
+            
+on inventory close:
+    event-inventory's name contains "지팡이":
+        delete {nextUpg::%player%}
+        delete {needAil::%player%}
+        delete {needStoneSize::%player%}
+        delete {needStone::%player%}
+        delete {upPer::%player%}
 
 function OpenMagicGUI(player: player):
-
     set {_item} to slot 0 of {_player}'s inventory
     if name of {_item} contains "&6지팡이":
         set {_nowUpg} to string tag "upgrade" of custom nbt of {_item}
@@ -48,27 +60,34 @@ function OpenMagicGUI(player: player):
 
         if {_nowUpg} is not set:
             set {_nowUpg} to 0
-            set {_nextUpg} to 1
-            set {_needAil} to 500
-            set {_needStoneSize} to {small_stone}
-            set {_needStone} to 10
+            set {nextUpg::%{_player}%} to 1
+            set {needAil::%{_player}%} to 500
+            set {needStoneSize::%{_player}%} to name of {small_stone}
+            set {needStone::%{_player}%} to 10
             set {_stoneText} to "&e소형마석 10개"
-            set {_upPer} to 80
+            set {upPer::%{_player}%} to 80
 
         else if {_nowUpg} is 1:
-            set {_nextUpg} to 2
-            set {_needAil} to 700
-            set {_needStoneSize} to {small_stone}
-            set {_needStone} to 15
+            set {nextUpg::%{_player}%} to 2
+            set {needAil::%{_player}%} to 700
+            set {needStoneSize::%{_player}%} to name of {small_stone}
+            set {needStone::%{_player}%} to 15
             set {_stoneText} to "&e소형마석 15개"
-            set {_upPer} to 60
+            set {upPer::%{_player}%} to 60
 
         #else if {_nowUpg} is 2~9:
 
-        set slot 14 of {_upgradeMagicGUI} to oak hanging sign named "&e&l강화 정보" with lore "&7%{_nowUpg}%강 ▶ &d%{_nextUpg}%강" and "&f성공확률: &e%{_upPer}%" and "&7=== &a필요 재화 &7===" and "&7- &e%{_needAil}% &f아일" and "&7- %{_stoneText}%"
+        set slot 14 of {_upgradeMagicGUI} to oak hanging sign named "&e&l강화 정보" with lore "&7%{_nowUpg}%강 ▶ &d%{nextUpg::%{_player}%}%강" and "&f성공확률: &e%{upPer::%{_player}%}%" and "" and "&7=== &a필요 재화 &7===" and "&7- &e%{needAil::%{_player}%}% &f아일" and "&7- %{needStoneSize::%{_player}%}% &e%{needStone::%{_player}%}%개"
         
-        #29,30,38,39 강화하기 버튼
-        #32,33,41,42 강화취소 버튼
+        set slot 29 of {_upgradeMagicGUI} to lime stained glass pane named "&a&l강화 시작"
+        set slot 30 of {_upgradeMagicGUI} to lime stained glass pane named "&a&l강화 시작"
+        set slot 38 of {_upgradeMagicGUI} to lime stained glass pane named "&a&l강화 시작"
+        set slot 39 of {_upgradeMagicGUI} to lime stained glass pane named "&a&l강화 시작"
+        
+        set slot 32 of {_upgradeMagicGUI} to red stained glass pane named "&a&l강화 취소"
+        set slot 33 of {_upgradeMagicGUI} to red stained glass pane named "&a&l강화 취소"
+        set slot 41 of {_upgradeMagicGUI} to red stained glass pane named "&a&l강화 취소"
+        set slot 42 of {_upgradeMagicGUI} to red stained glass pane named "&a&l강화 취소"
 
         open {_upgradeMagicGUI} to {_player}
     else:
