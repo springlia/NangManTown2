@@ -39,13 +39,20 @@ on inventory click:
             remove {needStone::%player%} of {needStoneSize::%player%} from player
             remove {needAil::%player%} from player's balance
             if {_random} <= {upPer::%player%}:
-                #{targetItem::%player%}
+                set int tag "upgrade" of custom nbt of {targetItem::%player%} to {nextUpg::%player%}
+                set slot 0 of player's inventory to {targetItem::%player%}
                 send "&a[✔] 강화 성공!" to player
+                OpenMagicGUI(player)
             else:
                 send "&c[✘] 강화 실패..." to player
         clicked slot is 32 or 33 or 41 or 42:
             close player's inventory
-            
+
+command /nbt확인:
+    trigger:
+        set {_temp} to int tag "upgrade" of custom nbt of player's tool
+        send "%{_temp}%" to player
+
 on inventory close:
     event-inventory's name contains "지팡이":
         delete {nextUpg::%player%}
@@ -57,10 +64,10 @@ on inventory close:
 function OpenMagicGUI(player: player):
     set {targetItem::%{_player}%} to slot 0 of {_player}'s inventory
     if name of {targetItem::%{_player}%} contains "&6지팡이":
-        set {_nowUpg} to string tag "upgrade" of custom nbt of {_item}
+        set {_nowUpg} to int tag "upgrade" of custom nbt of {targetItem::%{_player}%} 
         set {_upgradeMagicGUI} to chest inventory with 6 rows named "지팡이"
-        set slot 12 of {_upgradeMagicGUI} to {_item}
-
+        set slot 12 of {_upgradeMagicGUI} to {targetItem::%{_player}%} 
+        
         if {_nowUpg} is not set:
             set {_nowUpg} to 0
             set {nextUpg::%{_player}%} to 1
@@ -69,7 +76,6 @@ function OpenMagicGUI(player: player):
             set {needStone::%{_player}%} to 10
             set {_stoneText} to "&e소형마석 10개"
             set {upPer::%{_player}%} to 80
-
         else if {_nowUpg} is 1:
             set {nextUpg::%{_player}%} to 2
             set {needAil::%{_player}%} to 700
