@@ -34,17 +34,24 @@ on inventory click:
     event-inventory's name contains "지팡이":
         cancel event
         clicked slot is 29 or 30 or 38 or 39: 
-        #강화 판정 및 지급 
-            set {_random} to random number between 0 and 100
-            remove {needStone::%player%} of {needStoneSize::%player%} from player
-            remove {needAil::%player%} from player's balance
-            if {_random} <= {upPer::%player%}:
-                set int tag "upgrade" of custom nbt of {targetItem::%player%} to {nextUpg::%player%}
-                set slot 0 of player's inventory to {targetItem::%player%}
-                send "&a[✔] 강화 성공!" to player
-                OpenMagicGUI(player)
+        #강화 판정 및 지급
+            if check [player has {needStone::%player%} of {needStoneSize::%player%}] -> [player's balance is greater than or equal to {needAil::%player%}]:
+                set {_random} to random number between 0 and 100
+                remove {needStone::%player%} of {needStoneSize::%player%} from player
+                remove {needAil::%player%} from player's balance
+                if {_random} <= {upPer::%player%}:
+                    set int tag "upgrade" of custom nbt of {targetItem::%player%} to {nextUpg::%player%}
+                    set slot 0 of player's inventory to {targetItem::%player%}
+                    send "&a[✔] 강화 성공!" to player
+                    play sound "entity.experience_orb.pickup" with pitch 1.2 to {_player}
+                    OpenMagicGUI(player)
+                else:
+                    send "&c[✘] 강화 실패..." to player
+                    play sound "block.note_block.bass" with pitch 0.5 to player
             else:
-                send "&c[✘] 강화 실패..." to player
+                send "&c강화 재료가 부족합니다." to player
+                play sound "block.note_block.bass" with pitch 0.5 to player
+
         clicked slot is 32 or 33 or 41 or 42:
             close player's inventory
 
