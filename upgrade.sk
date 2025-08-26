@@ -7,6 +7,34 @@ command /강화셋팅:
         set {small_stone} to ItemsAdder.getCustomItem("magicitem:magic_stone_small")
         set {medium_stone} to ItemsAdder.getCustomItem("magicitem:magic_stone_medium")
         set {large_stone} to ItemsAdder.getCustomItem("magicitem:magic_stone_large")
+        set {shabby_necklace} to ItemsAdder.getCustomItem("my_armor_tutorial:shabby_necklace")
+        set {shabby_ring} to ItemsAdder.getCustomItem("my_armor_tutorial:shabby_ring") 
+
+command /test [<number>]:
+	permission: op
+	trigger:
+		set {_n} to arg-1
+		set {_i} to {shabby_necklace}
+		apply attribute modifier to {_i}:
+			id: "minecraft:armor.chestplate"
+			attribute: generic armor
+			amount: {_n}
+			slot: chest_slot_group
+			operation: add_number
+		give player {_i}
+
+command /test2 [<number>]:
+	permission: op
+	trigger:
+		set {_n} to arg-1
+		set {_i} to {shabby_ring}
+		apply attribute modifier to {_i}:
+			id: "minecraft:armor.boots"
+			attribute: generic armor
+			amount: {_n}
+			slot: feet_slot_group
+			operation: add_number
+		give player {_i}
 
 command /강화:
     permission: op

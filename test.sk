@@ -7,7 +7,6 @@
 		loop all players:
 			play sound "block.end_portal.spawn" to loop-player
 
-
 command /관리자명령어_도움말:
     permission: op
     trigger:
