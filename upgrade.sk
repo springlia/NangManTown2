@@ -91,7 +91,9 @@ on inventory click:
         cancel event
         clicked slot is 10 or 11 or 12 or 19 or 20 or 21 or 28 or 29 or 30:
             OpenMagicGUI(player)
-        #clicked slot is 23 or 24 or 32 or 33: 방어구 강화
+        clicked slot is 14 or 15 or 16 or 23 or 24 or 25 or 32 or 33 or 34:
+            OpenAccGUI(player)
+
 
     event-inventory's name contains ":offset_-8::magic_upgrade:":
         cancel event
@@ -131,6 +133,107 @@ on inventory close:
         delete {needStoneSize::%player%}
         delete {needStone::%player%}
         delete {upPer::%player%}
+
+function OpenAccGUI(player: player):
+    set {targetItem::%{_player}%} to chestplate of {_player}
+    if name of {targetItem::%{_player}%} contains "목걸이":
+        set {_nowUpg} to int tag "upgrade" of custom nbt of {targetItem::%{_player}%} 
+        set {_upgradeAccGUI} to chest inventory with 6 rows named "방어구 강화"
+        set slot 12 of {_upgradeAccGUI} to {targetItem::%{_player}%} 
+
+        if {_nowUpg} is not set:
+            set {_nowUpg} to 0
+            set {nextUpg::%{_player}%} to 1
+            set {needAil::%{_player}%} to 150
+            set {needStoneSize::%{_player}%} to {small_stone}
+            set {needStone::%{_player}%} to 3
+            set {upPer::%{_player}%} to 80
+            set {failPity::%{_player}%} to 40.00
+
+        else if {_nowUpg} is 1:
+            set {nextUpg::%{_player}%} to 2
+            set {needAil::%{_player}%} to 200
+            set {needStoneSize::%{_player}%} to {small_stone}
+            set {needStone::%{_player}%} to 5
+            set {upPer::%{_player}%} to 60
+            set {failPity::%{_player}%} to 30.00
+
+        else if {_nowUpg} is 2:
+            set {nextUpg::%{_player}%} to 3
+            set {needAil::%{_player}%} to 400
+            set {needStoneSize::%{_player}%} to {small_stone}
+            set {needStone::%{_player}%} to 8
+            set {upPer::%{_player}%} to 40
+            set {failPity::%{_player}%} to 20.00
+            
+        else if {_nowUpg} is 3:
+            set {nextUpg::%{_player}%} to 4
+            set {needAil::%{_player}%} to 500
+            set {needStoneSize::%{_player}%} to {medium_stone}
+            set {needStone::%{_player}%} to 5
+            set {upPer::%{_player}%} to 30
+            set {failPity::%{_player}%} to 15.00
+
+        else if {_nowUpg} is 4:
+            set {nextUpg::%{_player}%} to 5
+            set {needAil::%{_player}%} to 800
+            set {needStoneSize::%{_player}%} to {medium_stone}
+            set {needStone::%{_player}%} to 8
+            set {upPer::%{_player}%} to 20
+            set {failPity::%{_player}%} to 13.33
+
+        else if {_nowUpg} is 5:
+            set {nextUpg::%{_player}%} to 6
+            set {needAil::%{_player}%} to 1000
+            set {needStoneSize::%{_player}%} to {medium_stone}
+            set {needStone::%{_player}%} to 10
+            set {upPer::%{_player}%} to 10
+            set {failPity::%{_player}%} to 6.67   
+
+        else if {_nowUpg} is 6:
+            set {nextUpg::%{_player}%} to 7
+            set {needAil::%{_player}%} to 1200
+            set {needStoneSize::%{_player}%} to {large_stone}
+            set {needStone::%{_player}%} to 8
+            set {upPer::%{_player}%} to 8
+            set {failPity::%{_player}%} to 5.53
+
+        else if {_nowUpg} is 7:
+            set {nextUpg::%{_player}%} to 8
+            set {needAil::%{_player}%} to 1500
+            set {needStoneSize::%{_player}%} to {large_stone}
+            set {needStone::%{_player}%} to 10
+            set {upPer::%{_player}%} to 5
+            set {failPity::%{_player}%} to 3.33
+        
+        else if {_nowUpg} is 8:
+            set {nextUpg::%{_player}%} to 9
+            set {needAil::%{_player}%} to 1800
+            set {needStoneSize::%{_player}%} to {large_stone}
+            set {needStone::%{_player}%} to 12
+            set {upPer::%{_player}%} to 3
+            set {failPity::%{_player}%} to 2.00
+
+        else if {_nowUpg} is 9:
+            send "&c현재 최대 강화입니다." to {_player}
+            close {_player}'s inventory
+            stop
+
+        set slot 14 of {_upgradeAccGUI} to {voidItem} named "&e&l강화 정보" with lore "&7%{_nowUpg}%강 ▶ &d%{nextUpg::%{_player}%}%강" and "&f성공확률: &e%{upPer::%{_player}%}%" and "" and "&7=== &a필요 재화 &7===" and "&7- &e%{needAil::%{_player}%}% &f아일" and "&7- %name of {needStoneSize::%{_player}%}% &e%{needStone::%{_player}%}%개"
+        
+        set slot 4 of {_upgradeAccGUI} to skull of {_player} named "&d목걸이 강화" with lore "&e보유 아일 &7:: %{_player}'s balance%" and "&e누적된 포인트 &7:: &f%{pityPercent::%{_player}%}%&7/100"
+
+        set slot 29 of {_upgradeAccGUI} to {voidItem} named "&a&l강화 시작"
+        set slot 30 of {_upgradeAccGUI} to {voidItem} named "&a&l강화 시작"
+        set slot 38 of {_upgradeAccGUI} to {voidItem} named "&a&l강화 시작"
+        set slot 39 of {_upgradeAccGUI} to {voidItem} named "&a&l강화 시작"
+        
+        set slot 32 of {_upgradeAccGUI} to {voidItem} named "&c&l강화 취소"
+        set slot 33 of {_upgradeAccGUI} to {voidItem} named "&c&l강화 취소"
+        set slot 41 of {_upgradeAccGUI} to {voidItem} named "&c&l강화 취소"
+        set slot 42 of {_upgradeAccGUI} to {voidItem} named "&c&l강화 취소"
+
+        open {_upgradeAccGUI} to {_player}
 
 function OpenMagicGUI(player: player):
     set {targetItem::%{_player}%} to slot 0 of {_player}'s inventory
