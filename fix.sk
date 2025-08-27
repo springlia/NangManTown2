@@ -1,0 +1,79 @@
+﻿import:
+    dev.lone.itemsadder.api.ItemsAdder
+
+on tool break:
+    if event-entity is a player:
+        set {_p} to event-entity
+        set {_i} to event-item
+        set {_t} to "%type of event-item%"
+
+        if isArmor({_i}) is false:
+            stop
+            
+        set {_upg} to string tag "upgrade" of custom nbt of {_i}
+        
+        set {_d} to {break_%findItem({_i})%}
+        set string tag "upgrade" of custom nbt of {_d} to "%{_upg}%"
+        set {_name} to name of {_d}
+        set display name of {_d} to "%{_name}% &e+%{_upg}%강"
+
+        #파괴된 장비 위치에 아이템 교체
+        if {_t} contains "chestplate":
+            set chestplate of {_p} to {_d}
+        else if {_t} contains "leggings":
+            set leggings of {_p} to {_d}
+        else if {_t} contains "boots":
+            set boots of {_p} to {_d}
+
+command /수리:
+    permission: op
+    trigger:
+        set {_i} to player's tool
+        set {_upg} to string tag "upgrade" of custom nbt of {_i}
+        set {_d} to {%findItem({_i})%}
+        send "%{_d}%" to player
+        set string tag "upgrade" of custom nbt of {_d} to "%{_upg}%"
+        set {_name} to name of {_d}
+        set display name of {_d} to "%{_name}% &e+%{_upg}%강"
+        remove {_i} from player
+        give player {_d}
+
+
+
+function isArmor(item: item) :: boolean:
+    set {_t} to "%type of {_item}%"
+    if {_t} contains "helmet" or "chestplate" or "leggings" or "boots":
+        return true
+    return false
+
+function findItem(item: item) :: string:
+    if {_item}'s name contains "조잡한 목걸이":
+        return "shabby_necklace"
+    else if {_item}'s name contains "조잡한 귀걸이":
+        return "shabby_earrings"
+    else if {_item}'s name contains "조잡한 반지":
+        return "shabby_ring" 
+    else if {_item}'s name contains "쓸만한 목걸이":
+        return "decent_necklace"
+    else if {_item}'s name contains "쓸만한 귀걸이":
+        return "decent_earrings"
+    else if {_item}'s name contains "쓸만한 반지":
+        return "decent_ring" 
+    else if {_item}'s name contains "빛나는 목걸이":
+        return "shining_necklace"
+    else if {_item}'s name contains "빛나는 귀걸이":
+        return "shining_earrings"
+    else if {_item}'s name contains "빛나는 반지":
+        return "shining_ring" 
+    else if {_item}'s name contains "튼튼한 목걸이":
+        return "sturdy_necklace"
+    else if {_item}'s name contains "튼튼한 귀걸이":
+        return "sturdy_earrings"
+    else if {_item}'s name contains "튼튼한 반지":
+        return "sturdy_ring" 
+    else if {_item}'s name contains "화려한 목걸이":
+        return "gorgeous_necklace"
+    else if {_item}'s name contains "화려한 귀걸이":
+        return "gorgeous_earrings"
+    else if {_item}'s name contains "화려한 반지":
+        return "gorgeous_ring" 
