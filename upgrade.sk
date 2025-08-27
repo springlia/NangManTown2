@@ -8,7 +8,50 @@ command /강화셋팅:
         set {medium_stone} to ItemsAdder.getCustomItem("magicitem:magic_stone_medium")
         set {large_stone} to ItemsAdder.getCustomItem("magicitem:magic_stone_large")
         set {shabby_necklace} to ItemsAdder.getCustomItem("my_armor_tutorial:shabby_necklace")
+        set {shabby_earrings} to ItemsAdder.getCustomItem("my_armor_tutorial:shabby_earrings")
         set {shabby_ring} to ItemsAdder.getCustomItem("my_armor_tutorial:shabby_ring") 
+        set {decent_necklace} to ItemsAdder.getCustomItem("my_armor_tutorial:decent_necklace")
+        set {decent_earrings} to ItemsAdder.getCustomItem("my_armor_tutorial:decent_earrings")
+        set {decent_ring} to ItemsAdder.getCustomItem("my_armor_tutorial:decent_ring") 
+        set {shining_necklace} to ItemsAdder.getCustomItem("my_armor_tutorial:shining_necklace")
+        set {shining_earrings} to ItemsAdder.getCustomItem("my_armor_tutorial:shining_earrings")
+        set {shining_ring} to ItemsAdder.getCustomItem("my_armor_tutorial:shining_ring") 
+        set {sturdy_necklace} to ItemsAdder.getCustomItem("my_armor_tutorial:sturdy_necklace")
+        set {sturdy_earrings} to ItemsAdder.getCustomItem("my_armor_tutorial:sturdy_earrings")
+        set {sturdy_ring} to ItemsAdder.getCustomItem("my_armor_tutorial:sturdy_ring") 
+        set {gorgeous_necklace} to ItemsAdder.getCustomItem("my_armor_tutorial:gorgeous_necklace")
+        set {gorgeous_earrings} to ItemsAdder.getCustomItem("my_armor_tutorial:gorgeous_earrings")
+        set {gorgeous_ring} to ItemsAdder.getCustomItem("my_armor_tutorial:gorgeous_ring") 
+        set {break_shabby_necklace} to ItemsAdder.getCustomItem("my_armor_tutorial:break_shabby_necklace")
+        set {break_shabby_earrings} to ItemsAdder.getCustomItem("my_armor_tutorial:break_shabby_earrings")
+        set {break_shabby_ring} to ItemsAdder.getCustomItem("my_armor_tutorial:break_shabby_ring") 
+        set {break_decent_necklace} to ItemsAdder.getCustomItem("my_armor_tutorial:break_decent_necklace")
+        set {break_decent_earrings} to ItemsAdder.getCustomItem("my_armor_tutorial:break_decent_earrings")
+        set {break_decent_ring} to ItemsAdder.getCustomItem("my_armor_tutorial:break_decent_ring") 
+        set {break_shining_necklace} to ItemsAdder.getCustomItem("my_armor_tutorial:break_shining_necklace")
+        set {break_shining_earrings} to ItemsAdder.getCustomItem("my_armor_tutorial:break_shining_earrings")
+        set {break_shining_ring} to ItemsAdder.getCustomItem("my_armor_tutorial:break_shining_ring") 
+        set {break_sturdy_necklace} to ItemsAdder.getCustomItem("my_armor_tutorial:break_sturdy_necklace")
+        set {break_sturdy_earrings} to ItemsAdder.getCustomItem("my_armor_tutorial:break_sturdy_earrings")
+        set {break_sturdy_ring} to ItemsAdder.getCustomItem("my_armor_tutorial:break_sturdy_ring") 
+        set {break_gorgeous_necklace} to ItemsAdder.getCustomItem("my_armor_tutorial:break_gorgeous_necklace")
+        set {break_gorgeous_earrings} to ItemsAdder.getCustomItem("my_armor_tutorial:break_gorgeous_earrings")
+        set {break_gorgeous_ring} to ItemsAdder.getCustomItem("my_armor_tutorial:break_gorgeous_ring") 
+
+command /nbt변경 [<number>]:
+	trigger:
+		set {_n} to arg-1
+		set {_item} to player's tool
+		set string tag "upgrade" of custom nbt of {_item} to "%{_n}%"
+		send "변경 및 지급 완료" to player
+		set {_name} to name of {_item}
+		set display name of {_item} to "%{_name}% &e+%{_n}%강"
+		give player {_item}
+
+command /nbt확인:
+	trigger:
+		set {_upg} to string tag "upgrade" of custom nbt of player's tool
+		send "해당 아이템의 upgrade nbt태그 값: %{_upg}%" to player
 
 command /test [<number>]:
 	permission: op
@@ -80,12 +123,6 @@ on inventory click:
 
         clicked slot is 32 or 33 or 41 or 42:
             close player's inventory
-
-command /nbt확인:
-    trigger:
-        set {_temp} to int tag "upgrade" of custom nbt of player's tool
-        send "%{_temp}%" to player
-
 
 on inventory close:
     event-inventory's name contains ":offset_-8::magic_upgrade:":
