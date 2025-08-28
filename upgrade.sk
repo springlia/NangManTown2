@@ -90,9 +90,38 @@ on inventory click:
     event-inventory's name contains ":offset_-8::upgrade:":
         cancel event
         clicked slot is 10 or 11 or 12 or 19 or 20 or 21 or 28 or 29 or 30:
-            OpenMagicGUI(player)
+            if slot 0 of player's inventory is air:
+                send "&c지팡이를 착용하고 있지 않습니다. 1번 슬롯에 지팡이 착용 후 시도해주세요." to player
+                stop
+            set {targetItem::%player%} to slot 0 of player's inventory
+            OpenUpgGUI(player)
         clicked slot is 14 or 15 or 16 or 23 or 24 or 25 or 32 or 33 or 34:
-            OpenAccGUI(player)
+            set {_accChoiceGUI} to chest inventory with 1 rows named "방어구 선택"
+            set slot 2 of {_accChoiceGUI} to chestplate of player
+            set slot 4 of {_accChoiceGUI} to leggings of player
+            set slot 6 of {_accChoiceGUI} to boots of player
+            open {_accChoiceGUI} to player
+
+    event-inventory's name contains "방어구 선택":
+        cancel event
+        clicked slot is 2:
+            if chestplate of player is air:
+                send "&c목걸이를 착용하고 있지 않습니다. 착용 후 시도해주세요." to player
+            else:
+                set {targetItem::%player%} to chestplate of player
+                OpenUpgGUI(player)
+        clicked slot is 4:
+            if leggings of player is air:
+                send "&c귀걸이를 착용하고 있지 않습니다. 착용 후 시도해주세요." to player
+            else:
+                set {targetItem::%player%} to leggings of player
+                OpenUpgGUI(player)
+        clicked slot is 6:
+            if boots of player is air:
+                send "&c반지를 착용하고 있지 않습니다. 착용 후 시도해주세요." to player
+            else:
+                set {targetItem::%player%} to boots of player
+                OpenUpgGUI(player)
 
 
     event-inventory's name contains ":offset_-8::magic_upgrade:":
@@ -113,11 +142,11 @@ on inventory click:
                     play sound "entity.experience_orb.pickup" with pitch 1.2 to {_player}
                     set {pityPercent::%player%} to 0.00
                     close player's inventory
-                    OpenMagicGUI(player)
+                    OpenUpgGUI(player)
                 else:
                     send "&c[✘] 강화 실패..." to player
                     add {failPity::%player%} to {pityPercent::%player%}
-                    set slot 4 of player's current inventory to skull of player named "&d지팡이 강화" with lore "&e보유 아일 &7:: %player's balance%" and "&e누적된 포인트 &7:: &f%{pityPercent::%player%}%&7/100"
+                    set slot 4 of player's current inventory to skull of player named "&d강화하기" with lore "&e보유 아일 &7:: %player's balance%" and "&e누적된 포인트 &7:: &f%{pityPercent::%player%}%&7/100"
                     play sound "block.note_block.bass" with pitch 0.5 to player
             else:
                 send "&c강화 재료가 부족합니다." to player
@@ -134,13 +163,11 @@ on inventory close:
         delete {needStone::%player%}
         delete {upPer::%player%}
 
-function OpenAccGUI(player: player):
-    set {targetItem::%{_player}%} to chestplate of {_player}
-    if name of {targetItem::%{_player}%} contains "목걸이":
-        set {_nowUpg} to int tag "upgrade" of custom nbt of {targetItem::%{_player}%} 
-        set {_upgradeAccGUI} to chest inventory with 6 rows named "방어구 강화"
-        set slot 12 of {_upgradeAccGUI} to {targetItem::%{_player}%} 
-
+function OpenUpgGUI(player: player):
+    set {_nowUpg} to int tag "upgrade" of custom nbt of {targetItem::%{_player}%} 
+    set {_upgradeTryGUI} to chest inventory with 6 rows named ":offset_-8::magic_upgrade:"
+    set slot 12 of {_upgradeTryGUI} to {targetItem::%{_player}%} 
+    if name of {targetItem::%{_player}%} contains "목걸이" or "귀걸이" or "반지":
         if {_nowUpg} is not set:
             set {_nowUpg} to 0
             set {nextUpg::%{_player}%} to 1
@@ -219,29 +246,7 @@ function OpenAccGUI(player: player):
             close {_player}'s inventory
             stop
 
-        set slot 14 of {_upgradeAccGUI} to {voidItem} named "&e&l강화 정보" with lore "&7%{_nowUpg}%강 ▶ &d%{nextUpg::%{_player}%}%강" and "&f성공확률: &e%{upPer::%{_player}%}%" and "" and "&7=== &a필요 재화 &7===" and "&7- &e%{needAil::%{_player}%}% &f아일" and "&7- %name of {needStoneSize::%{_player}%}% &e%{needStone::%{_player}%}%개"
-        
-        set slot 4 of {_upgradeAccGUI} to skull of {_player} named "&d목걸이 강화" with lore "&e보유 아일 &7:: %{_player}'s balance%" and "&e누적된 포인트 &7:: &f%{pityPercent::%{_player}%}%&7/100"
-
-        set slot 29 of {_upgradeAccGUI} to {voidItem} named "&a&l강화 시작"
-        set slot 30 of {_upgradeAccGUI} to {voidItem} named "&a&l강화 시작"
-        set slot 38 of {_upgradeAccGUI} to {voidItem} named "&a&l강화 시작"
-        set slot 39 of {_upgradeAccGUI} to {voidItem} named "&a&l강화 시작"
-        
-        set slot 32 of {_upgradeAccGUI} to {voidItem} named "&c&l강화 취소"
-        set slot 33 of {_upgradeAccGUI} to {voidItem} named "&c&l강화 취소"
-        set slot 41 of {_upgradeAccGUI} to {voidItem} named "&c&l강화 취소"
-        set slot 42 of {_upgradeAccGUI} to {voidItem} named "&c&l강화 취소"
-
-        open {_upgradeAccGUI} to {_player}
-
-function OpenMagicGUI(player: player):
-    set {targetItem::%{_player}%} to slot 0 of {_player}'s inventory
-    if name of {targetItem::%{_player}%} contains "&6지팡이":
-        set {_nowUpg} to int tag "upgrade" of custom nbt of {targetItem::%{_player}%} 
-        set {_upgradeMagicGUI} to chest inventory with 6 rows named ":offset_-8::magic_upgrade:"
-        set slot 12 of {_upgradeMagicGUI} to {targetItem::%{_player}%} 
-
+    else if name of {targetItem::%{_player}%} contains "&6지팡이":
         if {_nowUpg} is not set:
             set {_nowUpg} to 0
             set {nextUpg::%{_player}%} to 1
@@ -319,22 +324,24 @@ function OpenMagicGUI(player: player):
             send "&c현재 최대 강화입니다." to {_player}
             close {_player}'s inventory
             stop
-
-        set slot 14 of {_upgradeMagicGUI} to {voidItem} named "&e&l강화 정보" with lore "&7%{_nowUpg}%강 ▶ &d%{nextUpg::%{_player}%}%강" and "&f성공확률: &e%{upPer::%{_player}%}%" and "" and "&7=== &a필요 재화 &7===" and "&7- &e%{needAil::%{_player}%}% &f아일" and "&7- %name of {needStoneSize::%{_player}%}% &e%{needStone::%{_player}%}%개"
-        
-        set slot 4 of {_upgradeMagicGUI} to skull of {_player} named "&d지팡이 강화" with lore "&e보유 아일 &7:: %{_player}'s balance%" and "&e누적된 포인트 &7:: &f%{pityPercent::%{_player}%}%&7/100"
-
-        set slot 29 of {_upgradeMagicGUI} to {voidItem} named "&a&l강화 시작"
-        set slot 30 of {_upgradeMagicGUI} to {voidItem} named "&a&l강화 시작"
-        set slot 38 of {_upgradeMagicGUI} to {voidItem} named "&a&l강화 시작"
-        set slot 39 of {_upgradeMagicGUI} to {voidItem} named "&a&l강화 시작"
-        
-        set slot 32 of {_upgradeMagicGUI} to {voidItem} named "&c&l강화 취소"
-        set slot 33 of {_upgradeMagicGUI} to {voidItem} named "&c&l강화 취소"
-        set slot 41 of {_upgradeMagicGUI} to {voidItem} named "&c&l강화 취소"
-        set slot 42 of {_upgradeMagicGUI} to {voidItem} named "&c&l강화 취소"
-
-        open {_upgradeMagicGUI} to {_player}
     else:
+        send "&c장비가 맞지 않습니다. 다시 시도해주세요." to {_player}
         close {_player}'s inventory
-        send "&c1번 슬롯에 지팡이를 장착한 후 다시 시도해주세요." to {_player}
+        stop
+
+    set slot 14 of {_upgradeTryGUI} to {voidItem} named "&e&l강화 정보" with lore "&7%{_nowUpg}%강 ▶ &d%{nextUpg::%{_player}%}%강" and "&f성공확률: &e%{upPer::%{_player}%}%" and "" and "&7=== &a필요 재화 &7===" and "&7- &e%{needAil::%{_player}%}% &f아일" and "&7- %name of {needStoneSize::%{_player}%}% &e%{needStone::%{_player}%}%개"
+        
+    set slot 4 of {_upgradeTryGUI} to skull of {_player} named "&d강화하기" with lore "&e보유 아일 &7:: %{_player}'s balance%" and "&e누적된 포인트 &7:: &f%{pityPercent::%{_player}%}%&7/100"
+
+    set slot 29 of {_upgradeTryGUI} to {voidItem} named "&a&l강화 시작"
+    set slot 30 of {_upgradeTryGUI} to {voidItem} named "&a&l강화 시작"
+    set slot 38 of {_upgradeTryGUI} to {voidItem} named "&a&l강화 시작"
+    set slot 39 of {_upgradeTryGUI} to {voidItem} named "&a&l강화 시작"
+        
+    set slot 32 of {_upgradeTryGUI} to {voidItem} named "&c&l강화 취소"
+    set slot 33 of {_upgradeTryGUI} to {voidItem} named "&c&l강화 취소"
+    set slot 41 of {_upgradeTryGUI} to {voidItem} named "&c&l강화 취소"
+    set slot 42 of {_upgradeTryGUI} to {voidItem} named "&c&l강화 취소"
+
+    open {_upgradeTryGUI} to {_player}
+    
