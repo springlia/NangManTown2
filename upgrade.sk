@@ -142,11 +142,22 @@ on inventory click:
                     play sound "entity.experience_orb.pickup" with pitch 1.2 to {_player}
                     set {pityPercent::%player%::%{targetItem::%player%}%} to 0.00
                     close player's inventory
+
+                    #강화 장비 다시 불러오기
+                    if name of {targetItem::%player%} contains "목걸이":
+                        set {targetItem::%player%} to chestplate of player
+                    else if name of {targetItem::%player%} contains "귀걸이":
+                        set {targetItem::%player%} to leggings of player
+                    else if name of {targetItem::%player%} contains "반지":
+                        set {targetItem::%player%} to boots of player
+                    else if name of {targetItem::%player%} contains "지팡이": 
+                        set {targetItem::%player%} to slot 0 of player's inventory
+
                     OpenUpgGUI(player)
                 else:
                     send "&c[✘] 강화 실패..." to player
                     add {failPity::%player%} to {pityPercent::%player%::%{targetItem::%player%}%}
-                    set slot 4 of player's current inventory to skull of player named "&d강화하기" with lore "&e보유 아일 &7:: %player's balance%" and "&e누적된 포인트 &7:: &f%{pityPercent::%{_player}%::%{targetItem::%{_player}%}%}%&7/100"
+                    set slot 4 of player's current inventory to skull of player named "&d강화하기" with lore "&e보유 아일 &7:: %player's balance%" and "&e누적된 포인트 &7:: &f%{pityPercent::%player%::%{targetItem::%player%}%}%&7/100"
                     play sound "block.note_block.bass" with pitch 0.5 to player
             else:
                 send "&c강화 재료가 부족합니다." to player
