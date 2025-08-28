@@ -42,7 +42,7 @@ command /nbt변경 [<number>]:
 	trigger:
 		set {_n} to arg-1
 		set {_item} to player's tool
-		set string tag "upgrade" of custom nbt of {_item} to "%{_n}%"
+		set int tag "upgrade" of custom nbt of {_item} to {_n}
 		send "변경 및 지급 완료" to player
 		set {_name} to name of {_item}
 		set display name of {_item} to "%{_name}% &e+%{_n}%강"
@@ -50,7 +50,7 @@ command /nbt변경 [<number>]:
 
 command /nbt확인:
 	trigger:
-		set {_upg} to string tag "upgrade" of custom nbt of player's tool
+		set {_upg} to int tag "upgrade" of custom nbt of player's tool
 		send "해당 아이템의 upgrade nbt태그 값: %{_upg}%" to player
 
 command /test [<number>]:
