@@ -135,25 +135,27 @@ on inventory click:
                 if {pityPercent::%player%::%{targetItem::%player%}%} >= 100.00:
                     set {upPer::%player%} to 100
                     set {pityPercent::%player%::%{targetItem::%player%}%} to 0.00
+
+                #강화 성공
                 if {_random} <= {upPer::%player%}:
                     set int tag "upgrade" of custom nbt of {targetItem::%player%} to {nextUpg::%player%}
-                    set slot 0 of player's inventory to {targetItem::%player%}
                     send "&a[✔] 강화 성공!" to player
                     play sound "entity.experience_orb.pickup" with pitch 1.2 to {_player}
                     set {pityPercent::%player%::%{targetItem::%player%}%} to 0.00
-                    close player's inventory
-
-                    #강화 장비 다시 불러오기
+                    
+                    #강화 장비 지급
                     if name of {targetItem::%player%} contains "목걸이":
-                        set {targetItem::%player%} to chestplate of player
+                        set chestplate of player to {targetItem::%player%}
                     else if name of {targetItem::%player%} contains "귀걸이":
-                        set {targetItem::%player%} to leggings of player
+                        set leggings of player to {targetItem::%player%}
                     else if name of {targetItem::%player%} contains "반지":
-                        set {targetItem::%player%} to boots of player
+                        set boots of player to {targetItem::%player%}
                     else if name of {targetItem::%player%} contains "지팡이": 
-                        set {targetItem::%player%} to slot 0 of player's inventory
-
+                        set slot 0 of player's inventory to {targetItem::%player%}
+                    close player's inventory
                     OpenUpgGUI(player)
+                
+                #강화 실패
                 else:
                     send "&c[✘] 강화 실패..." to player
                     add {failPity::%player%} to {pityPercent::%player%::%{targetItem::%player%}%}
@@ -173,6 +175,7 @@ on inventory close:
         delete {needStoneSize::%player%}
         delete {needStone::%player%}
         delete {upPer::%player%}
+        delete {failPity::%player%}
 
 function OpenUpgGUI(player: player):
     set {_nowUpg} to int tag "upgrade" of custom nbt of {targetItem::%{_player}%} 
