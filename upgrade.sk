@@ -132,21 +132,21 @@ on inventory click:
                 set {_random} to random number between 0 and 100
                 remove {needStone::%player%} of {needStoneSize::%player%} from player
                 remove {needAil::%player%} from player's balance
-                if {pityPercent::%player%} >= 100.00:
+                if {pityPercent::%player%::%{targetItem::%player%}%} >= 100.00:
                     set {upPer::%player%} to 100
-                    set {pityPercent::%player%} to 0.00
+                    set {pityPercent::%player%::%{targetItem::%player%}%} to 0.00
                 if {_random} <= {upPer::%player%}:
                     set int tag "upgrade" of custom nbt of {targetItem::%player%} to {nextUpg::%player%}
                     set slot 0 of player's inventory to {targetItem::%player%}
                     send "&a[✔] 강화 성공!" to player
                     play sound "entity.experience_orb.pickup" with pitch 1.2 to {_player}
-                    set {pityPercent::%player%} to 0.00
+                    set {pityPercent::%player%::%{targetItem::%player%}%} to 0.00
                     close player's inventory
                     OpenUpgGUI(player)
                 else:
                     send "&c[✘] 강화 실패..." to player
-                    add {failPity::%player%} to {pityPercent::%player%}
-                    set slot 4 of player's current inventory to skull of player named "&d강화하기" with lore "&e보유 아일 &7:: %player's balance%" and "&e누적된 포인트 &7:: &f%{pityPercent::%player%}%&7/100"
+                    add {failPity::%player%} to {pityPercent::%player%::%{targetItem::%player%}%}
+                    set slot 4 of player's current inventory to skull of player named "&d강화하기" with lore "&e보유 아일 &7:: %player's balance%" and "&e누적된 포인트 &7:: &f%{pityPercent::%{_player}%::%{targetItem::%{_player}%}%}%&7/100"
                     play sound "block.note_block.bass" with pitch 0.5 to player
             else:
                 send "&c강화 재료가 부족합니다." to player
@@ -167,6 +167,8 @@ function OpenUpgGUI(player: player):
     set {_nowUpg} to int tag "upgrade" of custom nbt of {targetItem::%{_player}%} 
     set {_upgradeTryGUI} to chest inventory with 6 rows named ":offset_-8::magic_upgrade:"
     set slot 12 of {_upgradeTryGUI} to {targetItem::%{_player}%} 
+    if {pityPercent::%{_player}%::%{targetItem::%{_player}%}%} is not set:
+        set {pityPercent::%{_player}%::%{targetItem::%{_player}%}%} to 0
     if name of {targetItem::%{_player}%} contains "목걸이" or "귀걸이" or "반지":
         if {_nowUpg} is not set:
             set {_nowUpg} to 0
@@ -331,7 +333,7 @@ function OpenUpgGUI(player: player):
 
     set slot 14 of {_upgradeTryGUI} to {voidItem} named "&e&l강화 정보" with lore "&7%{_nowUpg}%강 ▶ &d%{nextUpg::%{_player}%}%강" and "&f성공확률: &e%{upPer::%{_player}%}%" and "" and "&7=== &a필요 재화 &7===" and "&7- &e%{needAil::%{_player}%}% &f아일" and "&7- %name of {needStoneSize::%{_player}%}% &e%{needStone::%{_player}%}%개"
         
-    set slot 4 of {_upgradeTryGUI} to skull of {_player} named "&d강화하기" with lore "&e보유 아일 &7:: %{_player}'s balance%" and "&e누적된 포인트 &7:: &f%{pityPercent::%{_player}%}%&7/100"
+    set slot 4 of {_upgradeTryGUI} to skull of {_player} named "&d강화하기" with lore "&e보유 아일 &7:: %{_player}'s balance%" and "&e누적된 포인트 &7:: &f%{pityPercent::%{_player}%::%{targetItem::%{_player}%}%}%&7/100"
 
     set slot 29 of {_upgradeTryGUI} to {voidItem} named "&a&l강화 시작"
     set slot 30 of {_upgradeTryGUI} to {voidItem} named "&a&l강화 시작"
