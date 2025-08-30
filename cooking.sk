@@ -91,7 +91,7 @@ command /요리:
 		if {recipeUnlock::%player%::11} is true:
 			set slot 16 of {_cookGUI} to {shield_porkbelly} named "&e&l방패삼겹살" with lore "&7=== 필요 재료 ===" and "&f- 검은 양념 &ex1" and "&f- 구리판 &ex1" and "&f- 화약 향신료 &ex1" and "&f- 돼지고기 &ex1"
 		if {recipeUnlock::%player%::12} is true:
-			set slot 23 of {_cookGUI} to {blue_cookie} named "&f&l감청쿠키" with lore "&7=== 필요 재료 ===" and "&f- 울음씨앗 &ex1" and "&f- 음향초 &ex1" and "&f- 밀 &ex1"
+			set slot 23 of {_cookGUI} to {blue_cookie} named "&f&l감청쿠키" with lore "&7=== 필요 재료 ===" and "&f- 울음씨앗 &ex1" and "&f- 음향초 &ex1" and "&f- 밀 &ex1" and "&f- 설탕 &ex1"
 		if {recipeUnlock::%player%::13} is true:
 			set slot 24 of {_cookGUI} to {giant_riceball} named "&e&l거대 주먹밥" with lore "&7=== 필요 재료 ===" and "&f- 증폭쌀 &ex1" and "&f- 암흑고기 &ex1" and "&f- 울음씨앗 &ex1" and "&f- 밀 &ex1"
 		if {recipeUnlock::%player%::14} is true:
@@ -228,6 +228,7 @@ on inventory click:
 				add {cry_seed} to {nowCook::%player%::ingn::*}
 				add {sound_herb} to {nowCook::%player%::ingn::*}
 				add wheat to {nowCook::%player%::ingn::*}
+				add sugar to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {blue_cookie}
 				openNextGUI(player)
 
