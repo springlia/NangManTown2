@@ -46,20 +46,20 @@ on inventory click:
 		cancel event
 		clicked slot is 1 or 2 or 10 or 11:
 			send "&b&l데피스&f로 이동합니다." to player
-			execute console command "/warp 데피스 %player%"
+			execute console command "/warp 데피스0 %player%"
 		clicked slot is 7 or 8 or 16 or 17:
 			send "&c&l네더&f로 이동합니다." to player
-			execute console command "/warp 네더 %player%"
+			execute console command "/warp 네더00 %player%"
 		clicked slot is 22 or 23 or 31 or 32:
 			send "&f&l마법학교 &d&l에테리온&f으로 이동합니다." to player
 			execute console command "/warp 에테리온 %player%"
 		clicked slot is 27 or 28 or 36 or 37:
 			send "&5&l엔더&f로 이동합니다." to player	
-			execute console command "/warp 엔더 %player%"
+			execute console command "/warp 엔더00 %player%"
 		clicked slot is 39 or 40 or 48 or 49:
 			send "&a&l에메이브&f로 이동합니다." to player	
 			execute console command "/warp 에메이브 %player%"
 		clicked slot is 42 or 43 or 51 or 52:
 			send "&e&l아스탈&f로 이동합니다." to player	
-			execute console command "/warp 아스탈 %player%"
+			execute console command "/warp 아스탈0 %player%"
 

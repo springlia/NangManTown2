@@ -1,31 +1,6 @@
 import:
 	dev.lone.itemsadder.api.ItemsAdder
 
-command /셋팅:
-	permission: op
-	trigger:
-		set {adrian} to ItemsAdder.getCustomItem("customitem:adrian_head")
-		set {aiden} to ItemsAdder.getCustomItem("customitem:aiden_head")
-		set {alexi} to ItemsAdder.getCustomItem("customitem:alexi_head")
-		set {belin} to ItemsAdder.getCustomItem("customitem:belin_head")
-		set {cardin} to ItemsAdder.getCustomItem("customitem:cardin_head")
-
-		set {doli} to ItemsAdder.getCustomItem("customitem:doli_head")
-		set {edmund} to ItemsAdder.getCustomItem("customitem:edmund_head")
-		set {seira} to ItemsAdder.getCustomItem("customitem:seira_head")
-		set {fine} to ItemsAdder.getCustomItem("customitem:fine_head")
-		set {yerin} to ItemsAdder.getCustomItem("customitem:yerin_head")
-
-		set {kara} to ItemsAdder.getCustomItem("customitem:kara_head")
-		set {zeke} to ItemsAdder.getCustomItem("customitem:zeke_head")
-		set {mina} to ItemsAdder.getCustomItem("customitem:mina_head")
-		set {rona} to ItemsAdder.getCustomItem("customitem:rona_head")
-		set {rosalyn} to ItemsAdder.getCustomItem("customitem:rosalyn_head")
-		set {mir} to ItemsAdder.getCustomItem("customitem:mir_head")
-
-		set {empty} to ItemsAdder.getCustomItem("customitem:likeability_no")
-		set {full} to ItemsAdder.getCustomItem("customitem:likeability")
-
 command /테스트:
 	permission: op
 	trigger:
