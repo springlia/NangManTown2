@@ -123,6 +123,30 @@ command /관리자명령어_변수초기화:
 		set {break_gorgeous_earrings} to ItemsAdder.getCustomItem("my_armor_tutorial:break_gorgeous_earrings")
 		set {break_gorgeous_ring} to ItemsAdder.getCustomItem("my_armor_tutorial:break_gorgeous_ring") 
 
+		#채집
+		set {speed_herb_0} to ItemsAdder.getCustomItem("magicitem:speed_herb_0") 
+		set {speed_herb_1} to ItemsAdder.getCustomItem("magicitem:speed_herb_1") 
+		set {speed_herb_2} to ItemsAdder.getCustomItem("magicitem:speed_herb_2") 
+		set {speed_herb_3} to ItemsAdder.getCustomItem("magicitem:speed_herb_3") 
+		set {reg_herb_0} to ItemsAdder.getCustomItem("magicitem:reg_herb_0") 
+		set {reg_herb_1} to ItemsAdder.getCustomItem("magicitem:reg_herb_1") 
+		set {reg_herb_2} to ItemsAdder.getCustomItem("magicitem:reg_herb_2") 
+		set {reg_herb_3} to ItemsAdder.getCustomItem("magicitem:reg_herb_3") 
+		set {vitality_herb_0} to ItemsAdder.getCustomItem("magicitem:vitality_herb_0") 
+		set {vitality_herb_1} to ItemsAdder.getCustomItem("magicitem:vitality_herb_1") 
+		set {vitality_herb_2} to ItemsAdder.getCustomItem("magicitem:vitality_herb_2") 
+		set {vitality_herb_3} to ItemsAdder.getCustomItem("magicitem:vitality_herb_3") 
+		set {heal_herb_0} to ItemsAdder.getCustomItem("magicitem:heal_herb_0") 
+		set {heal_herb_1} to ItemsAdder.getCustomItem("magicitem:heal_herb_1") 
+		set {heal_herb_2} to ItemsAdder.getCustomItem("magicitem:heal_herb_2") 
+		set {heal_herb_3} to ItemsAdder.getCustomItem("magicitem:heal_herb_3") 
+		set {air_herb} to ItemsAdder.getCustomItem("magicitem:air_herb") 
+		set {feathers_herb} to ItemsAdder.getCustomItem("magicitem:feathers_herb") 
+		set {lava_herb} to ItemsAdder.getCustomItem("magicitem:lava_herb") 
+		set {elasticity_herb} to ItemsAdder.getCustomItem("magicitem:elasticity_herb") 
+
+		send "&c초기화 완료" to player
+
 command /관리자명령어_기숙사공지 [<text>]:
 	permission: op
 	trigger:

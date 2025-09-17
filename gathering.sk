@@ -1,0 +1,16 @@
+﻿command /채집 [<text>]:
+    trigger:
+        if arg-1 is "신속초":
+            set {_random} to random integer between 1 and 100
+            if {_random} is between 1 and 40:
+                send "신속초" to player
+                give player {speed_herb_0}
+            else if {_random} is between 41 and 70:
+                send "신속초" to player
+                give player {speed_herb_1}
+            else if {_random} is between 71 and 90:
+                send "신속초" to player
+                give player {speed_herb_2}    
+            else:
+                send "신속초" to player
+                give player {speed_herb_3}
