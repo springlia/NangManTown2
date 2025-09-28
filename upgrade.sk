@@ -21,31 +21,7 @@ command /nbt확인:
 		set {_upg} to int tag "upgrade" of custom nbt of player's tool
 		send "해당 아이템의 upgrade nbt태그 값: %{_upg}%" to player
 
-command /test [<number>]:
-	permission: op
-	trigger:
-		set {_n} to arg-1
-		set {_i} to {shabby_necklace}
-		apply attribute modifier to {_i}:
-			id: "minecraft:armor.chestplate"
-			attribute: generic armor
-			amount: {_n}
-			slot: chest_slot_group
-			operation: add_number
-		give player {_i}
 
-command /test2 [<number>]:
-	permission: op
-	trigger:
-		set {_n} to arg-1
-		set {_i} to {shabby_ring}
-		apply attribute modifier to {_i}:
-			id: "minecraft:armor.boots"
-			attribute: generic armor
-			amount: {_n}
-			slot: feet_slot_group
-			operation: add_number
-		give player {_i}
 
 command /강화:
     permission: op
@@ -59,7 +35,8 @@ on inventory click:
         cancel event
         clicked slot is 10 or 11 or 12 or 19 or 20 or 21 or 28 or 29 or 30:
             if slot 0 of player's inventory is air:
-                send "&c지팡이를 착용하고 있지 않습니다. 1번 슬롯에 지팡이 착용 후 시도해주세요." to player
+                #send "&c지팡이를 착용하고 있지 않습니다. 1번 슬롯에 지팡이 착용 후 시도해주세요." to player
+                send ":npc: &e고르딘 &f: 자네, 지팡이를 착용하고 있지 않군. 1번 슬롯에 지팡이를 둬야 강화를 할 수 있네." to player
                 stop
             set {targetItem::%player%} to slot 0 of player's inventory
             OpenUpgGUI(player)
@@ -74,19 +51,22 @@ on inventory click:
         cancel event
         clicked slot is 2:
             if chestplate of player is air:
-                send "&c목걸이를 착용하고 있지 않습니다. 착용 후 시도해주세요." to player
+                #send "&c목걸이를 착용하고 있지 않습니다. 착용 후 시도해주세요." to player
+                send ":npc: &e고르딘 &f: 자네, 목걸이를 착용하고 있지 않군. 착용하고 있어야 강화를 할 수 있네." to player
             else:
                 set {targetItem::%player%} to chestplate of player
                 OpenUpgGUI(player)
         clicked slot is 4:
             if leggings of player is air:
-                send "&c귀걸이를 착용하고 있지 않습니다. 착용 후 시도해주세요." to player
+                #send "&c귀걸이를 착용하고 있지 않습니다. 착용 후 시도해주세요." to player
+                send ":npc: &e고르딘 &f: 자네, 귀걸이를 착용하고 있지 않군. 착용하고 있어야 강화를 할 수 있네." to player
             else:
                 set {targetItem::%player%} to leggings of player
                 OpenUpgGUI(player)
         clicked slot is 6:
             if boots of player is air:
-                send "&c반지를 착용하고 있지 않습니다. 착용 후 시도해주세요." to player
+                #send "&c반지를 착용하고 있지 않습니다. 착용 후 시도해주세요." to player
+                send ":npc: &e고르딘 &f: 자네, 반지를 착용하고 있지 않군. 착용하고 있어야 강화를 할 수 있네." to player
             else:
                 set {targetItem::%player%} to boots of player
                 OpenUpgGUI(player)
@@ -106,20 +86,38 @@ on inventory click:
 
                 #강화 성공
                 if {_random} <= {upPer::%player%}:
-                    set int tag "upgrade" of custom nbt of {targetItem::%player%} to {nextUpg::%player%}
                     send "&a[✔] 강화 성공!" to player
-                    play sound "entity.experience_orb.pickup" with pitch 1.2 to {_player}
+                    play sound "entity.experience_orb.pickup" with pitch 1.2 to player
                     set {pityPercent::%player%::%{targetItem::%player%}%} to 0.00
                     
                     #강화 장비 지급
                     if name of {targetItem::%player%} contains "목걸이":
+                        set {_i} to {targetItem::%player%}
+                        set {_d} to findName({_i})
+                        set {targetItem::%player%} to setValue({nextUpg::%player%}, {targetItem::%player%})
+                        set name of {targetItem::%player%} to "&f%{_d}% &e+%{nextUpg::%player%}%강"
+                        set int tag "upgrade" of custom nbt of {targetItem::%player%} to {nextUpg::%player%}
                         set chestplate of player to {targetItem::%player%}
+
                     else if name of {targetItem::%player%} contains "귀걸이":
+                        set {_i} to {targetItem::%player%}
+                        set {_d} to findName({_i})
+                        set {targetItem::%player%} to setValue({nextUpg::%player%}, {targetItem::%player%})
+                        set name of {targetItem::%player%} to "&f%{_d}% &e+%{nextUpg::%player%}%강"
+                        set int tag "upgrade" of custom nbt of {targetItem::%player%} to {nextUpg::%player%}
                         set leggings of player to {targetItem::%player%}
+
                     else if name of {targetItem::%player%} contains "반지":
+                        set {_i} to {targetItem::%player%}
+                        set {_d} to findName({_i})
+                        set {targetItem::%player%} to setValue({nextUpg::%player%}, {targetItem::%player%})
+                        set name of {targetItem::%player%} to "&f%{_d}% &e+%{nextUpg::%player%}%강"
+                        set int tag "upgrade" of custom nbt of {targetItem::%player%} to {nextUpg::%player%}
                         set boots of player to {targetItem::%player%}
+
                     else if name of {targetItem::%player%} contains "지팡이": 
                         set slot 0 of player's inventory to {targetItem::%player%}
+
                     close player's inventory
                     OpenUpgGUI(player)
                 
@@ -128,7 +126,7 @@ on inventory click:
                     send "&c[✘] 강화 실패..." to player
                     add {failPity::%player%} to {pityPercent::%player%::%{targetItem::%player%}%}
                     set slot 4 of player's current inventory to skull of player named "&d강화하기" with lore "&e보유 아일 &7:: %player's balance%" and "&e누적된 포인트 &7:: &f%{pityPercent::%player%::%{targetItem::%player%}%}%&7/100"
-                    play sound "block.note_block.bass" with pitch 0.5 to player
+                    play sound "item.trident.return" to player
             else:
                 send "&c강화 재료가 부족합니다." to player
                 play sound "block.note_block.bass" with pitch 0.5 to player
@@ -153,6 +151,15 @@ function OpenUpgGUI(player: player):
         set {pityPercent::%{_player}%::%{targetItem::%{_player}%}%} to 0
     if name of {targetItem::%{_player}%} contains "목걸이" or "귀걸이" or "반지":
         if {_nowUpg} is not set:
+            set {_nowUpg} to 0
+            set {nextUpg::%{_player}%} to 1
+            set {needAil::%{_player}%} to 150
+            set {needStoneSize::%{_player}%} to {small_stone}
+            set {needStone::%{_player}%} to 3
+            set {upPer::%{_player}%} to 80
+            set {failPity::%{_player}%} to 40.00
+
+        else if {_nowUpg} is 0:
             set {_nowUpg} to 0
             set {nextUpg::%{_player}%} to 1
             set {needAil::%{_player}%} to 150
@@ -232,6 +239,15 @@ function OpenUpgGUI(player: player):
 
     else if name of {targetItem::%{_player}%} contains "&6지팡이":
         if {_nowUpg} is not set:
+            set {_nowUpg} to 0
+            set {nextUpg::%{_player}%} to 1
+            set {needAil::%{_player}%} to 500
+            set {needStoneSize::%{_player}%} to {small_stone}
+            set {needStone::%{_player}%} to 10
+            set {upPer::%{_player}%} to 80
+            set {failPity::%{_player}%} to 40.00
+
+        else if {_nowUpg} is 0:
             set {_nowUpg} to 0
             set {nextUpg::%{_player}%} to 1
             set {needAil::%{_player}%} to 500
@@ -328,4 +344,110 @@ function OpenUpgGUI(player: player):
     set slot 42 of {_upgradeTryGUI} to {voidItem} named "&c&l강화 취소"
 
     open {_upgradeTryGUI} to {_player}
-    
+
+function setValue(number: number, item: item) :: item:
+    if {_number} is 1:
+        set {_n} to 1
+        set {_p} to 0
+    else if {_number} is 2:
+        set {_n} to 2
+        set {_p} to 0
+    else if {_number} is 3:
+        set {_n} to 3
+        set {_p} to 0
+    else if {_number} is 4:
+        set {_n} to 4
+        set {_p} to 0
+    else if {_number} is 5:
+        set {_n} to 5
+        set {_p} to 0
+    else if {_number} is 6:
+        set {_n} to 5
+        set {_p} to 1
+    else if {_number} is 7:
+        set {_n} to 6
+        set {_p} to 1
+    else if {_number} is 8:
+        set {_n} to 7
+        set {_p} to 2
+    else if {_number} is 9:
+        set {_n} to 8
+        set {_p} to 4
+
+    set {_i} to {%findItem({_item})%}
+
+    if {_i}'s name contains "목걸이":
+        apply attribute modifier to {_i}:
+            id: "minecraft:armor.chestplate"
+            attribute: generic armor
+            amount: {_n}
+            slot: chest_slot_group
+            operation: add_number
+        apply attribute modifier to {_i}:
+            id: "minecraft:armor_toughness.chestplate"
+            attribute: generic armor toughness
+            amount: {_p}
+            slot: chest_slot_group
+            operation: add_number
+
+    else if {_i}'s name contains "귀걸이":
+        apply attribute modifier to {_i}:
+            id: "minecraft:armor.leggings"
+            attribute: generic armor
+            amount: {_n}
+            slot: legs_slot_group
+            operation: add_number
+        apply attribute modifier to {_i}:
+            id: "minecraft:armor_toughness.leggings"
+            attribute: generic armor toughness
+            amount: {_p}
+            slot: legs_slot_group
+            operation: add_number
+
+    else if {_i}'s name contains "반지":
+        apply attribute modifier to {_i}:
+            id: "minecraft:armor.boots"
+            attribute: generic armor
+            amount: {_n}
+            slot: feet_slot_group
+            operation: add_number
+        apply attribute modifier to {_i}:
+            id: "minecraft:armor_toughness.boots"
+            attribute: generic armor toughness
+            amount: {_p}
+            slot: feet_slot_group
+            operation: add_number
+
+    return {_i}
+
+function findName(item: item) :: string:
+    if {_item}'s name contains "조잡한 목걸이":
+        return "조잡한 목걸이"
+    else if {_item}'s name contains "조잡한 귀걸이":
+        return "s조잡한 귀걸이"
+    else if {_item}'s name contains "조잡한 반지":
+        return "조잡한 반지" 
+    else if {_item}'s name contains "쓸만한 목걸이":
+        return "쓸만한 목걸이"
+    else if {_item}'s name contains "쓸만한 귀걸이":
+        return "쓸만한 귀걸이"
+    else if {_item}'s name contains "쓸만한 반지":
+        return "쓸만한 반지" 
+    else if {_item}'s name contains "빛나는 목걸이":
+        return "빛나는 목걸이"
+    else if {_item}'s name contains "빛나는 귀걸이":
+        return "빛나는 귀걸이"
+    else if {_item}'s name contains "빛나는 반지":
+        return "빛나는 반지" 
+    else if {_item}'s name contains "튼튼한 목걸이":
+        return "튼튼한 목걸이"
+    else if {_item}'s name contains "튼튼한 귀걸이":
+        return "튼튼한 귀걸이"
+    else if {_item}'s name contains "튼튼한 반지":
+        return "튼튼한 반지" 
+    else if {_item}'s name contains "화려한 목걸이":
+        return "화려한 목걸이"
+    else if {_item}'s name contains "화려한 귀걸이":
+        return "화려한 귀걸이"
+    else if {_item}'s name contains "화려한 반지":
+        return "화려한 반지" 
