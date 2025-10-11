@@ -10,7 +10,9 @@
 		
 		#내용 셋팅
 		set slot 19 of {_profileGUI} to skull of {_targetP} named "&e&l%{_targetP}%&f님의 프로필"
-		set slot 10 of {_profileGUI} to {voidItem} named "&e한마디"
+		if {profile::%{_targetP}%::message} is not set:
+			set {profile::%{_targetP}%::message} to "&e안녕하세요!"
+		set slot 10 of {_profileGUI} to {voidItem} named "&e%{profile::%{_targetP}%::message}%"
 		
 		set slot 3 of {_profileGUI} to {%{profile::%{_targetP}%::magic}%_badge} #기숙사
 		set slot 5 of {_profileGUI} to {%{profile::%{_targetP}%::score}%_badge} #성적
@@ -48,19 +50,20 @@
 
 		open {_profileGUI} to player
 
-command /프로필장식:
+command /프로필꾸미기:
 	permission: op
 	trigger:
-		set {_editProfileGUI} to chest inventory with 1 rows named "프로필 디자인 선택"
+		set {_editProfileGUI} to chest inventory with 2 rows named "프로필 꾸미기"
 		set slot 0 of {_editProfileGUI} to white wool named "&f일반 프로필" with lore "&7클릭하여 선택"
 		set slot 2 of {_editProfileGUI} to black wool named "&7블랙 프로필" with lore "&7클릭하여 선택"
 		set slot 4 of {_editProfileGUI} to lime wool named "&a겜타벅스 프로필" with lore "&7클릭하여 선택"
 		set slot 6 of {_editProfileGUI} to orange wool named "&e골드 프로필" with lore "&7클릭하여 선택"
 		set slot 8 of {_editProfileGUI} to pink wool named "&d벚꽃 프로필" with lore "&7클릭하여 선택"
+		set slot 13 of {_editProfileGUI} to birch hanging sign named "&c프로필 한마디 설정" with lore "&7클릭하여 수정"
 		open {_editProfileGUI} to player
 
 on inventory click:
-	event-inventory's name is "프로필 디자인 선택":
+	event-inventory's name is "프로필 꾸미기":
 		cancel event
 		clicked slot is 0:
 			send "&e[프로필] &f프로필 디자인 설정 완료! &7[ 현재 디자인 : 일반 프로필 ]" to player
@@ -77,9 +80,19 @@ on inventory click:
 		clicked slot is 8:
 			send "&e[프로필] &f프로필 디자인 설정 완료! &7[ 현재 디자인 : 벚꽃 프로필 ]" to player
 			set {profile::%player%::design} to 4
+		clicked slot is 13:
+			set {profile::%player%::messageEdit} to true
+			send "&e[프로필] &f수정할 한마디를 채팅에 입력해주세요."
+			close player's inventory
 	event-inventory's name contains ":offset_-8::profile_":
 		cancel event
 
+on chat:
+	if {profile::%player%::messageEdit} is true:
+		cancel event
+		delete {profile::%player%::messageEdit}
+		set {profile::%player%::message} to message
+		send "&e[프로필] &f수정 완료! &7[ 현재 한마디 : %{profile::%player%::message}% ]"
 
 function findBadge(targetP: offlineplayer, key: string) :: item:
 	set {_val} to {profile::%{_targetP}%::%{_key}%}
