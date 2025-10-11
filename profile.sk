@@ -1,312 +1,64 @@
-﻿command /프로필:
-	trigger:
-		set {_profile} to chest inventory with 6 rows named ":offset_-8::profile:"
-		#기본 정보
-		set slot 19 of {_profile} to skull of player named "&d&l%player%"
-		set slot 10 of {_profile} to {voidItem} named "&e%{myIntro::%player%}%"
-
-		#세부 정보
-		set slot 3 of {_profile} to {voidItem} named "&7기숙사"
-		set slot 5 of {_profile} to {voidItem} named "&e레벨"
-		set slot 7 of {_profile} to {voidItem} named "&6성적"
-		set slot 21 of {_profile} to {voidItem} named "&a파티"
-		set slot 23 of {_profile} to {voidItem} named "&c전투력"
-		set slot 25 of {_profile} to {voidItem} named "&b학년"
-
-		#생활
-		set slot 46 of {_profile} to {voidItem} named "&a채집"
-		set slot 48 of {_profile} to {voidItem} named "&6요리"
-		set slot 50 of {_profile} to {voidItem} named "&b낚시"
-		set slot 52 of {_profile} to {voidItem} named "&d연금술"
-		
-		open {_profile} to player
-
-command /내정보:
-	trigger:
-		set {_profileGUI} to chest inventory with 6 rows named "나의 프로필"
-
-
-		if {myProfileGlass::%player%} is not set:
-			set {myProfileGlass::%player%} to black stained glass pane
-		if {myProfileSign::%player%} is not set:
-			set {myProfileGlass::%player%} to oak hanging sign
-
-		set {_i} to 0
-		while {_i} < 9:
-			set slot {_i} of {_profileGUI} to {myProfileGlass::%player%} named "&f"
-			add 1 to {_i}
-
-		set {_i} to 45
-		while {_i} < 53:
-			set slot {_i} of {_profileGUI} to {myProfileGlass::%player%} named "&f"
-			add 1 to {_i}
-
-		set slot 53 of {_profileGUI} to writable book named "&e&l프로필 꾸미기"
-
-		set slot 19 of {_profileGUI} to skull of player named "&d&l%player%&f의 프로필"
-		set slot 28 of {_profileGUI} to {myProfileSign::%player%} named "&e%{myIntro::%player%}%"
-
-		set slot 22 of {_profileGUI} to paper named "&b%{grade::%player%}%&f학년"
-		set slot 24 of {_profileGUI} to amethyst shard named "&7성적: &c%{score::%player%}%"
-
-		##레벨##
-		set {_level} to level of player
-		set slot 30 of {_profileGUI} to emerald named "&7레벨: &a%{_level}%"
-
-		##직업##
-		if the luckperms permissions of player is "job.fire":
-			set slot 32 of {_profileGUI} to end crystal named "&7직업: &c불 마법사"
-		else if luckperms permissions of player is "job.water":
-			set slot 32 of {_profileGUI} to end crystal named "&7직업: &b물 마법사"
-		else if luckperms permissions of player is "job.earth":
-			set slot 32 of {_profileGUI} to end crystal named "&7직업: &a자연 마법사"
-		else if luckperms permissions of player is "job.wind":
-			set slot 32 of {_profileGUI} to end crystal named "&7직업: &e바람 마법사"
-		else:
-			set slot 32 of {_profileGUI} to end crystal named "&7직업: &f없음"
-
-		##파티##
-		set {_party} to {nowParty::%player%}
-		if {_party} is not set:
-			set slot 34 of {_profileGUI} to gray dye named "&7파티: 없음"
-		else:
-			set slot 34 of {_profileGUI} to {%{_party}%::m1}'s skull named "&7파티: &6%{%{_party}%::name}%"
-
-		open {_profileGUI} to player
-
-command /정보 [<offlineplayer>]:
+﻿command /프로필 [<offlineplayer>]:
 	trigger:
 		if arg-1 is not set:
-			send "&c정보를 확인할 플레이어의 닉네임을 입력해주세요." to player
-			stop
-		set {_target} to arg-1
-
-		set {_profileGUI} to chest inventory with 6 rows named "%{_target}%의 프로필"
-
-		if {myProfileGlass::%{_target}%} is not set:
-			set {myProfileGlass::%{_target}%} to black stained glass pane
-		if {myProfileSign::%{_target}%} is not set:
-			set {myProfileSign::%{_target}%} to oak hanging sign
-
-		set {_i} to 0
-		while {_i} < 9:
-			set slot {_i} of {_profileGUI} to {myProfileGlass::%{_target}%} named "&f"
-			add 1 to {_i}
-
-		set {_i} to 45
-		while {_i} < 54:
-			set slot {_i} of {_profileGUI} to {myProfileGlass::%{_target}%} named "&f"
-			add 1 to {_i}
-
-		set slot 19 of {_profileGUI} to skull of {_target} named "&d&l%{_target}%&f의 프로필"
-		set slot 28 of {_profileGUI} to {myProfileSign::%{_target}%} named "&e%{myIntro::%{_target}%}%"
-
-		set slot 22 of {_profileGUI} to paper named "&b%{grade::%{_target}%}%&f학년"
-		set slot 24 of {_profileGUI} to amethyst shard named "&7성적: &c%{score::%{_target}%}%"
-
-		##레벨##
-		set {_level} to level of {_target}
-		set slot 30 of {_profileGUI} to emerald named "&7레벨: &a%{_level}%"
-
-		##직업##
-		if the luckperms permissions of {_target} is "job.fire":
-			set slot 32 of {_profileGUI} to end crystal named "&7직업: &c불 마법사"
-		else if luckperms permissions of {_target} is "job.water":
-			set slot 32 of {_profileGUI} to end crystal named "&7직업: &b물 마법사"
-		else if luckperms permissions of {_target} is "job.earth":
-			set slot 32 of {_profileGUI} to end crystal named "&7직업: &a자연 마법사"
-		else if luckperms permissions of {_target} is "job.wind":
-			set slot 32 of {_profileGUI} to end crystal named "&7직업: &e바람 마법사"
+			set {_targetP} to player
 		else:
-			set slot 32 of {_profileGUI} to end crystal named "&7직업: &f없음"
+			set {_targetP} to arg-1
+		set {_profileGUI} to chest inventory with 6 rows named ":offset_-8::profile_0:"
+		
+		#내용 셋팅
+		set slot 19 of {_profileGUI} to skull of {_targetP} named "&e&l%{_targetP}%&f님의 프로필"
+		set slot 10 of {_profileGUI} to {voidItem} named "&e한마디"
+		
+		set slot 3 of {_profileGUI} to {%{%{_targetP}%profile::magic}%_badge} #기숙사
+		set slot 5 of {_profileGUI} to {%{%{_targetP}%profile::score}%_badge} #성적
+		set slot 7 of {_profileGUI} to {%{%{_targetP}%profile::grade}%grade_badge} #학년
 
-		##파티##
-		set {_party} to {nowParty::%{_target}%}
-		if {_party} is not set:
-			set slot 34 of {_profileGUI} to gray dye named "&7파티: 없음"
-		else:
-			set slot 34 of {_profileGUI} to {%{_party}%::m1}'s skull named "&7파티: &6%{%{_party}%::name}%"
+		#전투력
+		set {_val} to {%{_targetP}%profile::power}
+		if {_val} is between 0 and 100:
+			set slot 21 of {_profileGUI} to {bronze_badge} 
+		else if {_val} is between 101 and 200:
+			set slot 21 of {_profileGUI} to {silver_badge}
+		else if {_val} is between 201 and 300:
+			set slot 21 of {_profileGUI} to {gold_badge}
+		else if {_val} is between 301 and 400:
+			set slot 21 of {_profileGUI} to {dia_badge}
+
+		set {_badge} to findBadge({_targetP}, "level")
+		set slot 23 of {_profileGUI} to {_badge} #레벨
+
+		#파티
+		set {_party} to {nowParty::%{_targetP}%}
+		set slot 25 of {_profileGUI} to {%{_party}%::m1}'s skull 
+
+		set {_badge} to findBadge({_targetP}, "gathering")
+		set slot 46 of {_profileGUI} to {_badge} #채집
+
+		set {_badge} to findBadge({_targetP}, "cooking")
+		set slot 48 of {_profileGUI} to {_badge} #요리
+
+		set {_badge} to findBadge({_targetP}, "fishing")
+		set slot 50 of {_profileGUI} to {_badge} #낚시
+
+		set {_badge} to findBadge({_targetP}, "alchemy")
+		set slot 52 of {_profileGUI} to {_badge} #연금
 
 		open {_profileGUI} to player
 
-command /프로필꾸미기:
-	trigger:
-		set {_profileEditGUI} to chest inventory with 6 rows named "나의 프로필 수정"
-		set slot 0 of {_profileEditGUI} to {last} named "&b돌아가기"
-		set slot 1 of {_profileEditGUI} to oak hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
-		set slot 3 of {_profileEditGUI} to spruce hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
-		set slot 5 of {_profileEditGUI} to birch hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
-		set slot 7 of {_profileEditGUI} to jungle hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
-		set slot 10 of {_profileEditGUI} to acacia hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
-		set slot 12 of {_profileEditGUI} to dark oak hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
-		set slot 14 of {_profileEditGUI} to mangrove hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
-		set slot 16 of {_profileEditGUI} to cherry hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
-		set slot 19 of {_profileEditGUI} to bamboo hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
-		set slot 21 of {_profileEditGUI} to crimson hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
-		set slot 23 of {_profileEditGUI} to warped hanging sign named "&e자기소개 표지판" with lore "&7클릭하여 설정"
-
-		set slot 25 of {_profileEditGUI} to writable book named "&e자기소개 입력" with lore "&7클릭하여 변경"
-
-		set slot 36 of {_profileEditGUI} to white stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
-		set slot 37 of {_profileEditGUI} to light gray stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
-		set slot 38 of {_profileEditGUI} to gray stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
-		set slot 39 of {_profileEditGUI} to black stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
-		set slot 41 of {_profileEditGUI} to brown stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
-		set slot 42 of {_profileEditGUI} to red stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
-		set slot 43 of {_profileEditGUI} to orange stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
-		set slot 44 of {_profileEditGUI} to yellow stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
-		set slot 45 of {_profileEditGUI} to lime stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
-		set slot 46 of {_profileEditGUI} to green stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
-		set slot 47 of {_profileEditGUI} to cyan stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
-		set slot 48 of {_profileEditGUI} to light blue stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
-		set slot 50 of {_profileEditGUI} to blue stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
-		set slot 51 of {_profileEditGUI} to purple stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
-		set slot 52 of {_profileEditGUI} to magenta stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
-		set slot 53 of {_profileEditGUI} to pink stained glass pane named "&a유리 장식" with lore "&7클릭하여 설정"
-		open {_profileEditGUI} to player
+function findBadge(targetP: offlineplayer, key: string) :: item:
+	set {_val} to {%{_targetP}%profile::%{_key}%}
+	if {_val} is between 0 and 14:
+		return {bronze_badge}
+	else if {_val} is between 15 and 39:
+		return {silver_badge}
+	else if {_val} is between 40 and 59:
+		return {gold_badge}
+	else if {_val} is between 60 and 75:
+		return {dia_badge}
 
 on right click on player:
 	if player is sneaking:
 		if clicked entity is not player:
 			execute player command "/정보 %clicked entity%"
 
-on inventory click:
-	event-inventory's name is "나의 프로필":
-		event-inventory is player's inventory:
-			cancel event
-		
-		clicked slot is 53:
-			execute player command "/프로필꾸미기"
-			cancel event
-
-	event-inventory's name is "나의 프로필 수정":
-		event-inventory is player's inventory:
-			cancel event
-
-		clicked slot is 0:
-			execute player command "/내정보"
-
-		clicked slot is 1:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileSign::%player%} to oak hanging sign
-
-		clicked slot is 3:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileSign::%player%} to spruce hanging sign
-
-		clicked slot is 5:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileSign::%player%} to birch hanging sign
-
-		clicked slot is 7:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileSign::%player%} to jungle hanging sign
-
-		clicked slot is 10:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileSign::%player%} to acacia hanging sign
-
-		clicked slot is 12:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileSign::%player%} to dark oak hanging sign
-
-		clicked slot is 14:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileSign::%player%} to mangrove hanging sign
-
-		clicked slot is 16:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileSign::%player%} to cherry hanging sign
-
-		clicked slot is 19:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileSign::%player%} to bamboo hanging sign
-
-		clicked slot is 21:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileSign::%player%} to crimson hanging sign
-
-		clicked slot is 23:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileSign::%player%} to warped hanging sign
-
-		clicked slot is 25:
-			send "&e자기소개를 입력해주세요." to player
-			set {editMyIntro::%player%} to true
-			close player's inventory
-
-		##유리판##
-		clicked slot is 36:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileGlass::%player%} to white stained glass pane
-
-		clicked slot is 37:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileGlass::%player%} to light gray stained glass pane 
-
-		clicked slot is 38:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileGlass::%player%} to gray stained glass pane 
-
-		clicked slot is 39:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileGlass::%player%} to black stained glass pane 
-
-		clicked slot is 41:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileGlass::%player%} to brown stained glass pane 
-
-		clicked slot is 42:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileGlass::%player%} to red stained glass pane 
-
-		clicked slot is 43:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileGlass::%player%} to orange stained glass pane 
-
-		clicked slot is 44:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileGlass::%player%} to yellow stained glass pane 
-
-		clicked slot is 45:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileGlass::%player%} to lime stained glass pane 
-
-		clicked slot is 46:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileGlass::%player%} to green stained glass pane 
-
-		clicked slot is 47:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileGlass::%player%} to cyan stained glass pane 
-
-		clicked slot is 48:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileGlass::%player%} to light blue stained glass pane 
-
-		clicked slot is 50:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileGlass::%player%} to blue stained glass pane 
-
-		clicked slot is 51:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileGlass::%player%} to purple stained glass pane 
-
-		clicked slot is 52:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileGlass::%player%} to magenta stained glass pane 
-
-		clicked slot is 53:
-			send "&e프로필 장식이 변경되었습니다!" to player
-			set {myProfileGlass::%player%} to pink stained glass pane 
-
-		cancel event
-
-
-on chat:
-	if {editMyIntro::%player%} is set:
-		cancel event
-		delete {editMyIntro::%player%}
-		set {myIntro::%player%} to message
-		execute player command "/프로필꾸미기"
-		send "&e자기소개가 수정되었습니다. &f[ %{myIntro::%player%}% ]" to player
