@@ -8,10 +8,29 @@
 			set {profile::%{_targetP}%::design} to 0
 		set {_profileGUI} to chest inventory with 6 rows named ":offset_-8::profile_%{profile::%{_targetP}%::design}%:"
 		
-		#내용 셋팅
-		set slot 19 of {_profileGUI} to skull of {_targetP} named "&e&l%{_targetP}%&f님의 프로필"
+		#초기화
 		if {profile::%{_targetP}%::message} is not set:
 			set {profile::%{_targetP}%::message} to "&e안녕하세요!"
+		if {profile::%{_targetP}%::score} is not set:
+			set {profile::%{_targetP}%::score} to "D"
+		if {profile::%{_targetP}%::grade} is not set:
+			set {profile::%{_targetP}%::grade} to 1
+		if {profile::%{_targetP}%::power} is not set:
+			set {profile::%{_targetP}%::power} to 0
+		if {profile::%{_targetP}%::level} is not set:
+			set {profile::%{_targetP}%::level} to 0
+		if {profile::%{_targetP}%::gathering} is not set:
+			set {profile::%{_targetP}%::gathering} to 0
+		if {profile::%{_targetP}%::cooking} is not set:
+			set {profile::%{_targetP}%::cooking} to 0
+		if {profile::%{_targetP}%::fishing} is not set:
+			set {profile::%{_targetP}%::fishing} to 0
+		if {profile::%{_targetP}%::alchemy} is not set:
+			set {profile::%{_targetP}%::alchemy} to 0
+
+		#내용 셋팅
+		set slot 19 of {_profileGUI} to skull of {_targetP} named "&e&l%{_targetP}%&f님의 프로필"
+		
 		set slot 10 of {_profileGUI} to {voidItem} named "&e%{profile::%{_targetP}%::message}%"
 		
 		set slot 3 of {_profileGUI} to {%{profile::%{_targetP}%::magic}%_badge} #기숙사
