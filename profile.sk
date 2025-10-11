@@ -4,18 +4,20 @@
 			set {_targetP} to player
 		else:
 			set {_targetP} to arg-1
-		set {_profileGUI} to chest inventory with 6 rows named ":offset_-8::profile_0:"
+		if {profile::%{_targetP}%::design} is not set:
+			set {profile::%{_targetP}%::design} to 0
+		set {_profileGUI} to chest inventory with 6 rows named ":offset_-8::profile_%{profile::%{_targetP}%::design}%:"
 		
 		#내용 셋팅
 		set slot 19 of {_profileGUI} to skull of {_targetP} named "&e&l%{_targetP}%&f님의 프로필"
 		set slot 10 of {_profileGUI} to {voidItem} named "&e한마디"
 		
-		set slot 3 of {_profileGUI} to {%{%{_targetP}%profile::magic}%_badge} #기숙사
-		set slot 5 of {_profileGUI} to {%{%{_targetP}%profile::score}%_badge} #성적
-		set slot 7 of {_profileGUI} to {%{%{_targetP}%profile::grade}%grade_badge} #학년
+		set slot 3 of {_profileGUI} to {%{profile::%{_targetP}%::magic}%_badge} #기숙사
+		set slot 5 of {_profileGUI} to {%{profile::%{_targetP}%::score}%_badge} #성적
+		set slot 7 of {_profileGUI} to {%{profile::%{_targetP}%::grade}%grade_badge} #학년
 
 		#전투력
-		set {_val} to {%{_targetP}%profile::power}
+		set {_val} to {profile::%{_targetP}%::power}
 		if {_val} is between 0 and 100:
 			set slot 21 of {_profileGUI} to {bronze_badge} 
 		else if {_val} is between 101 and 200:
@@ -47,7 +49,7 @@
 		open {_profileGUI} to player
 
 function findBadge(targetP: offlineplayer, key: string) :: item:
-	set {_val} to {%{_targetP}%profile::%{_key}%}
+	set {_val} to {profile::%{_targetP}%::%{_key}%}
 	if {_val} is between 0 and 14:
 		return {bronze_badge}
 	else if {_val} is between 15 and 39:
