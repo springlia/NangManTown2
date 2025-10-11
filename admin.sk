@@ -205,7 +205,7 @@ command /관리자명령어_기숙사입력 <offlineplayer> <text>:
 		set {_target} to arg-1
 		set {_magic} to arg-2
 		if {_magic} is "fire" or "water" or "earth" or "wind" or "light" or "dark" or "dream":
-			set {%{_target}%profile::magic} to {_magic}
+			set {profile::%{_target}%::magic} to {_magic}
 			send "&7[관리모드] 기숙사 입력 완료. %{_target}% 의 기숙사 : %{_magic}%" to player
 			send "&7[관리모드] 기숙사 입력 완료. %{_target}% 의 기숙사 : %{_magic}%" to console
 			send "&e관리자에 의해 기숙사가 변경되었습니다. &f[현재 기숙사 : &d%{_magic}% &f]" to {_target}
@@ -216,7 +216,7 @@ command /관리자명령어_성적입력 <offlineplayer> <text>:
 		set {_target} to arg-1
 		set {_score} to arg-2
 		if {_score} is "A" or "B" or "C" or "D" or "F":
-			set {%{_target}%profile::score} to {_score}
+			set {profile::%{_target}%::score} to {_score}
 			send "&7[관리모드] 성적 입력 완료. %{_target}% 의 성적 : %{_score}%" to player
 			send "&7[관리모드] 성적 입력 완료. %{_target}% 의 성적 : %{_score}%" to console
 			send "&e관리자에 의해 성적이 변경되었습니다. &f[현재 성적 : &d%{_score}% &f]" to {_target}
@@ -229,7 +229,7 @@ command /관리자명령어_학년입력 <offlineplayer> <text>:
 		set {_target} to arg-1
 		set {_grade} to arg-2
 		if {_grade} is "1" or "2" or "3" or "4" or "5" or "6" or "7":
-			set {%{_target}%profile::grade} to {_grade}
+			set {profile::%{_target}%::grade} to {_grade}
 			send "&7[관리모드] 학년 입력 완료. %{_target}% 의 학년 : %{_grade}%" to player
 			send "&7[관리모드] 학년 입력 완료. %{_target}% 의 학년 : %{_grade}%" to console
 			send "&e관리자에 의해 학년이 변경되었습니다. &f[현재 학년 : &d%{_grade}% &f]" to {_target}
@@ -241,7 +241,7 @@ command /관리자명령어_전투력입력 <offlineplayer> <number>:
 	trigger:
 		set {_target} to arg-1
 		set {_power} to arg-2
-		set {%{_target}%profile::power} to {_power}
+		set {profile::%{_target}%::power} to {_power}
 		send "&7[관리모드] 전투력 입력 완료. %{_target}% 의 전투력 : %{_power}%" to player
 		send "&7[관리모드] 전투력 입력 완료. %{_target}% 의 전투력 : %{_power}%" to console
 		send "&e관리자에 의해 전투력이 변경되었습니다. &f[현재 전투력 : &d%{_power}% &f]" to {_target}
@@ -251,7 +251,7 @@ command /관리자명령어_채집레벨입력 <offlineplayer> <number>:
 	trigger:
 		set {_target} to arg-1
 		set {_gathering} to arg-2
-		set {%{_target}%profile::gathering} to {_gathering}
+		set {profile::%{_target}%::gathering} to {_gathering}
 		send "&7[관리모드] 채집 레벨 입력 완료. %{_target}% 의 채집 레벨 : %{_gathering}%" to player
 		send "&7[관리모드] 채집 레벨 입력 완료. %{_target}% 의 채집 레벨 : %{_gathering}%" to console
 		send "&e관리자에 의해 채집 레벨이 변경되었습니다. &f[현재 채집 레벨 : &d%{_gathering}% &f]" to {_target}
@@ -261,7 +261,7 @@ command /관리자명령어_요리레벨입력 <offlineplayer> <number>:
 	trigger:
 		set {_target} to arg-1
 		set {_cooking} to arg-2
-		set {%{_target}%profile::cooking} to {_cooking}
+		set {profile::%{_target}%::cooking} to {_cooking}
 		send "&7[관리모드] 요리 레벨 입력 완료. %{_target}% 의 요리 레벨 : %{_cooking}%" to player
 		send "&7[관리모드] 요리 레벨 입력 완료. %{_target}% 의 요리 레벨 : %{_cooking}%" to console
 		send "&e관리자에 의해 요리 레벨이 변경되었습니다. &f[현재 요리 레벨 : &d%{_cooking}% &f]" to {_target}
@@ -271,7 +271,7 @@ command /관리자명령어_낚시레벨입력 <offlineplayer> <number>:
 	trigger:
 		set {_target} to arg-1
 		set {_fishing} to arg-2
-		set {%{_target}%profile::fishing} to {_fishing}
+		set {profile::%{_target}%::fishing} to {_fishing}
 		send "&7[관리모드] 낚시 레벨 입력 완료. %{_target}% 의 낚시 레벨 : %{_fishing}%" to player
 		send "&7[관리모드] 낚시 레벨 입력 완료. %{_target}% 의 낚시 레벨 : %{_fishing}%" to console
 		send "&e관리자에 의해 낚시 레벨이 변경되었습니다. &f[현재 낚시 레벨 : &d%{_fishing}% &f]" to {_target}
@@ -281,7 +281,7 @@ command /관리자명령어_연금술레벨입력 <offlineplayer> <number>:
 	trigger:
 		set {_target} to arg-1
 		set {_alchemy} to arg-2
-		set {%{_target}%profile::alchemy} to {_alchemy}
+		set {profile::%{_target}%::alchemy} to {_alchemy}
 		send "&7[관리모드] 연금술 레벨 입력 완료. %{_target}% 의 연금술 레벨 : %{_alchemy}%" to player
 		send "&7[관리모드] 연금술 레벨 입력 완료. %{_target}% 의 연금술 레벨 : %{_alchemy}%" to console
 		send "&e관리자에 의해 연금술 레벨이 변경되었습니다. &f[현재 연금술 레벨 : &d%{_alchemy}% &f]" to {_target}
