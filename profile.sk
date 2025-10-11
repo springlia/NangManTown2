@@ -48,6 +48,39 @@
 
 		open {_profileGUI} to player
 
+command /프로필장식:
+	permission: op
+	trigger:
+		set {_editProfileGUI} to chest inventory with 1 rows named "프로필 디자인 선택"
+		set slot 0 of {_editProfileGUI} to white wool named "&f일반 프로필" with lore "&7클릭하여 선택"
+		set slot 2 of {_editProfileGUI} to black wool named "&7블랙 프로필" with lore "&7클릭하여 선택"
+		set slot 4 of {_editProfileGUI} to lime wool named "&a겜타벅스 프로필" with lore "&7클릭하여 선택"
+		set slot 6 of {_editProfileGUI} to orange wool named "&e골드 프로필" with lore "&7클릭하여 선택"
+		set slot 8 of {_editProfileGUI} to pink wool named "&d벚꽃 프로필" with lore "&7클릭하여 선택"
+		open {_editProfileGUI} to player
+
+on inventory click:
+	event-inventory's name is "프로필 디자인 선택":
+		cancel event
+		clicked slot is 0:
+			send "&e[프로필] &f프로필 디자인 설정 완료! &7[ 현재 디자인 : 일반 프로필 ]" to player
+			set {profile::%player%::design} to 0
+		clicked slot is 2:
+			send "&e[프로필] &f프로필 디자인 설정 완료! &7[ 현재 디자인 : 블랙 프로필 ]" to player
+			set {profile::%player%::design} to 1
+		clicked slot is 4:
+			send "&e[프로필] &f프로필 디자인 설정 완료! &7[ 현재 디자인 : 겜타벅스 프로필 ]" to player
+			set {profile::%player%::design} to 2
+		clicked slot is 6:
+			send "&e[프로필] &f프로필 디자인 설정 완료! &7[ 현재 디자인 : 골드 프로필 ]" to player
+			set {profile::%player%::design} to 3
+		clicked slot is 8:
+			send "&e[프로필] &f프로필 디자인 설정 완료! &7[ 현재 디자인 : 벚꽃 프로필 ]" to player
+			set {profile::%player%::design} to 4
+	event-inventory's name contains ":offset_-8::profile_":
+		cancel event
+
+
 function findBadge(targetP: offlineplayer, key: string) :: item:
 	set {_val} to {profile::%{_targetP}%::%{_key}%}
 	if {_val} is between 0 and 14:
