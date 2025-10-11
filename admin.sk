@@ -145,6 +145,31 @@ command /관리자명령어_변수초기화:
 		set {lava_herb} to ItemsAdder.getCustomItem("magicitem:lava_herb") 
 		set {elasticity_herb} to ItemsAdder.getCustomItem("magicitem:elasticity_herb") 
 
+		#뱃지
+		set {fire_badge} to ItemsAdder.getCustomItem("badge:fire_badge")
+		set {water_badge} to ItemsAdder.getCustomItem("badge:water_badge")
+		set {earth_badge} to ItemsAdder.getCustomItem("badge:earth_badge")
+		set {wind_badge} to ItemsAdder.getCustomItem("badge:wind_badge")
+		set {light_badge} to ItemsAdder.getCustomItem("badge:light_badge")
+		set {dark_badge} to ItemsAdder.getCustomItem("badge:dark_badge")
+		set {dream_badge} to ItemsAdder.getCustomItem("badge:dream_badge")
+		set {A_badge} to ItemsAdder.getCustomItem("badge:a_badge")
+		set {B_badge} to ItemsAdder.getCustomItem("badge:b_badge")
+		set {C_badge} to ItemsAdder.getCustomItem("badge:c_badge")
+		set {D_badge} to ItemsAdder.getCustomItem("badge:d_badge")
+		set {F_badge} to ItemsAdder.getCustomItem("badge:f_badge")
+		set {1grade_badge} to ItemsAdder.getCustomItem("badge:1grade_badge")
+		set {2grade_badge} to ItemsAdder.getCustomItem("badge:2grade_badge")
+		set {3grade_badge} to ItemsAdder.getCustomItem("badge:3grade_badge")
+		set {4grade_badge} to ItemsAdder.getCustomItem("badge:4grade_badge")
+		set {5grade_badge} to ItemsAdder.getCustomItem("badge:5grade_badge")
+		set {6grade_badge} to ItemsAdder.getCustomItem("badge:6grade_badge")
+		set {7grade_badge} to ItemsAdder.getCustomItem("badge:7grade_badge")
+		set {bronze_badge} to ItemsAdder.getCustomItem("badge:bronze_badge")
+		set {silver_badge} to ItemsAdder.getCustomItem("badge:silver_badge")
+		set {gold_badge} to ItemsAdder.getCustomItem("badge:gold_badge")
+		set {dia_badge} to ItemsAdder.getCustomItem("badge:dia_badge")
+
 		send "&c초기화 완료" to player
 
 command /관리자명령어_기숙사공지 [<text>]:
