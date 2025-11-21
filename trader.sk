@@ -1,0 +1,29 @@
+﻿command /거래 <offlineplayer>:
+    trigger:
+        set {_target} to arg-1
+        if {_target} is online:
+            set {waitTrade::%player%} to {_target}
+            set {waitTradeHave::%{_target}%} to player
+            send "&a[거래소] &e%{_target}%&f님께 거래 요청을 보냈습니다." to player
+            send "&a[거래소] &e%player%&f님의 거래 요청입니다. <ttp:클릭 시 거래를 수락합니다.><cmd:/거래수락>&a&l[수락]<reset> <ttp:클릭 시 거래를 거절합니다.><cmd:/거래거절>&c&l[거절]<reset>" to {_target}
+            send "test %arg-1%" to player
+        else:
+            send "&c해당 플레이어는 온라인 상태가 아닙니다." to player
+
+command /거래수락:
+    trigger:
+        if {waitTradeHave::%player%} is set:
+            ##거래 UI 오픈
+        else:
+            send "&c들어온 거래 요청이 없습니다." to player
+
+command /거래거절:
+    trigger:
+        if {waitTradeHave::%player%} is set:
+            set {_user} to {waitTradeHave::%player%}
+            send "&c거래 요청을 거절하였습니다." to player
+            send "&c거래 요청이 거절되었습니다." to {_user}
+            delete {waitTradeHave::%player%}
+            delete {waitTrade::%{_user}%}
+        else:
+            send "&c들어온 거래 요청이 없습니다." to player
