@@ -13,7 +13,47 @@
 command /거래수락:
     trigger:
         if {waitTradeHave::%player%} is set:
+            set {_user1} to player
+            set {_user2} to {waitTradeHave::%player%}
             ##거래 UI 오픈
+            set {TradeUI::%player%} to chest inventory with 6 rows named "거래소"
+
+            #UI 셋팅#
+            set slot 0 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 1 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 3 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 4 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 5 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 7 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 8 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 9 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 13 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 17 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 18 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 22 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 26 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 27 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 31 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 35 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 36 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 40 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 44 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 45 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 46 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 48 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 49 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 50 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 52 of {TradeUI::%player%} to black stained glass pane named ""
+            set slot 53 of {TradeUI::%player%} to black stained glass pane named ""
+
+            set slot 2 of {TradeUI::%player%} to skull of {_user1} named "&e%{_user1}%&f님"
+            set slot 6 of {TradeUI::%player%} to skull of {_user2} named "&e%{_user2}%&f님"
+
+            set slot 47 of {TradeUI::%player%} to red wool named "&c&l거래 수락하기"
+            set slot 51 of {TradeUI::%player%} to red wool named "&c&l거래 수락하기"
+
+            open {TradeUI::%player%} to {_user1}
+            open {TradeUI::%player%} to {_user2}
         else:
             send "&c들어온 거래 요청이 없습니다." to player
 
@@ -27,3 +67,9 @@ command /거래거절:
             delete {waitTrade::%{_user}%}
         else:
             send "&c들어온 거래 요청이 없습니다." to player
+    
+command /테스트UI <player>:
+    trigger:
+        set {testUI} to chest inventory with 6 rows named "테스트UI"
+        open {testUI} to player
+        open {testUI} to arg-1
