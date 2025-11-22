@@ -13,10 +13,13 @@
 command /거래수락:
     trigger:
         if {waitTradeHave::%player%} is set:
-            set {_user1} to player
-            set {_user2} to {waitTradeHave::%player%}
+            set {TradeUI::%player%::user1} to player
+            set {TradeUI::%player%::user2} to {waitTradeHave::%player%}
+            delete {waitTrade::%{waitTradeHave::%player%}%}
+            delete {waitTradeHave::%player%}
+            
             ##거래 UI 오픈
-            set {TradeUI::%player%} to chest inventory with 6 rows named "거래소"
+            set {TradeUI::%player%} to chest inventory with 6 rows named "%player%님의 거래 요청"
 
             #UI 셋팅#
             set slot 0 of {TradeUI::%player%} to black stained glass pane named ""
@@ -68,8 +71,42 @@ command /거래거절:
         else:
             send "&c들어온 거래 요청이 없습니다." to player
     
-command /테스트UI <player>:
-    trigger:
-        set {testUI} to chest inventory with 6 rows named "테스트UI"
-        open {testUI} to player
-        open {testUI} to arg-1
+on inventory click:
+    if event-inventory's name contains "거래 요청":
+        clicked slot is 0 or 1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 13 or 17 or 18 or 22 or 26 or 27 or 31 or 35 or 36 or 40 or 44 or 45 or 46 or 47 or 48 or 49 or 50 or 51 or 52 or 53:
+            cancel event
+        
+        #1번 유저
+        if player's name is "%{TradeUI::%player%::user1}%":
+            clicked slot is 10 or 11 or 12 or 19 or 20 or 21 or 28 or 29 or 30 or 37 or 38 or 39 or 47:
+                cancel event
+            clicked slot is 51:
+                set slot 51 of player's current inventory to lime wool named "&a거래 수락함"
+                set {TradeUI::%player%::user1ok} to true
+                if check [{TradeUI::%player%::user1ok} is true] -> [{TradeUI::%player%::user2ok} is true]:
+                    #아이템 교환
+                    delete {TradeUI::%player%::user1ok}
+                    delete {TradeUI::%player%::user2ok}
+                    delete {TradeUI::%player%::user1}
+                    delete {TradeUI::%player%::user2}
+                    delete {TradeUI::%player%}
+                    close player's inventory
+
+        #2번 유저
+        if player's name is "%{TradeUI::%player%::user2}%":
+            clicked slot is 14 or 15 or 16 or 23 or 24 or 25 or 32 or 33 or 34 or 41 or 42 or 43 or 51:
+                cancel event
+            clicked slot is 47:
+                set slot 47 of player's current inventory to lime wool named "&a거래 수락함"
+                set {TradeUI::%player%::user2ok} to true
+                if check [{TradeUI::%player%::user1ok} is true] -> [{TradeUI::%player%::user2ok} is true]:
+                    #아이템 교환
+                    delete {TradeUI::%player%::user1ok}
+                    delete {TradeUI::%player%::user2ok}
+                    delete {TradeUI::%player%::user1}
+                    delete {TradeUI::%player%::user2}
+                    delete {TradeUI::%player%}
+                    close player's inventory
+            
+
+
