@@ -40,14 +40,15 @@
                 set {_seller} to {userMarket::%{_i}%::seller}
 
                 set {_display} to {_item}
+                set amount of {_display} to 1
                 set name of {_display} to "&f아이템: &e%{_item}%"
-                set lore of {_display} to "&7판매자: %{_seller}% || 개당 가격 : &e%{_price}% &7|| 수량: %{_amount}%"
-
+                set lore of {_display} to "&7판매자: %{_seller}% || 개당 가격 : &e%{_price}% &7|| 수량: %{_amount}% &0Index:%{_i}%"
+                
                 set slot {_slot} of {_marketGUI} to {_display}
                 add 1 to {_i}
                 add 1 to {_slot}
                 if {_slot} > 44:
-                    stop
+                    exit loop
         open {_marketGUI} to player
 
 command /마켓아이템등록:
@@ -78,8 +79,33 @@ command /마켓아이템등록:
 on inventory click:
     if name of event-inventory is "유저 마켓":
         cancel event
+        event-inventory is player's inventory:
+            stop
+        
         clicked slot is 52 or 53:
             execute player command "/마켓아이템등록"
+        
+        clicked slot is 0 or 1 or 2 or 4 or 5 or 6 or 7 or 8 or 47 or 48 or 49 or 50 or 51:
+            stop
+        
+        clicked slot is 45:
+            stop
+            #뒤페이지
+
+        clicked slot is 46:
+            stop
+            #앞페이지
+
+        set {_clickedItem} to event-item
+        if event-item is not air:
+            set {_lore::*} to lore of {_clickedItem}
+            loop {_lore::*}:
+                if loop-value contains "Index:":
+                    set {_parts::*} to loop-value split at ":"
+                    set {_index} to {_parts::5} 
+                    send "&e선택한 아이템 인덱스: %{_index}%" to player
+                    stop
+        
         
     else if name of event-inventory is "아이템 등록하기":
         event-inventory is not player's inventory:	
