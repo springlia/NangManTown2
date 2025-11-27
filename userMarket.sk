@@ -1,0 +1,135 @@
+﻿command /유저마켓:
+    trigger:
+        set {_marketGUI} to chest inventory with 6 rows named "유저 마켓"
+
+        #장식
+        set slot 0 of {_marketGUI} to black stained glass pane named "&f"
+        set slot 1 of {_marketGUI} to black stained glass pane named "&f"
+        set slot 2 of {_marketGUI} to black stained glass pane named "&f"
+        set slot 3 of {_marketGUI} to black stained glass pane named "&f"
+        set slot 4 of {_marketGUI} to black stained glass pane named "&f"
+        set slot 5 of {_marketGUI} to black stained glass pane named "&f"
+        set slot 6 of {_marketGUI} to black stained glass pane named "&f"
+        set slot 7 of {_marketGUI} to black stained glass pane named "&f"
+        set slot 8 of {_marketGUI} to black stained glass pane named "&f"
+        set slot 47 of {_marketGUI} to black stained glass pane named "&f"
+        set slot 48 of {_marketGUI} to black stained glass pane named "&f"
+        set slot 49 of {_marketGUI} to black stained glass pane named "&f"
+        set slot 50 of {_marketGUI} to black stained glass pane named "&f"
+        set slot 51 of {_marketGUI} to black stained glass pane named "&f"
+
+        set slot 45 of {_marketGUI} to {last} named "&b이전 페이지"
+        set slot 46 of {_marketGUI} to {next} named "&b다음 페이지"
+
+        set slot 52 of {_marketGUI} to pink wool named "&d내 아이템 등록하기"
+        set slot 53 of {_marketGUI} to pink wool named "&d내 아이템 등록하기"
+
+        #등록 아이템
+        set {_slot} to 9
+        set {_max} to {userMarket::index}
+        if {_max} is not set:
+            set {_max} to 0
+
+        set {_i} to 1
+        while {_i} <= {_max}:
+            
+            if {userMarket::%{_i}%::item} is set:
+                set {_item} to {userMarket::%{_i}%::item}
+                set {_amount} to {userMarket::%{_i}%::amount}
+                set {_price} to {userMarket::%{_i}%::price}
+                set {_seller} to {userMarket::%{_i}%::seller}
+
+                set {_display} to {_item}
+                set name of {_display} to "&f아이템: &e%{_item}%"
+                set lore of {_display} to "&7판매자: %{_seller}% || 개당 가격 : &e%{_price}% &7|| 수량: %{_amount}%"
+
+                set slot {_slot} of {_marketGUI} to {_display}
+                add 1 to {_i}
+                add 1 to {_slot}
+                if {_slot} > 44:
+                    stop
+        open {_marketGUI} to player
+
+command /마켓아이템등록:
+    trigger:
+        set {_marketitemGUI} to chest inventory with 2 rows named "아이템 등록하기"
+
+        set slot 13 of {_marketitemGUI} to lime wool named "&a등록하기"
+
+        set slot 0 of {_marketitemGUI} to black stained glass pane named "&f"
+        set slot 1 of {_marketitemGUI} to black stained glass pane named "&f"
+        set slot 2 of {_marketitemGUI} to black stained glass pane named "&f"
+        set slot 3 of {_marketitemGUI} to black stained glass pane named "&f"
+        set slot 5 of {_marketitemGUI} to black stained glass pane named "&f"
+        set slot 6 of {_marketitemGUI} to black stained glass pane named "&f"
+        set slot 7 of {_marketitemGUI} to black stained glass pane named "&f"
+        set slot 8 of {_marketitemGUI} to black stained glass pane named "&f"
+        set slot 9 of {_marketitemGUI} to black stained glass pane named "&f"
+        set slot 10 of {_marketitemGUI} to black stained glass pane named "&f"
+        set slot 11 of {_marketitemGUI} to black stained glass pane named "&f"
+        set slot 12 of {_marketitemGUI} to black stained glass pane named "&f"
+        set slot 14 of {_marketitemGUI} to black stained glass pane named "&f"
+        set slot 15 of {_marketitemGUI} to black stained glass pane named "&f"
+        set slot 16 of {_marketitemGUI} to black stained glass pane named "&f"
+        set slot 17 of {_marketitemGUI} to black stained glass pane named "&f"
+
+        open {_marketitemGUI} to player
+
+on inventory click:
+    if name of event-inventory is "유저 마켓":
+        cancel event
+        clicked slot is 52 or 53:
+            execute player command "/마켓아이템등록"
+        
+    else if name of event-inventory is "아이템 등록하기":
+        event-inventory is not player's inventory:	
+            clicked slot is 13:
+                #4번째 슬롯에 있는 아이템을 저장
+                set {_item} to event-inventory's slot 4
+                if {_item} is air:
+                    send "&c등록할 아이템이 없습니다." to player
+                    stop
+                close player's inventory
+
+                set {marketItemAdd::%player%::item} to {_item}
+                set {marketItemAdd::%player%::amount} to amount of {_item}
+
+                send "&7[디버그] %{marketItemAdd::%player%::amount}%" to player
+
+                set {marketItemAdd::%player%::on} to true
+                send "&e아이템의 개당 가격을 입력해주세요:" to player
+            clicked slot is 0 or 1 or 2 or 3 or 5 or 6 or 7 or 8 or 9 or 10 or 11 or 12 or 14 or 15 or 16 or 17:
+                cancel event
+
+on chat:
+    if {marketItemAdd::%player%::on} is true:
+        cancel event
+
+        set {_price} to message
+
+        add 1 to {userMarket::index}
+        set {_i} to {userMarket::index}
+
+        set {userMarket::%{_i}%::item} to {marketItemAdd::%player%::item}
+        set {userMarket::%{_i}%::amount} to {marketItemAdd::%player%::amount}
+        set {userMarket::%{_i}%::price} to {_price}
+        set {userMarket::%{_i}%::seller} to "%player%"
+
+        send "&f가격: &e%{_price}% &f/ 개수: %{userMarket::%{_i}%::amount}%개" to player
+        send "&7[디버그] %{userMarket::index}%, %{userMarket::%{_i}%::item}%" to player
+
+        delete {marketItemAdd::%player%::*}
+
+
+#삭제 필요
+command /테스트_마켓초기화:
+    trigger:
+        send "&c초기화 완료" to player
+        set {_max} to {userMarket::index}
+        set {_i} to 0
+        while {_i} <= {_max}:
+            delete {userMarket::%{_i}%::seller}
+            add 1 to {_i}
+
+        delete {userMarket::index}
+        delete {marketItemAdd::%player%}
