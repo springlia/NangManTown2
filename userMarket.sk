@@ -104,6 +104,7 @@ on inventory click:
                     set {_parts::*} to loop-value split at ":"
                     set {_index} to {_parts::5} 
                     send "&e선택한 아이템 인덱스: %{_index}%" to player
+                    buyItem({_index}, player)
                     stop
         
         
@@ -159,3 +160,28 @@ command /테스트_마켓초기화:
 
         delete {userMarket::index}
         delete {marketItemAdd::%player%}
+
+function buyItem(index: text, player: player):
+    set {_buyItemGUI} to chest inventory with 3 rows named "아이템 구매하기"
+
+    #아이템 정보 불러오기
+    set {_item} to {userMarket::%{_index}%::item}
+    set {_amount} to {userMarket::%{_index}%::amount}
+    set {_price} to {userMarket::%{_index}%::price}
+    set {_seller} to {userMarket::%{_index}%::seller}
+
+    set {_display} to {_item}
+    set amount of {_display} to 1
+    set name of {_display} to "&f아이템: &e%{_item}%"
+    set lore of {_display} to "&7판매자: %{_seller}% || 개당 가격 : &e%{_price}% &7|| 수량: %{_amount}% &0Index:%{_index}%"
+
+
+    #아이템 표시
+    set slot 4 of {_buyItemGUI} to {_display}
+    set slot 20 of {_buyItemGUI} to 1 of grass block named "&f1개 구매"
+    set slot 22 of {_buyItemGUI} to 10 of grass block named "&f지정 갯수 구매"
+    set slot 24 of {_buyItemGUI} to 64 of grass block named "&f전체 수량 구매"
+
+    open {_buyItemGUI} to {_player}
+
+    send "%{_index}% 아이템을 구매 테스트" to {_player}
