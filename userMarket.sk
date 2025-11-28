@@ -146,35 +146,45 @@ on chat:
 
         set {_price} to message
 
-        add 1 to {userMarket::index}
-        set {_i} to {userMarket::index}
+        set {_isNum} to CheckNum({_price})
 
-        #아이템 등록
-        set {userMarket::%{_i}%::item} to {marketItemAdd::%player%::item}
-        set {userMarket::%{_i}%::amount} to {marketItemAdd::%player%::amount}
-        set {userMarket::%{_i}%::price} to {_price}
-        set {userMarket::%{_i}%::seller} to player
+        if {_isNum} is false:
+            send "&c가격은 숫자로 입력해야 합니다." to player
+        else:
+            add 1 to {userMarket::index}
+            set {_i} to {userMarket::index}
 
-        send "&f가격: &e%{_price}% &f/ 개수: %{userMarket::%{_i}%::amount}%개" to player
+            #아이템 등록
+            set {userMarket::%{_i}%::item} to {marketItemAdd::%player%::item}
+            set {userMarket::%{_i}%::amount} to {marketItemAdd::%player%::amount}
+            set {userMarket::%{_i}%::price} to {_price}
+            set {userMarket::%{_i}%::seller} to player
 
-        delete {marketItemAdd::%player%::*}
+            send "&f가격: &e%{_price}% &f/ 개수: %{userMarket::%{_i}%::amount}%개" to player
+
+            delete {marketItemAdd::%player%::*}
 
     #아이템 구매 수량 입력
     if {buyTargetItem::%player%::text} is true:
         cancel event
         set {_msg} to message
-        set {_amount} to {_msg} parsed as number
-        set {_i} to {buyTargetItem::%player%::index}
-        delete {buyTargetItem::%player%::text}
-        if {_amount} <= {userMarket::%{_i}%::amount}:
-            set {buyTargetItem::%player%::amount} to {_amount}
-            Payment(player)
+        set {_isNum} to CheckNum({_msg})
+        if {_isNum} is false:
+            send "&c가격은 숫자로 입력해야 합니다." to player
         else:
-            send "&c입력한 수량이 상점에 등록된 아이템 개수보다 많습니다." to player
+            set {_amount} to {_msg} parsed as number
+            set {_i} to {buyTargetItem::%player%::index}
+            delete {buyTargetItem::%player%::text}
+            if {_amount} <= {userMarket::%{_i}%::amount}:
+                set {buyTargetItem::%player%::amount} to {_amount}
+                Payment(player)
+            else:
+                send "&c입력한 수량이 상점에 등록된 아이템 개수보다 많습니다." to player
          
 
 #삭제 필요
 command /테스트_마켓초기화:
+    permission: op
     trigger:
         send "&c초기화 완료" to player
         set {_max} to {userMarket::index}
@@ -188,6 +198,7 @@ command /테스트_마켓초기화:
 
         delete {userMarket::index}
         delete {marketItemAdd::%player%}
+        delete {marketItemAdd::%player%::on}
         delete {buyTargetItem::%player%::text}
         delete {buyTargetItem::%player%::amount}
         delete {buyTargetItem::%player%::index}
@@ -262,3 +273,13 @@ function Payment(player: player):
         close {_player}'s inventory
         delete {buyTargetItem::%{_player}%::index}
         delete {buyTargetItem::%{_player}%::amount}
+
+function CheckNum(text: text) :: boolean:
+    set {_num} to {_text} parsed as number
+    if {_num} is not set:
+        return false
+    else:
+        if {_num} > 0:
+            return true
+        else:
+            return false
