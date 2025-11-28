@@ -128,6 +128,21 @@ on inventory click:
             clicked slot is 0 or 1 or 2 or 3 or 5 or 6 or 7 or 8 or 9 or 10 or 11 or 12 or 14 or 15 or 16 or 17:
                 cancel event
 
+    else if name of event-inventory is "아이템 구매하기":
+        cancel event
+        set {_index} to {buyTargetItem::%player%::index}
+        clicked slot is 20:
+            set {buyTargetItem::%player%::amount} to 1 #1개로 지정
+            Payment(player)
+        clicked slot is 22:
+            set {buyTargetItem::%player%::text} to true #입력 모드 활성화
+            close player's inventory
+        clicked slot is 24:
+            set {buyTargetItem::%player%::amount} to {userMarket::%{_index}%::amount} #유저마켓 등록된 모든 아이템 구매
+            Payment(player)
+
+    #구매 GUI 클릭 시: 아이템 갯수만큼 구매가능한지 확인, 리스트에서 아이템 제거, 돈 주고 받기, 수수료 떼기
+
 on chat:
     if {marketItemAdd::%player%::on} is true:
         cancel event
@@ -147,6 +162,19 @@ on chat:
 
         delete {marketItemAdd::%player%::*}
 
+    #아이템 구매 수량 입력
+    if {buyTargetItem::%player%::text} is true:
+        cancel event
+        set {_msg} to message
+        set {_amount} to {_msg} parsed as number
+        set {_i} to {buyTargetItem::%player%::index}
+        delete {buyTargetItem::%player%::text}
+        if {_amount} <= {userMarket::%{_i}%::amount}:
+            set {buyTargetItem::%player%::amount} to {_amount}
+            Payment(player)
+        else:
+            send "&c입력한 수량이 상점에 등록된 아이템 개수보다 많습니다." to player
+         
 
 #삭제 필요
 command /테스트_마켓초기화:
@@ -155,11 +183,17 @@ command /테스트_마켓초기화:
         set {_max} to {userMarket::index}
         set {_i} to 0
         while {_i} <= {_max}:
+            delete {userMarket::%{_index}%::item}
             delete {userMarket::%{_i}%::seller}
+            delete {userMarket::%{_i}%::price}
+            delete {userMarket::%{_i}%::amount}
             add 1 to {_i}
 
         delete {userMarket::index}
         delete {marketItemAdd::%player%}
+        delete {buyTargetItem::%player%::text}
+        delete {buyTargetItem::%player%::amount}
+        delete {buyTargetItem::%player%::index}
 
 function buyItem(index: text, player: player):
     set {_buyItemGUI} to chest inventory with 3 rows named "아이템 구매하기"
@@ -184,4 +218,31 @@ function buyItem(index: text, player: player):
 
     open {_buyItemGUI} to {_player}
 
+    set {buyTargetItem::%{_player}%::index} to {_index}
     send "%{_index}% 아이템을 구매 테스트" to {_player}
+    
+function Payment(player: player):
+    #수량 체크
+    set {_amount} to "%{buyTargetItem::%{_player}%::amount}%" parsed as number
+
+    #인덱스
+    set {_index} to {buyTargetItem::%{_player}%::index}
+
+    #가격
+    set {_price} to {userMarket::%{_index}%::price} parsed as number
+
+    #총가격
+    set {_allPrice} to {_amount} * {_price}
+
+    if {_player}'s balance is greater than or equal to {_allPrice}:
+        #구매
+        send "구매가능 %{_amount}% %{_price}% %{_allPrice}%" to {_player}
+        
+
+
+    else:
+        send "&c잔액이 부족합니다." to {_player}
+        send "&7현재 잔액 : %{_player}'s balance%" to {_player}
+        close {_player}'s inventory
+        delete {buyTargetItem::%{_player}%::index}
+        delete {buyTargetItem::%{_player}%::amount}
