@@ -121,7 +121,6 @@ on inventory click:
                 set {marketItemAdd::%player%::amount} to amount of {_item}
 
                 set {marketItemAdd::%player%::item} to 1 of {marketItemAdd::%player%::item}
-                send "&7[디버그] %{marketItemAdd::%player%::item}%" to player
 
                 set {marketItemAdd::%player%::on} to true
                 send "&e아이템의 개당 가격을 입력해주세요:" to player
@@ -157,7 +156,6 @@ on chat:
         set {userMarket::%{_i}%::seller} to player
 
         send "&f가격: &e%{_price}% &f/ 개수: %{userMarket::%{_i}%::amount}%개" to player
-        send "&7[디버그] %{userMarket::index}%, %{userMarket::%{_i}%::item}%" to player
 
         delete {marketItemAdd::%player%::*}
 
@@ -242,7 +240,6 @@ function Payment(player: player):
         remove {_allPrice} from {_player}'s balance
         send "&e아이템 구매가 완료되었습니다. &e[ - %{_allPrice}%원 ] &7[ 총 잔액 : %{_player}'s balance%원 ]" to {_player}
         add {_allPrice} to {_seller}'s balance #수수료 계산 필요
-        send "&7[디버그] %{_seller}%" to {_player}
         send "&a상점에서 아이템이 판매되었습니다. &e[ + %{_allPrice}%원 ] &7[ 총 잔액 : %{_seller}'s balance%원 ]" to {_seller}
         give {_amount} of {userMarket::%{_index}%::item} to {_player}
 
