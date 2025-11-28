@@ -30,25 +30,24 @@
         if {_max} is not set:
             set {_max} to 0
 
-        set {_i} to 1
+        set {_i} to 0
         while {_i} <= {_max}:
-            
             if {userMarket::%{_i}%::item} is set:
                 set {_item} to {userMarket::%{_i}%::item}
-                set {_amount} to {userMarket::%{_i}%::amount}
+                set {_amount} to "%{userMarket::%{_i}%::amount}%" parsed as number
                 set {_price} to {userMarket::%{_i}%::price}
                 set {_seller} to {userMarket::%{_i}%::seller}
 
-                set {_display} to {_item}
-                set amount of {_display} to 1
+                set {_display} to {_amount} of {_item}
                 set name of {_display} to "&f아이템: &e%{_item}%"
                 set lore of {_display} to "&7판매자: %{_seller}% || 개당 가격 : &e%{_price}% &7|| 수량: %{_amount}% &0Index:%{_i}%"
                 
                 set slot {_slot} of {_marketGUI} to {_display}
-                add 1 to {_i}
+                
                 add 1 to {_slot}
                 if {_slot} > 44:
                     exit loop
+            add 1 to {_i}
         open {_marketGUI} to player
 
 command /마켓아이템등록:
@@ -121,7 +120,8 @@ on inventory click:
                 set {marketItemAdd::%player%::item} to {_item}
                 set {marketItemAdd::%player%::amount} to amount of {_item}
 
-                send "&7[디버그] %{marketItemAdd::%player%::amount}%" to player
+                set {marketItemAdd::%player%::item} to 1 of {marketItemAdd::%player%::item}
+                send "&7[디버그] %{marketItemAdd::%player%::item}%" to player
 
                 set {marketItemAdd::%player%::on} to true
                 send "&e아이템의 개당 가격을 입력해주세요:" to player
@@ -141,8 +141,6 @@ on inventory click:
             set {buyTargetItem::%player%::amount} to {userMarket::%{_index}%::amount} #유저마켓 등록된 모든 아이템 구매
             Payment(player)
 
-    #구매 GUI 클릭 시: 아이템 갯수만큼 구매가능한지 확인, 리스트에서 아이템 제거, 돈 주고 받기, 수수료 떼기
-
 on chat:
     if {marketItemAdd::%player%::on} is true:
         cancel event
@@ -152,10 +150,11 @@ on chat:
         add 1 to {userMarket::index}
         set {_i} to {userMarket::index}
 
+        #아이템 등록
         set {userMarket::%{_i}%::item} to {marketItemAdd::%player%::item}
         set {userMarket::%{_i}%::amount} to {marketItemAdd::%player%::amount}
         set {userMarket::%{_i}%::price} to {_price}
-        set {userMarket::%{_i}%::seller} to "%player%"
+        set {userMarket::%{_i}%::seller} to player
 
         send "&f가격: &e%{_price}% &f/ 개수: %{userMarket::%{_i}%::amount}%개" to player
         send "&7[디버그] %{userMarket::index}%, %{userMarket::%{_i}%::item}%" to player
@@ -231,13 +230,35 @@ function Payment(player: player):
     #가격
     set {_price} to {userMarket::%{_index}%::price} parsed as number
 
+    #판매자
+    set {_seller} to {userMarket::%{_index}%::seller}
+
     #총가격
     set {_allPrice} to {_amount} * {_price}
 
     if {_player}'s balance is greater than or equal to {_allPrice}:
         #구매
         send "구매가능 %{_amount}% %{_price}% %{_allPrice}%" to {_player}
-        
+        remove {_allPrice} from {_player}'s balance
+        send "&e아이템 구매가 완료되었습니다. &e[ - %{_allPrice}%원 ] &7[ 총 잔액 : %{_player}'s balance%원 ]" to {_player}
+        add {_allPrice} to {_seller}'s balance #수수료 계산 필요
+        send "&7[디버그] %{_seller}%" to {_player}
+        send "&a상점에서 아이템이 판매되었습니다. &e[ + %{_allPrice}%원 ] &7[ 총 잔액 : %{_seller}'s balance%원 ]" to {_seller}
+        give {_amount} of {userMarket::%{_index}%::item} to {_player}
+
+        #아이템 리스트에서 수량만큼 제거
+        if {_amount} == {userMarket::%{_index}%::amount}:
+            delete {userMarket::%{_index}%::amount}
+            delete {userMarket::%{_index}%::seller}
+            delete {userMarket::%{_index}%::item}
+            delete {userMarket::%{_index}%::price}
+        else:
+            add -1 * {_amount} to {userMarket::%{_index}%::amount}
+
+        #구매 임시 정보 삭제
+        close {_player}'s inventory
+        delete {buyTargetItem::%{_player}%::index}
+        delete {buyTargetItem::%{_player}%::amount}
 
 
     else:
