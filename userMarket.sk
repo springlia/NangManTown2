@@ -216,7 +216,6 @@ function buyItem(index: text, player: player):
     open {_buyItemGUI} to {_player}
 
     set {buyTargetItem::%{_player}%::index} to {_index}
-    send "%{_index}% 아이템을 구매 테스트" to {_player}
     
 function Payment(player: player):
     #수량 체크
@@ -236,7 +235,6 @@ function Payment(player: player):
 
     if {_player}'s balance is greater than or equal to {_allPrice}:
         #구매
-        send "구매가능 %{_amount}% %{_price}% %{_allPrice}%" to {_player}
         remove {_allPrice} from {_player}'s balance
         send "&e아이템 구매가 완료되었습니다. &e[ - %{_allPrice}%원 ] &7[ 총 잔액 : %{_player}'s balance%원 ]" to {_player}
         add {_allPrice} to {_seller}'s balance #수수료 계산 필요
