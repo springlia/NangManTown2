@@ -102,7 +102,6 @@ on inventory click:
                 if loop-value contains "Index:":
                     set {_parts::*} to loop-value split at ":"
                     set {_index} to {_parts::5} 
-                    send "&e선택한 아이템 인덱스: %{_index}%" to player
                     buyItem({_index}, player)
                     stop
         
@@ -244,35 +243,36 @@ function Payment(player: player):
     #총가격
     set {_allPrice} to {_amount} * {_price}
 
-    if {_player}'s balance is greater than or equal to {_allPrice}:
-        #구매
-        remove {_allPrice} from {_player}'s balance
-        send "&e아이템 구매가 완료되었습니다. &e[ - %{_allPrice}%원 ] &7[ 총 잔액 : %{_player}'s balance%원 ]" to {_player}
-        add {_allPrice} to {_seller}'s balance #수수료 계산 필요
-        send "&a상점에서 아이템이 판매되었습니다. &e[ + %{_allPrice}%원 ] &7[ 총 잔액 : %{_seller}'s balance%원 ]" to {_seller}
-        give {_amount} of {userMarket::%{_index}%::item} to {_player}
+    if {userMarket::%{_index}%::item} is set:
+        if {_player}'s balance is greater than or equal to {_allPrice}:
+            #구매
+            remove {_allPrice} from {_player}'s balance
+            send "&e아이템 구매가 완료되었습니다. &e[ - %{_allPrice}%원 ] &7[ 총 잔액 : %{_player}'s balance%원 ]" to {_player}
+            add {_allPrice} to {_seller}'s balance #수수료 계산 필요
+            send "&a상점에서 아이템이 판매되었습니다. &e[ + %{_allPrice}%원 ] &7[ 총 잔액 : %{_seller}'s balance%원 ]" to {_seller}
+            give {_amount} of {userMarket::%{_index}%::item} to {_player}
 
-        #아이템 리스트에서 수량만큼 제거
-        if {_amount} == {userMarket::%{_index}%::amount}:
-            delete {userMarket::%{_index}%::amount}
-            delete {userMarket::%{_index}%::seller}
-            delete {userMarket::%{_index}%::item}
-            delete {userMarket::%{_index}%::price}
+            #아이템 리스트에서 수량만큼 제거
+            if {_amount} == {userMarket::%{_index}%::amount}:
+                delete {userMarket::%{_index}%::amount}
+                delete {userMarket::%{_index}%::seller}
+                delete {userMarket::%{_index}%::item}
+                delete {userMarket::%{_index}%::price}
+            else:
+                add -1 * {_amount} to {userMarket::%{_index}%::amount}
+
+            #구매 임시 정보 삭제
+            close {_player}'s inventory
+            delete {buyTargetItem::%{_player}%::index}
+            delete {buyTargetItem::%{_player}%::amount}
         else:
-            add -1 * {_amount} to {userMarket::%{_index}%::amount}
-
-        #구매 임시 정보 삭제
-        close {_player}'s inventory
-        delete {buyTargetItem::%{_player}%::index}
-        delete {buyTargetItem::%{_player}%::amount}
-
-
+            send "&c잔액이 부족합니다." to {_player}
+            send "&7현재 잔액 : %{_player}'s balance%" to {_player}
+            close {_player}'s inventory
+            delete {buyTargetItem::%{_player}%::index}
+            delete {buyTargetItem::%{_player}%::amount}
     else:
-        send "&c잔액이 부족합니다." to {_player}
-        send "&7현재 잔액 : %{_player}'s balance%" to {_player}
-        close {_player}'s inventory
-        delete {buyTargetItem::%{_player}%::index}
-        delete {buyTargetItem::%{_player}%::amount}
+        send "&c아이템이 판매가 완료되어 구매가 취소되었습니다." to {_player}
 
 function CheckNum(text: text) :: boolean:
     set {_num} to {_text} parsed as number
