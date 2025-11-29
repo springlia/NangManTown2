@@ -1,6 +1,9 @@
 ﻿command /유저마켓:
     trigger:
-        set {_marketGUI} to chest inventory with 6 rows named "유저 마켓"
+        if {marketPage::%player%} is not set:
+            set {marketPage::%player%} to 1
+        set {_page} to {marketPage::%player%}
+        set {_marketGUI} to chest inventory with 6 rows named "유저 마켓 %{_page}%페이지"
 
         #장식
         set slot 0 of {_marketGUI} to black stained glass pane named "&f"
@@ -25,13 +28,21 @@
         set slot 53 of {_marketGUI} to pink wool named "&d내 아이템 등록하기"
 
         #등록 아이템
-        set {_slot} to 9
-        set {_max} to {userMarket::index}
+        
+        set {_max} to {userMarket::totalCount} + 1
         if {_max} is not set:
             set {_max} to 0
+        
+        set {_start} to ({_page} -1) * 36
+        set {_end} to {_start} + 37
 
-        set {_i} to 0
-        while {_i} <= {_max}:
+        set {_slot} to 9
+
+        set {_i} to {_start}
+        while {_i} <= {_end}:
+            if {_i} > {_max}:
+                exit loop
+
             if {userMarket::%{_i}%::item} is set:
                 set {_item} to {userMarket::%{_i}%::item}
                 set {_amount} to "%{userMarket::%{_i}%::amount}%" parsed as number
@@ -45,9 +56,11 @@
                 set slot {_slot} of {_marketGUI} to {_display}
                 
                 add 1 to {_slot}
-                if {_slot} > 44:
-                    exit loop
+
             add 1 to {_i}
+
+
+
         open {_marketGUI} to player
 
 command /마켓아이템등록:
@@ -76,24 +89,32 @@ command /마켓아이템등록:
         open {_marketitemGUI} to player
 
 on inventory click:
-    if name of event-inventory is "유저 마켓":
+    if name of event-inventory contains "유저 마켓":
         cancel event
         event-inventory is player's inventory:
             stop
         
         clicked slot is 52 or 53:
             execute player command "/마켓아이템등록"
+            stop
         
         clicked slot is 0 or 1 or 2 or 4 or 5 or 6 or 7 or 8 or 47 or 48 or 49 or 50 or 51:
             stop
         
-        clicked slot is 45:
+        clicked slot is 45: #뒤로가기
+            if {marketPage::%player%} > 1:
+                remove 1 from {marketPage::%player%}
+            execute player command "/유저마켓"
             stop
-            #뒤페이지
 
-        clicked slot is 46:
+        clicked slot is 46: #앞으로가기
+            set {_max} to {userMarket::index}
+            set {_totalPages} to {userMarket::totalCount} / 36 + 1
+
+            if {marketPage::%player%} < {_totalPages}:
+                add 1 to {marketPage::%player%}
+            execute player command "/유저마켓"
             stop
-            #앞페이지
 
         set {_clickedItem} to event-item
         if event-item is not air:
@@ -139,6 +160,10 @@ on inventory click:
             set {buyTargetItem::%player%::amount} to {userMarket::%{_index}%::amount} #유저마켓 등록된 모든 아이템 구매
             Payment(player)
 
+command /갯수테스트:
+    trigger:
+        set {_a} to {userMarket::index}
+        send "%{_a}%" to player
 on chat:
     if {marketItemAdd::%player%::on} is true:
         cancel event
@@ -151,6 +176,7 @@ on chat:
             send "&c가격은 숫자로 입력해야 합니다." to player
         else:
             add 1 to {userMarket::index}
+            add 1 to {userMarket::totalCount}
             set {_i} to {userMarket::index}
 
             #아이템 등록
@@ -201,6 +227,7 @@ command /테스트_마켓초기화:
         delete {buyTargetItem::%player%::text}
         delete {buyTargetItem::%player%::amount}
         delete {buyTargetItem::%player%::index}
+        delete {userMarket::totalCount}
 
 function buyItem(index: text, player: player):
     set {_buyItemGUI} to chest inventory with 3 rows named "아이템 구매하기"
@@ -252,12 +279,14 @@ function Payment(player: player):
             send "&a상점에서 아이템이 판매되었습니다. &e[ + %{_allPrice}%원 ] &7[ 총 잔액 : %{_seller}'s balance%원 ]" to {_seller}
             give {_amount} of {userMarket::%{_index}%::item} to {_player}
 
-            #아이템 리스트에서 수량만큼 제거
+            #리스트에서 제거
             if {_amount} == {userMarket::%{_index}%::amount}:
                 delete {userMarket::%{_index}%::amount}
                 delete {userMarket::%{_index}%::seller}
                 delete {userMarket::%{_index}%::item}
                 delete {userMarket::%{_index}%::price}
+                remove 1 from {userMarket::totalCount}
+            #수량만큼만 제거
             else:
                 add -1 * {_amount} to {userMarket::%{_index}%::amount}
 
