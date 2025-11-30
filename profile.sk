@@ -51,9 +51,8 @@
 		set {_badge} to findBadge({_targetP}, "level")
 		set slot 23 of {_profileGUI} to {_badge} #레벨
 
-		#파티
-		set {_party} to {nowParty::%{_targetP}%}
-		set slot 25 of {_profileGUI} to {%{_party}%::m1}'s skull 
+		set {_badge} to findBadge({_targetP}, "all")
+		set slot 25 of {_profileGUI} to {_badge} #총생활력
 
 		set {_badge} to findBadge({_targetP}, "gathering")
 		set slot 46 of {_profileGUI} to {_badge} #채집
@@ -114,15 +113,27 @@ on chat:
 		send "&e[프로필] &f수정 완료! &7[ 현재 한마디 : %{profile::%player%::message}% ]"
 
 function findBadge(targetP: offlineplayer, key: string) :: item:
-	set {_val} to {profile::%{_targetP}%::%{_key}%}
-	if {_val} is between 0 and 14:
-		return {bronze_badge}
-	else if {_val} is between 15 and 39:
-		return {silver_badge}
-	else if {_val} is between 40 and 59:
-		return {gold_badge}
-	else if {_val} is between 60 and 75:
-		return {dia_badge}
+	if {key} is "all": #총생활력
+		set {_val} to {profile::%{_targetP}%::%{_key}%}
+		if {_val} is between 0 and 1999:
+			return {bronze_badge}
+		else if {_val} is between 2000 and 5999:
+			return {silver_badge}
+		else if {_val} is between 6000 and 11999:
+			return {gold_badge}
+		else if {_val} is greater than 12000:
+			return {dia_badge}
+			
+	else: #기타 생활력
+		set {_val} to {profile::%{_targetP}%::%{_key}%}
+		if {_val} is between 0 and 599:
+			return {bronze_badge}
+		else if {_val} is between 600 and 1799:
+			return {silver_badge}
+		else if {_val} is between 1800 and 3599:
+			return {gold_badge}
+		else if {_val} is greater than 3600:
+			return {dia_badge}
 
 on right click on player:
 	if player is sneaking:
