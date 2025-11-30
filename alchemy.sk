@@ -1,0 +1,14 @@
+﻿on right click:
+    if player's tool is potion:
+        cancel event
+
+        set {_item} to player's tool
+
+        set {_effects::*} to potion effects of {_item}
+
+        loop {_effects::*}:
+            apply loop-value to player
+
+        remove 1 of {_item} from player's inventory
+
+        send "&a포션 효과가 즉시 발동되었습니다!" to player
