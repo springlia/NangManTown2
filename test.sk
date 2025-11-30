@@ -129,11 +129,10 @@ command /타임어택끝:
         delete {timeattack::%uuid of player%::start}
 
 command /체력조정:
+    permission: op
     trigger:
-        if level of player = 2:
-            set player's max health to 10
-            set player's health to 10
-            send "&a체력이 10으로 설정되었습니다!"
-        else:
-            send "&7당신의 현재 레벨은 %{level of player}% 입니다."
+        set player's max health to 10
+        set player's health to 10
+        send "&a체력이 10으로 설정되었습니다!"
+
 
