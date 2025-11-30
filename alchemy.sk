@@ -31,4 +31,9 @@
             remove 1 of {_item} from player's inventory
             send "&7[디버그] 포션 효과 발동 완료" to player
 
-        send "&a포션 효과가 즉시 발동되었습니다!" to player
+command /관리자명령어_투척용레시피지급:
+    permission: op
+    trigger:
+        set {_item} to {recipe} named "&d&l레시피 &f[ &e투척용 포션 레시피 &f]"
+        give player glowing  {_item}
+        send "&7[디버그] 지급 완료" to player
