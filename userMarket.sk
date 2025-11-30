@@ -69,22 +69,9 @@ command /마켓아이템등록:
 
         set slot 13 of {_marketitemGUI} to lime wool named "&a등록하기"
 
-        set slot 0 of {_marketitemGUI} to black stained glass pane named "&f"
-        set slot 1 of {_marketitemGUI} to black stained glass pane named "&f"
-        set slot 2 of {_marketitemGUI} to black stained glass pane named "&f"
-        set slot 3 of {_marketitemGUI} to black stained glass pane named "&f"
-        set slot 5 of {_marketitemGUI} to black stained glass pane named "&f"
-        set slot 6 of {_marketitemGUI} to black stained glass pane named "&f"
-        set slot 7 of {_marketitemGUI} to black stained glass pane named "&f"
-        set slot 8 of {_marketitemGUI} to black stained glass pane named "&f"
-        set slot 9 of {_marketitemGUI} to black stained glass pane named "&f"
-        set slot 10 of {_marketitemGUI} to black stained glass pane named "&f"
-        set slot 11 of {_marketitemGUI} to black stained glass pane named "&f"
-        set slot 12 of {_marketitemGUI} to black stained glass pane named "&f"
-        set slot 14 of {_marketitemGUI} to black stained glass pane named "&f"
-        set slot 15 of {_marketitemGUI} to black stained glass pane named "&f"
-        set slot 16 of {_marketitemGUI} to black stained glass pane named "&f"
-        set slot 17 of {_marketitemGUI} to black stained glass pane named "&f"
+        #장식
+        loop 0,1,2,3,5,6,7,8,9,10,11,12,14,15,16,17:
+            set slot loop-value of {_marketitemGUI} to black stained glass pane named "&f"
 
         open {_marketitemGUI} to player
 
