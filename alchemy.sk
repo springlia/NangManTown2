@@ -6,28 +6,38 @@ on right click:
         set {_item} to player's tool
         set {_effects::*} to potion effects of {_item}
 
-        set {_healLv} to 0
+        if {_effects::*} is set: #포션이면
+            set {_healLv} to 0
 
-        loop {_effects::*}:
-            if "%loop-value%" contains "instant health":
-                set {_lvl} to level of loop-value
-                set {_healLv} to {_lvl}
-    
-        #회복 포션이면 
-        if {_healLv} > 0:
-            #회복포션 1
-            if {_healLv} = 1:
-                #체력 5 회복
-                heal player by 5
-            if {_healLv} = 2:
-                #체력 8 회복
-                heal player by 8
-
-        else:
             loop {_effects::*}:
-                apply loop-value to player
+                if "%loop-value%" contains "instant health":
+                    set {_lvl} to level of loop-value
+                    set {_healLv} to {_lvl}
+        
+            #회복 포션이면 
+            if {_healLv} > 0:
+                #회복포션 1
+                if {_healLv} = 1:
+                    #체력 5 회복
+                    heal player by 5
+                if {_healLv} = 2:
+                    #체력 8 회복
+                    heal player by 8
 
-            remove 1 of {_item} from player's inventory
+            else:
+                loop {_effects::*}:
+                    apply loop-value to player
+
+                remove 1 of {_item} from player's inventory
+
+        else: #일반 물병이면
+            if name of {_item} is "&7실패한 물약":
+                set {_loc} to location of player
+                play explosion emitter at {_loc}
+                play sound "entity.generic.explode" with pitch 1 at {_loc}
+                damage player by 2
+                remove 1 of {_item} from player's inventory
+
 
 #연금GUI 오픈
 command /연금술:
