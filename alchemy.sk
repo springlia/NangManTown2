@@ -3,12 +3,32 @@
         cancel event
 
         set {_item} to player's tool
-
         set {_effects::*} to potion effects of {_item}
 
-        loop {_effects::*}:
-            apply loop-value to player
+        set {_healLv} to 0
 
-        remove 1 of {_item} from player's inventory
+        loop {_effects::*}:
+            if "%loop-value%" contains "instant health":
+                set {_lvl} to level of loop-value
+                set {_healLv} to {_lvl}
+    
+        #회복 포션이면 
+        if {_healLv} > 0:
+            #회복포션 1
+            if {_healLv} = 1:
+                send "&7[디버그] 1레벨 회복" to player
+                #체력 5 회복
+                heal player by 5
+            if {_healLv} = 2:
+                send "&7[디버그] 2레벨 회복" to player
+                #체력 8 회복
+                heal player by 8
+
+        else:
+            loop {_effects::*}:
+                apply loop-value to player
+
+            remove 1 of {_item} from player's inventory
+            send "&7[디버그] 포션 효과 발동 완료" to player
 
         send "&a포션 효과가 즉시 발동되었습니다!" to player
