@@ -15,14 +15,14 @@ on right click:
                     set {_healLv} to {_lvl}
         
             #회복 포션이면 
-            if {_healLv} > 0:
-                #회복포션 1
-                if {_healLv} = 1:
-                    #체력 5 회복
-                    heal player by 5
-                if {_healLv} = 2:
-                    #체력 8 회복
-                    heal player by 8
+            if name of {_item} is "&f치유의 물약":
+                heal player by 6
+            else if name of {_item} is "&f치유의 물약 &6⭐":
+                heal player by 12
+            else if name of {_item} is "&f치유의 물약 &7⭐":
+                heal player by 20
+            else if name of {_item} is "&f치유의 물약 &e⭐":
+                heal player by 36
 
             else:
                 loop {_effects::*}:
@@ -190,4 +190,79 @@ function checkAlch(player: player):: item:
                 return splash potion of fire resistance
             else:
                 return potion of fire resistance
+
+    #회복 포션
+    set {_fishGrade} to findFishGrade({alch::%{_player}%::in1})
+
+    #1
+    if {_fishGrade} is "normal":
+        if name of {alch::%{_player}%::in2} is "&f회복초":
+            return potion of healing named "&f치유의 물약"
+
+    #2
+    if {_fishGrade} is "rare":
+        if name of {alch::%{_player}%::in2} is "&f회복초 &6⭐":
+            return potion of healing named "&f치유의 물약 &6⭐"
+
+
+    #3
+    if {_fishGrade} is "epic":
+        if name of {alch::%{_player}%::in2} is "&f회복초 &7⭐":
+            return potion of healing named "&f치유의 물약 &7⭐"
+
+    #4
+    if {_fishGrade} is "special":
+        if name of {alch::%{_player}%::in2} is "&f회복초 &e⭐":
+            return potion of healing named "&f치유의 물약 &e⭐"
+    send "%{_fishGrade}%" to {_player}      
+
     return potion named "&7실패한 물약"
+
+function findFishGrade(item: item):: string:
+    if name of {_item} contains "금붕어":
+        return "normal"
+    else if name of {_item} contains "잉어":
+        return "normal"
+    else if name of {_item} contains "정어리":
+        return "normal"
+    else if name of {_item} contains "숭어":
+        return "normal"
+    else if name of {_item} contains "농어":
+        return "normal"
+    else if name of {_item} contains "붉은 퉁돔":
+        return "normal"
+    else if name of {_item} contains "참치":
+        return "rare"
+    else if name of {_item} contains "개복치":
+        return "rare"
+    else if name of {_item} contains "고등어":
+        return "rare"
+    else if name of {_item} contains "숲고기":
+        return "rare"
+    else if name of {_item} contains "강꼬치고기":
+        return "epic"
+    else if name of {_item} contains "메기":
+        return "epic"
+    else if name of {_item} contains "문어":
+        return "epic"
+    else if name of {_item} contains "공허의 연어":
+        return "epic"
+    else if name of {_item} contains "철갑상어":
+        return "epic"
+    else if name of {_item} contains "해파리":
+        return "epic"
+    else if name of {_item} contains "장어":
+        return "epic"
+    else if name of {_item} contains "가오리":
+        return "epic"
+    else if name of {_item} contains "무지개 물고기":
+        return "special"
+    else if name of {_item} contains "방사능 물고기":
+        return "special"
+    else if name of {_item} contains "얼음 물고기":
+        return "special"
+    else if name of {_item} contains "봄 물고기":
+        return "special"
+    else if name of {_item} contains "낭만 물고기":
+        return "special"
+        
