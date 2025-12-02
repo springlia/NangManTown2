@@ -1,12 +1,76 @@
 ﻿command /채집 [<text>]:
     trigger:
-        if arg-1 is "신속초":
+        set {_target} to findHerb(arg-1)
+
+        #신속초, 재생초, 활력초
+        if {_target} is "speed_herb" or "reg_herb" or "vitality_herb":
             set {_random} to random integer between 1 and 100
-            if {_random} is between 1 and 40:
-                give player {speed_herb_0}
-            else if {_random} is between 41 and 70:
-                give player {speed_herb_1}
-            else if {_random} is between 71 and 90:
-                give player {speed_herb_2}    
-            else:
-                give player {speed_herb_3}
+
+            if {_random} is between 1 and 60: #일반
+                set {_val} to "0"
+                add 1 to {profile::%player%::gathering}
+                send "&a[채집 레벨] &7+1" to player
+
+            else if {_random} is between 61 and 85: #고급
+                set {_val} to "1"
+                add 2 to {profile::%player%::gathering}
+                send "&a[채집 레벨] &f+2" to player
+                
+            else: #희귀
+                set {_val} to "2"
+                add 3 to {profile::%player%::gathering}
+                send "&a[채집 레벨] &e+3" to player
+
+            give player {%{_target}%_%{_val}%}
+
+        #회복초
+        else if {_target} is "heal_herb":
+            set {_random} to random integer between 1 and 100
+
+            if {_random} is between 1 and 50: #일반
+                set {_val} to "0"
+                add 1 to {profile::%player%::gathering}
+                send "&a[채집 레벨] &7+1" to player
+
+            else if {_random} is between 51 and 75: #고급
+                set {_val} to "1"
+                add 2 to {profile::%player%::gathering}
+                send "&a[채집 레벨] &f+2" to player
+
+            else if {_random} is between 76 and 90: #희귀
+                set {_val} to "2"
+                add 3 to {profile::%player%::gathering}
+                send "&a[채집 레벨] &e+3" to player
+                
+            else: #전설
+                set {_val} to "3"
+                add 5 to {profile::%player%::gathering}
+                send "&a[채집 레벨] &5+5" to player
+
+            give player {%{_target}%_%{_val}%}
+
+        #공기풀, 깃털초, 탄력초, 용암초
+        else if {_target} is "air_herb" or "feathers_herb" or "elasticity_herb" or "lava_herb":
+            add 3 to {profile::%player%::gathering}
+            send "&a[채집 레벨] &e+3" to player
+            give player {%{_target}%}
+
+
+function findHerb(text: text):: string:
+    if {_text} is "신속초":
+        return "speed_herb"
+    else if {_text} is "재생초":
+        return "reg_herb"
+    else if {_text} is "활력초":
+        return "vitality_herb"
+    else if {_text} is "회복초":
+        return "heal_herb"
+    else if {_text} is "공기풀":
+        return "air_herb"
+    else if {_text} is "깃털초":
+        return "feathers_herb"
+    else if {_text} is "탄력초":
+        return "elasticity_herb"
+    else if {_text} is "용암초":
+        return "lava_herb"
+
