@@ -285,3 +285,19 @@ command /관리자명령어_연금술레벨입력 <offlineplayer> <number>:
 		send "&7[관리모드] 연금술 레벨 입력 완료. %{_target}% 의 연금술 레벨 : %{_alchemy}%" to player
 		send "&7[관리모드] 연금술 레벨 입력 완료. %{_target}% 의 연금술 레벨 : %{_alchemy}%" to console
 		send "&e관리자에 의해 연금술 레벨이 변경되었습니다. &f[현재 연금술 레벨 : &d%{_alchemy}% &f]" to {_target}
+
+command /관리자명령어_유저정보초기화 <offlineplayer>:
+	permission: op
+	trigger:
+		set {_target} to arg-1
+		delete {profile::%{_target}%::alchemy}
+		delete {profile::%{_target}%::fishing}
+		delete {profile::%{_target}%::message}
+		delete {profile::%{_target}%::score}
+		delete {profile::%{_target}%::grade}
+		delete {profile::%{_target}%::power}
+		delete {profile::%{_target}%::level}
+		delete {profile::%{_target}%::gathering}
+		delete {profile::%{_target}%::cooking}
+		delete {profile::%{_target}%::all}
+		send "&7[관리모드] 삭제 완료" to player
