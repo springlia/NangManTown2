@@ -23,8 +23,24 @@ on FishingResultEvent:
     else:
         set {_displayName} to {_fishID} # 이름이 없으면 ID로 표시
 
-    #디버그
-    send "&b[낚시] &f%{_displayName}%&7을(를) 낚았습니다!" to {_player}
-
-
+    if {_displayName} is "gold_fish" or "carp_fish" or "sardine_fish" or "mullet_fish" or "perch_fish" or "red_snapper_fish":
+        #일반 (금붕어, 잉어, 정어리, 숭어, 농어, 붉은 퉁돔)
+        add 2 to {profile::%{_player}%::fishing}
+        send "&b[낚시 레벨] &f+2" to {_player}
+    else if {_displayName} is "tuna_fish" or "sunfish" or "mackerel_fish" or "woodskip_fish":
+        #고급 (참치, 개복치, 고등어, 숲고기)
+        add 3 to {profile::%{_player}%::fishing}
+        send "&b[낚시 레벨] &e+3" to {_player}
+    else if {_displayName} is "pike_fish" or "cat_fish" or "octopus" or "salmon_void_fish" or "sturgeon_fish" or "blue_jellyfish" or "pink_jellyfish" or "eel_fish" or "ray_fish":
+        #희귀 (강꼬치고기, 메기, 문어, 공허의 연어, 철갑상어, 해파리, 장어, 가오리)
+        add 5 to {profile::%{_player}%::fishing}
+        send "&b[낚시 레벨] &5+5" to {_player}
+    else if {_displayName} is "rainbow_fish" or "rubbish" or "ice_fish" or "spring_fish" or "nangman_fish":
+        #전설 (무지개물고기,방사능물고기,얼음물고기,봄물고기,낭만물고기)
+        add 10 to {profile::%{_player}%::fishing}
+        send "&b[낚시 레벨] &d+10" to {_player}
+    else:
+        #쓰레기
+        add 1 to {profile::%{_player}%::fishing}
+        send "&b[낚시 레벨] &7+1" to {_player}
     
