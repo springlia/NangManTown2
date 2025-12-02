@@ -1,0 +1,30 @@
+﻿import:
+    net.momirealms.customfishing.api.event.FishingResultEvent
+
+on FishingResultEvent:
+    #이벤트 취소 여부 확인
+    if event.isCancelled() is true:
+        stop
+
+    set {_player} to event.getPlayer()
+
+    #보상 정보 가져오기
+    set {_loot} to event.getLoot()
+    
+    #물고기 ID 가져오기
+    set {_fishID} to {_loot}.id()
+    
+    #아이템 이름 가져오기
+    set {_itemStack} to {_loot}.build()
+    set {_meta} to {_itemStack}.getItemMeta()
+    
+    if {_meta}.hasDisplayName() is true:
+        set {_displayName} to {_meta}.getDisplayName()
+    else:
+        set {_displayName} to {_fishID} # 이름이 없으면 ID로 표시
+
+    #디버그
+    send "&b[낚시] &f%{_displayName}%&7을(를) 낚았습니다!" to {_player}
+
+
+    
