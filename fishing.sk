@@ -43,4 +43,5 @@ on FishingResultEvent:
         #쓰레기
         add 1 to {profile::%{_player}%::fishing}
         send "&b[낚시 레벨] &7+1" to {_player}
+    AddTotalVitality({_player})
     
