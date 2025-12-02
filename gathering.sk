@@ -2,16 +2,60 @@
     trigger:
         set {_target} to findHerb(arg-1)
 
-        #신속초, 재생초, 활력초
+        #레벨 찾기
+
+        set {_lv} to {profile::%player%::gathering}
+        if {_lv} is between 0 and 599:
+            set {_rank} to 0
+        else if {_lv} is between 600 and 1799:
+            set {_rank} to 1
+        else if {_lv} is between 1800 and 3599:
+            set {_rank} to 2
+        else if {_lv} is greater than 3600:
+            set {_rank} to 3
+
+        
+        #베이스 확률
+        set {_base::0} to 60
+        set {_base::1} to 25
+        set {_base::2} to 15
+        set {_base::3} to 10
+
+        #증가율
+        set {_mult::0} to 0
+        set {_mult::1} to 0.1
+        set {_mult::2} to 0.3
+        set {_mult::3} to 0.6
+
+        #확률 계산
+        set {_p0} to gradeScore({_base::0}, {_mult::0}, {_rank})
+        set {_p1} to gradeScore({_base::0}, {_mult::1}, {_rank})
+        set {_p2} to gradeScore({_base::2}, {_mult::2}, {_rank})
+        set {_p3} to gradeScore({_base::3}, {_mult::3}, {_rank})
+
+
+        #신속초, 재생초, 활력초 (0~2등급)
         if {_target} is "speed_herb" or "reg_herb" or "vitality_herb":
+
+            #구간 계산
+            set {_r0s} to 1
+            set {_r0e} to {_p0}
+
+            set {_r1s} to {_r0e} + 1
+            set {_r1e} to {_r1s} + {_p1} - 1
+
+            set {_r2s} to {_r1e} + 1
+            set {_r2e} to 100
+
+            #실제 휙득 확률 계산
             set {_random} to random integer between 1 and 100
 
-            if {_random} is between 1 and 60: #일반
+            if {_random} is between {_r0s} and {_r0e}: #일반
                 set {_val} to "0"
                 add 1 to {profile::%player%::gathering}
                 send "&a[채집 레벨] &7+1" to player
 
-            else if {_random} is between 61 and 85: #고급
+            else if {_random} is between {_r1s} and {_r1e}: #고급
                 set {_val} to "1"
                 add 2 to {profile::%player%::gathering}
                 send "&a[채집 레벨] &f+2" to player
@@ -25,19 +69,33 @@
 
         #회복초
         else if {_target} is "heal_herb":
+
+            #구간 계산
+            set {_r0s} to 1
+            set {_r0e} to {_p0}
+
+            set {_r1s} to {_r0e} + 1
+            set {_r1e} to {_r1s} + {_p1} - 1
+
+            set {_r2s} to {_r1e} + 1
+            set {_r2e} to {_r2s} + {_p2} - 1
+
+            set {_r3s} to {_r2e} + 1
+            set {_r3e} to 100
+
             set {_random} to random integer between 1 and 100
 
-            if {_random} is between 1 and 50: #일반
+            if {_random} is between {_r0s} and {_r0e}: #일반
                 set {_val} to "0"
                 add 1 to {profile::%player%::gathering}
                 send "&a[채집 레벨] &7+1" to player
 
-            else if {_random} is between 51 and 75: #고급
+            else if {_random} is between {_r1s} and {_r1e}: #고급
                 set {_val} to "1"
                 add 2 to {profile::%player%::gathering}
                 send "&a[채집 레벨] &f+2" to player
 
-            else if {_random} is between 76 and 90: #희귀
+            else if {_random} is between {_r2s} and {_r2e}: #희귀
                 set {_val} to "2"
                 add 3 to {profile::%player%::gathering}
                 send "&a[채집 레벨] &e+3" to player
@@ -54,6 +112,11 @@
             add 3 to {profile::%player%::gathering}
             send "&a[채집 레벨] &e+3" to player
             give player {%{_target}%}
+        
+        AddTotalVitality(player)
+
+function gradeScore(base: number, mult: number, L: number):: number:
+    return {_base} * (1 + {_mult} * {_L})
 
 
 function findHerb(text: text):: string:
@@ -74,3 +137,10 @@ function findHerb(text: text):: string:
     else if {_text} is "용암초":
         return "lava_herb"
 
+function AddTotalVitality(player: player):
+    set {_g} to {profile::%{_player}%::gathering}
+    set {_c} to {profile::%{_player}%::cooking}
+    set {_f} to {profile::%{_player}%::fishing}
+    set {_a} to {profile::%{_player}%::alchemy}
+    set {_total} to {_g} + {_c} + {_f} + {_a}
+    set {profile::%{_player}%::all} to {_total}
