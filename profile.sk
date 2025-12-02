@@ -27,6 +27,9 @@
 			set {profile::%{_targetP}%::fishing} to 0
 		if {profile::%{_targetP}%::alchemy} is not set:
 			set {profile::%{_targetP}%::alchemy} to 0
+		if {profile::%{_targetP}%::all} is not set:
+			set {profile::%{_targetP}%::all} to 0
+
 
 		#내용 셋팅
 		set slot 19 of {_profileGUI} to skull of {_targetP} named "&e&l%{_targetP}%&f님의 프로필"
@@ -40,31 +43,31 @@
 		#전투력
 		set {_val} to {profile::%{_targetP}%::power}
 		if {_val} is between 0 and 100:
-			set slot 21 of {_profileGUI} to {bronze_badge} 
+			set slot 21 of {_profileGUI} to {bronze_badge} named "&e전투력" with lore "&f%{profile::%{_targetP}%::power}%"
 		else if {_val} is between 101 and 200:
-			set slot 21 of {_profileGUI} to {silver_badge}
+			set slot 21 of {_profileGUI} to {silver_badge} named "&e전투력" with lore "&f%{profile::%{_targetP}%::power}%"
 		else if {_val} is between 201 and 300:
-			set slot 21 of {_profileGUI} to {gold_badge}
+			set slot 21 of {_profileGUI} to {gold_badge} named "&e전투력" with lore "&f%{profile::%{_targetP}%::power}%"
 		else if {_val} is between 301 and 400:
-			set slot 21 of {_profileGUI} to {dia_badge}
+			set slot 21 of {_profileGUI} to {dia_badge} named "&e전투력" with lore "&f%{profile::%{_targetP}%::power}%"
 
 		set {_badge} to findBadge({_targetP}, "level")
-		set slot 23 of {_profileGUI} to {_badge} #레벨
+		set slot 23 of {_profileGUI} to {_badge} named "&e플레이어 레벨" with lore "&f%{profile::%{_targetP}%::level}%"#레벨
 
 		set {_badge} to findBadge({_targetP}, "all")
-		set slot 25 of {_profileGUI} to {_badge} #총생활력
+		set slot 25 of {_profileGUI} to {_badge} named "&e총 생활력" with lore "&f%{profile::%{_targetP}%::all}%" #총생활력
 
 		set {_badge} to findBadge({_targetP}, "gathering")
-		set slot 46 of {_profileGUI} to {_badge} #채집
+		set slot 46 of {_profileGUI} to {_badge} named "&e채집 레벨" with lore "&f%{profile::%{_targetP}%::gathering}%" #채집
 
 		set {_badge} to findBadge({_targetP}, "cooking")
-		set slot 48 of {_profileGUI} to {_badge} #요리
+		set slot 48 of {_profileGUI} to {_badge} named "&e요리 레벨" with lore "&f%{profile::%{_targetP}%::cooking}%" #요리
 
 		set {_badge} to findBadge({_targetP}, "fishing")
-		set slot 50 of {_profileGUI} to {_badge} #낚시
+		set slot 50 of {_profileGUI} to {_badge} named "&e낚시 레벨" with lore "&f%{profile::%{_targetP}%::fishing}%" #낚시
 
 		set {_badge} to findBadge({_targetP}, "alchemy")
-		set slot 52 of {_profileGUI} to {_badge} #연금
+		set slot 52 of {_profileGUI} to {_badge} named "&e연금술 레벨" with lore "&f%{profile::%{_targetP}%::alchemy}%" #연금
 
 		open {_profileGUI} to player
 
@@ -113,8 +116,10 @@ on chat:
 		send "&e[프로필] &f수정 완료! &7[ 현재 한마디 : %{profile::%player%::message}% ]"
 
 function findBadge(targetP: offlineplayer, key: string) :: item:
-	if {key} is "all": #총생활력
+	if {_key} is "all": #총생활력
+
 		set {_val} to {profile::%{_targetP}%::%{_key}%}
+
 		if {_val} is between 0 and 1999:
 			return {bronze_badge}
 		else if {_val} is between 2000 and 5999:
