@@ -29,7 +29,7 @@
 
         #확률 계산
         set {_p0} to gradeScore({_base::0}, {_mult::0}, {_rank})
-        set {_p1} to gradeScore({_base::0}, {_mult::1}, {_rank})
+        set {_p1} to gradeScore({_base::1}, {_mult::1}, {_rank})
         set {_p2} to gradeScore({_base::2}, {_mult::2}, {_rank})
         set {_p3} to gradeScore({_base::3}, {_mult::3}, {_rank})
 
@@ -47,6 +47,7 @@
             set {_r2s} to {_r1e} + 1
             set {_r2e} to 100
 
+            send "&7[디버그] {_r0e} %{_r0e}% , {_r1s} %{_r1s}% , {_r1e} %{_r1e}% , {_r2s} %{_r2s}% , {_r2e} %{_r2e}%" to player
             #실제 휙득 확률 계산
             set {_random} to random integer between 1 and 100
 
