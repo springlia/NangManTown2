@@ -18,13 +18,13 @@
         #베이스 확률
         set {_base::0} to 60
         set {_base::1} to 25
-        set {_base::2} to 15
+        set {_base::2} to 20
         set {_base::3} to 10
 
         #증가율
         set {_mult::0} to 0
         set {_mult::1} to 0.1
-        set {_mult::2} to 0.3
+        set {_mult::2} to 0.5
         set {_mult::3} to 0.6
 
         #확률 계산
@@ -38,16 +38,15 @@
         if {_target} is "speed_herb" or "reg_herb" or "vitality_herb":
 
             #구간 계산
-            set {_r0s} to 1
-            set {_r0e} to {_p0}
-
+            set {_total} to {_p0} + {_p1} + {_p2} 
+            set {_r0e} to {_p0} / {_total} * 100
             set {_r1s} to {_r0e} + 1
-            set {_r1e} to {_r1s} + {_p1} - 1
-
+            set {_r1e} to {_r0e} + {_p1} / {_total} * 100
             set {_r2s} to {_r1e} + 1
             set {_r2e} to 100
 
-            send "&7[디버그] {_r0e} %{_r0e}% , {_r1s} %{_r1s}% , {_r1e} %{_r1e}% , {_r2s} %{_r2s}% , {_r2e} %{_r2e}%" to player
+
+            #send "&7[디버그] {_r0e} %{_r0e}% , {_r1s} %{_r1s}% , {_r1e} %{_r1e}% , {_r2s} %{_r2s}% , {_r2e} %{_r2e}%" to player
             #실제 휙득 확률 계산
             set {_random} to random integer between 1 and 100
 
@@ -72,18 +71,21 @@
         else if {_target} is "heal_herb":
 
             #구간 계산
+            set {_total} to {_p0} + {_p1} + {_p2} + {_p3}
+
             set {_r0s} to 1
-            set {_r0e} to {_p0}
+            set {_r0e} to round({_p0} / {_total} * 100)
 
             set {_r1s} to {_r0e} + 1
-            set {_r1e} to {_r1s} + {_p1} - 1
+            set {_r1e} to {_r0e} + round({_p1} / {_total} * 100)
 
             set {_r2s} to {_r1e} + 1
-            set {_r2e} to {_r2s} + {_p2} - 1
+            set {_r2e} to {_r1e} + round({_p2} / {_total} * 100)
 
             set {_r3s} to {_r2e} + 1
-            set {_r3e} to 100
+            set {_r3e} to 100 
 
+            send "&7[디버그] {_r0e} %{_r0e}% , {_r1s} %{_r1s}% , {_r1e} %{_r1e}% , {_r2s} %{_r2s}% , {_r2e} %{_r2e}% , {_r3s} %{_r3s}% , {_r3e} %{_r3e}%" to player
             set {_random} to random integer between 1 and 100
 
             if {_random} is between {_r0s} and {_r0e}: #일반
