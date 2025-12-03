@@ -127,6 +127,24 @@ on inventory click:
 
                         #각 포션에 맞게 결과템 배치
                         set slot 40 of player's current inventory to {_resultPotion}
+                        if name of {_resultPotion} is "&f치유의 물약":
+                            send "&d[연금술 레벨] &7+1" to player
+                            add 1 to {profile::%player%::alchemy}
+                        else if name of {_resultPotion} is "&f치유의 물약 &6⭐":
+                            send "&d[연금술 레벨] &e+2" to player
+                            add 2 to {profile::%player%::alchemy}
+                        else if name of {_resultPotion} is "&f치유의 물약 &7⭐":
+                            send "&d[연금술 레벨] &e+3" to player
+                            add 3 to {profile::%player%::alchemy}
+                        else if name of {_resultPotion} is "&f치유의 물약 &e⭐":
+                            send "&d[연금술 레벨] &5+5" to player
+                            add 5 to {profile::%player%::alchemy}
+                        else if name of {_resultPotion} contains "투척용":
+                            send "&d[연금술 레벨] &5+5" to player
+                            add 5 to {profile::%player%::alchemy}
+                        else:  
+                            send "&d[연금술 레벨] &e+3" to player
+                            add 3 to {profile::%player%::alchemy}
 
                         loop 10,19,28,37:
                             set slot loop-value of player's current inventory to white wool named "&f"
