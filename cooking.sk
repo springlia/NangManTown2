@@ -57,6 +57,7 @@ on inventory click:
 				add {jungle_spice} to {nowCook::%player%::ingn::*}
 				add wheat to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {beehive_waffle}
+				set {nowCook::%player%::score} to 5
 				openNextGUI(player)
 
 		#태양 뿌리전
@@ -67,6 +68,7 @@ on inventory click:
 				add {jungle_spice} to {nowCook::%player%::ingn::*}
 				add wheat to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {sunroot_pancake}
+				set {nowCook::%player%::score} to 50
 				openNextGUI(player)
 
 		#물결 회덮밥
@@ -76,6 +78,7 @@ on inventory click:
 				add {seaweed_powder} to {nowCook::%player%::ingn::*}
 				add wheat to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {wave_ricebowl}
+				set {nowCook::%player%::score} to 5
 				openNextGUI(player)
 
 		#바다 푸딩
@@ -86,6 +89,7 @@ on inventory click:
 				add {seaweed_powder} to {nowCook::%player%::ingn::*}
 				add sugar to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {sea_pudding}
+				set {nowCook::%player%::score} to 50
 				openNextGUI(player)
 
 		#눈꽃 토스트
@@ -95,6 +99,7 @@ on inventory click:
 				add {snowflake_ice} to {nowCook::%player%::ingn::*}
 				add wheat to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {snowflake_toast}
+				set {nowCook::%player%::score} to 5
 				openNextGUI(player)
 
 		#모둠 빙꼬치구이
@@ -105,6 +110,7 @@ on inventory click:
 				add {snowflake_ice} to {nowCook::%player%::ingn::*}
 				add porkchop to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {skewer_dessert}
+				set {nowCook::%player%::score} to 50
 				openNextGUI(player)
 
 		#낙뢰 마카롱
@@ -114,6 +120,7 @@ on inventory click:
 				add {cloud_butter} to {nowCook::%player%::ingn::*}
 				add sugar to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {lightning_macaron}
+				set {nowCook::%player%::score} to 5
 				openNextGUI(player)
 
 		#구름 수플레
@@ -124,6 +131,7 @@ on inventory click:
 				add {sky_crystal} to {nowCook::%player%::ingn::*}
 				add wheat to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {cloud_souffle}
+				set {nowCook::%player%::score} to 50
 				openNextGUI(player)
 
 		#자수정 에이드
@@ -133,6 +141,7 @@ on inventory click:
 				add {gem_salt} to {nowCook::%player%::ingn::*}
 				add sugar to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {amethyst_ade}
+				set {nowCook::%player%::score} to 5
 				openNextGUI(player)
 
 		#정령광석 정식
@@ -143,6 +152,7 @@ on inventory click:
 				add {gem_salt} to {nowCook::%player%::ingn::*}
 				add wheat to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {spirit_ore_set}
+				set {nowCook::%player%::score} to 50
 				openNextGUI(player)
 
 		#대포열량 도시락
@@ -152,6 +162,7 @@ on inventory click:
 				add {gunpowder_spice} to {nowCook::%player%::ingn::*}
 				add potato to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {cannon_lunchbox}
+				set {nowCook::%player%::score} to 5
 				openNextGUI(player)
 
 		#방패삼겹살
@@ -162,6 +173,7 @@ on inventory click:
 				add {gunpowder_spice} to {nowCook::%player%::ingn::*}
 				add porkchop to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {shield_porkbelly}
+				set {nowCook::%player%::score} to 50
 				openNextGUI(player)
 
 		#감청쿠키
@@ -172,6 +184,7 @@ on inventory click:
 				add wheat to {nowCook::%player%::ingn::*}
 				add sugar to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {blue_cookie}
+				set {nowCook::%player%::score} to 5
 				openNextGUI(player)
 
 		#거대주먹밥
@@ -182,6 +195,7 @@ on inventory click:
 				add {cry_seed} to {nowCook::%player%::ingn::*}
 				add wheat to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {giant_riceball}
+				set {nowCook::%player%::score} to 50
 				openNextGUI(player)
 
 		#금빛치즈볼
@@ -192,6 +206,7 @@ on inventory click:
 				add wheat to {nowCook::%player%::ingn::*}
 				add sugar to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {golden_cheeseball}
+				set {nowCook::%player%::score} to 5
 				openNextGUI(player)
 
 		#용암 마라탕
@@ -202,6 +217,7 @@ on inventory click:
 				add {gold_powder} to {nowCook::%player%::ingn::*}
 				add potato to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {lava_hotpot}
+				set {nowCook::%player%::score} to 50
 				openNextGUI(player)
 
 		#균열 사탕
@@ -211,6 +227,7 @@ on inventory click:
 				add {vacuum_sugar} to {nowCook::%player%::ingn::*}
 				add sugar to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {crack_candy}
+				set {nowCook::%player%::score} to 5
 				openNextGUI(player)
 
 		#코어버터구이
@@ -221,6 +238,7 @@ on inventory click:
 				add {vacuum_sugar} to {nowCook::%player%::ingn::*}
 				add sugar to {nowCook::%player%::ingn::*}
 				set {nowCook::%player%::target} to {core_butter_grill}
+				set {nowCook::%player%::score} to 50
 				openNextGUI(player)
 
 	if name of event-inventory is ":offset_-8::cook:":
@@ -245,6 +263,11 @@ on inventory click:
 			send "&c요리가 취소되었습니다." to player
 			close player's inventory
 			set {stopCook::%player%} to true
+		
+	if name of event-inventory is ":offset_-8::finish_cook:":
+		clicked slot is 0:
+			cancel event
+			execute player command "/요리"
 			
 
 on inventory close:
@@ -390,11 +413,21 @@ function Cooking(player: player):
 	delete {isNowCooking::%{_player}%}
 	
 	set {_giveCook} to chest inventory with 1 rows named ":offset_-8::finish_cook:"
+
 	play sound "entity.experience_orb.pickup" with pitch 1.2 to {_player}
 	set slot 4 of {_giveCook} to {nowCook::%{_player}%::target}
+	set slot 0 of {_giveCook} to {last} named "&c돌아가기"
+
 	open {_giveCook} to {_player}
 
 	send "&7[관리모드] %{_player}%님이 요리를 완성했습니다. 완성된 요리: %{nowCook::%{_player}%::target}%" to console
+	add {nowCook::%{_player}%::score} to {profile::%{_player}%::cooking}
+	if {nowCook::%{_player}%::score} is 5:
+		send "&e[요리 레벨] &5+5" to {_player}
+	else if {nowCook::%{_player}%::score} is 50:
+		send "&e[요리 레벨] &d+50" to {_player}
 	delete {nowCook::%{_player}%::target}
+	delete {nowCook::%{_player}%::score}
+	AddTotalVitality({_player})
 	
 	
