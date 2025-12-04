@@ -143,5 +143,5 @@ function findBadge(targetP: offlineplayer, key: string) :: item:
 on right click on player:
 	if player is sneaking:
 		if clicked entity is not player:
-			execute player command "/정보 %clicked entity%"
+			execute player command "/프로필 %clicked entity%"
 
