@@ -112,6 +112,7 @@ on inventory click:
 
                         set slot 12 of player's current inventory to air
                         set slot 14 of player's current inventory to air
+                        set {isNowAlc::%player%} to true
 
                         set {_w} to 1
                         loop 37,28,19,10:
@@ -148,15 +149,31 @@ on inventory click:
 
                         loop 10,19,28,37:
                             set slot loop-value of player's current inventory to white wool named "&f"
+
+                        delete {isNowAlc::%player%}
                     else:
                         send "&c물병 혹은 변환비약이 있어야 연금술을 진행할 수 있습니다." to player
 
-command /관리자명령어_투척용레시피지급:
-    permission: op
-    trigger:
-        set {potionRecipe} to glowing {recipe} named "&d&l레시피 &f[ &e투척용 포션 레시피 &f]"
-        give player {potionRecipe}
-        send "&7[디버그] 지급 완료" to player
+on inventory close:
+    if name of event-inventory is "연금술":
+        if {isNowAlc::%player%} is true:
+            send "&c연금술 진행 중에는 창을 닫을 수 없습니다." to player
+            wait 1 tick
+            open event-inventory to player
+        else:
+
+            set {_backItem::12} to item in slot 12 of event-inventory
+            set {_backItem::14} to item in slot 14 of event-inventory
+            set {_backItem::40} to item in slot 40 of event-inventory
+
+            loop {_backItem::*}:
+                if loop-value is not air:
+                    if player's inventory can hold loop-value:
+                        give loop-value to player
+                    else:
+                        send "&c인벤토리에 공간이 없어 아이템을 받을 수 없었습니다. 관리자에게 문의하세요." to player
+                        send "&7[관리모드] &6&l[유저마켓] &e%player% &f사라진 아이템 : %loop-value%" to console
+
 
 function checkAlch(player: player):: item:
     #신속
