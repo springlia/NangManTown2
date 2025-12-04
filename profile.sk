@@ -52,7 +52,7 @@
 			set slot 21 of {_profileGUI} to {dia_badge} named "&e전투력" with lore "&f%{profile::%{_targetP}%::power}%"
 
 		set {_badge} to findBadge({_targetP}, "level")
-		set slot 23 of {_profileGUI} to {_badge} named "&e플레이어 레벨" with lore "&f%{profile::%{_targetP}%::level}%"#레벨
+		set slot 23 of {_profileGUI} to {_badge} named "&e플레이어 레벨" with lore "&f%level of {_targetP}%"#레벨
 
 		set {_badge} to findBadge({_targetP}, "all")
 		set slot 25 of {_profileGUI} to {_badge} named "&e총 생활력" with lore "&f%{profile::%{_targetP}%::all}%" #총생활력
