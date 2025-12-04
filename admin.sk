@@ -244,7 +244,7 @@ command /관리자명령어_전투력입력 <offlineplayer> <number>:
 		set {profile::%{_target}%::power} to {_power}
 		send "&7[관리모드] 전투력 입력 완료. %{_target}% 의 전투력 : %{_power}%" to player
 		send "&7[관리모드] 전투력 입력 완료. %{_target}% 의 전투력 : %{_power}%" to console
-		send "&e관리자에 의해 전투력이 변경되었습니다. &f[현재 전투력 : &d%{_power}% &f]" to {_target}
+		send "&e관리자에 의해 전투력이 변경되었습니다. &f[ 현재 전투력 : &d%{_power}% &f]" to {_target}
 
 command /관리자명령어_채집레벨입력 <offlineplayer> <number>:
 	permission: op
@@ -254,7 +254,7 @@ command /관리자명령어_채집레벨입력 <offlineplayer> <number>:
 		set {profile::%{_target}%::gathering} to {_gathering}
 		send "&7[관리모드] 채집 레벨 입력 완료. %{_target}% 의 채집 레벨 : %{_gathering}%" to player
 		send "&7[관리모드] 채집 레벨 입력 완료. %{_target}% 의 채집 레벨 : %{_gathering}%" to console
-		send "&e관리자에 의해 채집 레벨이 변경되었습니다. &f[현재 채집 레벨 : &d%{_gathering}% &f]" to {_target}
+		send "&e관리자에 의해 채집 레벨이 변경되었습니다. &f[ 현재 채집 레벨 : &d%{_gathering}% &f]" to {_target}
 
 command /관리자명령어_요리레벨입력 <offlineplayer> <number>:
 	permission: op
@@ -264,7 +264,7 @@ command /관리자명령어_요리레벨입력 <offlineplayer> <number>:
 		set {profile::%{_target}%::cooking} to {_cooking}
 		send "&7[관리모드] 요리 레벨 입력 완료. %{_target}% 의 요리 레벨 : %{_cooking}%" to player
 		send "&7[관리모드] 요리 레벨 입력 완료. %{_target}% 의 요리 레벨 : %{_cooking}%" to console
-		send "&e관리자에 의해 요리 레벨이 변경되었습니다. &f[현재 요리 레벨 : &d%{_cooking}% &f]" to {_target}
+		send "&e관리자에 의해 요리 레벨이 변경되었습니다. &f[ 현재 요리 레벨 : &d%{_cooking}% &f]" to {_target}
 
 command /관리자명령어_낚시레벨입력 <offlineplayer> <number>:
 	permission: op
@@ -274,7 +274,7 @@ command /관리자명령어_낚시레벨입력 <offlineplayer> <number>:
 		set {profile::%{_target}%::fishing} to {_fishing}
 		send "&7[관리모드] 낚시 레벨 입력 완료. %{_target}% 의 낚시 레벨 : %{_fishing}%" to player
 		send "&7[관리모드] 낚시 레벨 입력 완료. %{_target}% 의 낚시 레벨 : %{_fishing}%" to console
-		send "&e관리자에 의해 낚시 레벨이 변경되었습니다. &f[현재 낚시 레벨 : &d%{_fishing}% &f]" to {_target}
+		send "&e관리자에 의해 낚시 레벨이 변경되었습니다. &f[ 현재 낚시 레벨 : &d%{_fishing}% &f]" to {_target}
 
 command /관리자명령어_연금술레벨입력 <offlineplayer> <number>:
 	permission: op
@@ -284,7 +284,35 @@ command /관리자명령어_연금술레벨입력 <offlineplayer> <number>:
 		set {profile::%{_target}%::alchemy} to {_alchemy}
 		send "&7[관리모드] 연금술 레벨 입력 완료. %{_target}% 의 연금술 레벨 : %{_alchemy}%" to player
 		send "&7[관리모드] 연금술 레벨 입력 완료. %{_target}% 의 연금술 레벨 : %{_alchemy}%" to console
-		send "&e관리자에 의해 연금술 레벨이 변경되었습니다. &f[현재 연금술 레벨 : &d%{_alchemy}% &f]" to {_target}
+		send "&e관리자에 의해 연금술 레벨이 변경되었습니다. &f[ 현재 연금술 레벨 : &d%{_alchemy}% &f]" to {_target}
+
+command /관리자명령어_레벨설정 <offlineplayer> <number>:
+	permission: op
+	trigger:
+		set {_target} to arg-1
+		set {_lv} to arg-2
+		if {_target} is online:
+			set level of {_target} to {_lv}
+			send "&7[관리모드] 레벨 변경 완료. %{_target}%의 레벨: %{_lv}%" to player
+			send "&7[관리모드] 레벨 변경 완료. %{_target}%의 레벨: %{_lv}%" to console
+			send "&a관리자에 의해 레벨이 변경되었습니다. &f[ 현재 레벨 : &a%{_lv}% &f]" to {_target}
+		else:
+			send "&7[관리모드] 해당 플레이어가 온라인 상태가 아닙니다." to player
+
+command /관리자명령어_경험치설정 <offlineplayer> <number>:
+	permission: op
+	trigger:
+		set {_target} to arg-1
+		set {_exp} to arg-2
+		if {_target} is online:
+			execute player command "/experience set %{_target}% %{_exp}%"
+			send "&7[관리모드] 경험치 변경 완료. %{_target}%의 경험치: %{_exp}%" to player
+			send "&7[관리모드] 경험치 변경 완료. %{_target}%의 경험치: %{_exp}%" to console
+			send "&a관리자에 의해 경험치가 변경되었습니다. &f[ 현재 경험치 : &a%{_exp}% &f]" to {_target}
+		else:
+			send "&7[관리모드] 해당 플레이어가 온라인 상태가 아닙니다." to player
+
+
 
 command /관리자명령어_유저정보초기화 <offlineplayer>:
 	permission: op
