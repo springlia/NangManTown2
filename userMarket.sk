@@ -68,6 +68,7 @@ command /마켓아이템등록:
         set {_marketitemGUI} to chest inventory with 2 rows named "아이템 등록하기"
 
         set slot 13 of {_marketitemGUI} to lime wool named "&a등록하기"
+        set {isNowReg::%player%} to true
 
         #장식
         loop 0,1,2,3,5,6,7,8,9,10,11,12,14,15,16,17:
@@ -118,6 +119,7 @@ on inventory click:
         event-inventory is not player's inventory:	
             clicked slot is 13:
                 cancel event
+                delete {isNowReg::%player%}
                 #4번째 슬롯에 있는 아이템을 저장
                 set {_item} to event-inventory's slot 4
                 if {_item} is air:
@@ -148,10 +150,6 @@ on inventory click:
             set {buyTargetItem::%player%::amount} to {userMarket::%{_index}%::amount} #유저마켓 등록된 모든 아이템 구매
             Payment(player)
 
-command /갯수테스트:
-    trigger:
-        set {_a} to {userMarket::index}
-        send "%{_a}%" to player
 on chat:
     if {marketItemAdd::%player%::on} is true:
         cancel event
@@ -194,6 +192,17 @@ on chat:
             else:
                 send "&c입력한 수량이 상점에 등록된 아이템 개수보다 많습니다." to player
          
+on inventory close:
+    if name of event-inventory is "아이템 등록하기":
+        if {isNowReg::%player%} is true:
+            set {_backItem} to item in slot 4 of event-inventory
+            if {_backItem} is not air:
+                if player's inventory can hold {_backItem}:
+                    give {_backItem} to player
+                else:
+                    send "&c인벤토리에 공간이 없어 아이템을 받을 수 없었습니다. 관리자에게 문의하세요." to player
+                    send "&7[관리모드] &6&l[유저마켓] &e%player% &f사라진 아이템 : %{_backItem}%" to console
+            delete {isNowReg::%player%}
 
 #삭제 필요
 command /테스트_마켓초기화:
