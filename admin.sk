@@ -170,6 +170,9 @@ command /관리자명령어_변수초기화:
 		set {gold_badge} to ItemsAdder.getCustomItem("badge:gold_badge")
 		set {dia_badge} to ItemsAdder.getCustomItem("badge:dia_badge")
 
+		#기타
+		set {dungun_key} to ItemsAdder.getCustomItem("magicitem:dungun_key") 
+
 		send "&c초기화 완료" to player
 
 command /관리자명령어_기숙사공지 [<text>]:
