@@ -93,6 +93,153 @@
 
 		open {_collectionGUI} to player
 
+on inventory click:
+
+	#몬스터 도감 클릭
+	event-inventory's name is "몬스터 도감":
+		cancel event
+
+		if event-inventory is not inventory of player:
+			#다른 도감으로 이동
+			clicked slot is 2 or 3:
+				execute player command "/도감 요리"
+			
+			clicked slot is 4 or 5:
+				execute player command "/도감 채집"
+
+			clicked slot is 6 or 7:
+				execute player command "/도감 낚시"
+
+	#요리 도감 클릭
+	event-inventory's name is "요리 도감":
+		cancel event
+
+		if event-inventory is not inventory of player:
+			#다른 도감으로 이동
+			clicked slot is 0 or 1:
+				execute player command "/도감 몬스터"
+			
+			clicked slot is 4 or 5:
+				execute player command "/도감 채집"
+
+			clicked slot is 6 or 7:
+				execute player command "/도감 낚시"
+
+
+		#도감 등록
+		if event-inventory is inventory of player:
+			set {_target} to event-item
+
+			#아이템 찾기
+			loop 10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31:
+				set {_find} to findCollCook(loop-value)
+
+				if {_target} is {_find}:
+					if {collection::%player%::cook::%loop-value%} is true:
+						send "&c이미 등록된 아이템입니다." to player
+					else:
+						send "&e%name of {_find}% &a해금 완료!" to player
+						play sound "block.note_block.bell"
+						set {collection::%player%::cook::%loop-value%} to true
+						remove 1 of event-item from player's inventory
+						set slot loop-value of player's current inventory to {_find}
+						isCollClear("cook", player)
+
+	#채집 도감 클릭
+	event-inventory's name is "채집 도감":
+		cancel event
+
+		if event-inventory is not inventory of player:
+			#다른 도감으로 이동
+			clicked slot is 0 or 1:
+				execute player command "/도감 몬스터"
+			
+			clicked slot is 2 or 3:
+				execute player command "/도감 요리"
+
+			clicked slot is 6 or 7:
+				execute player command "/도감 낚시"
+
+
+		#도감 등록
+		if event-inventory is inventory of player:
+			set {_target} to event-item
+
+			#아이템 찾기
+			loop 10,11,12,13,14,15,16,19:
+				set {_find} to findCollHerb(loop-value)
+
+				if {_target} is {_find}:
+					if {collection::%player%::herb::%loop-value%} is true:
+						send "&c이미 등록된 아이템입니다." to player
+					else:
+						send "&e%name of {_find}% &a해금 완료!" to player
+						play sound "block.note_block.bell"
+						set {collection::%player%::herb::%loop-value%} to true
+						remove 1 of event-item from player's inventory
+						set slot loop-value of player's current inventory to {_find}
+						isCollClear("herb", player)
+
+
+	#낚시 도감 클릭
+	event-inventory's name is "낚시 도감":
+		cancel event
+
+		if event-inventory is not inventory of player:
+			#다른 도감으로 이동
+			clicked slot is 0 or 1:
+				execute player command "/도감 몬스터"
+			
+			clicked slot is 2 or 3:
+				execute player command "/도감 요리"
+
+			clicked slot is 4 or 5:
+				execute player command "/도감 채집"
+
+		#도감 등록
+		if event-inventory is inventory of player:
+			set {_target} to event-item
+
+			#아이템 찾기
+			loop 10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31,32,33,34,37,38,39:
+				set {_find} to findCollFish(loop-value)
+
+				if {_target} is {_find}:
+					if {collection::%player%::fish::%loop-value%} is true:
+						send "&c이미 등록된 아이템입니다." to player
+					else:
+						send "&e%name of {_find}% &a해금 완료!" to player
+						play sound "block.note_block.bell"
+						set {collection::%player%::fish::%loop-value%} to true
+						remove 1 of event-item from player's inventory
+						set slot loop-value of player's current inventory to {_find}
+						isCollClear("fish", player)
+
+function isCollClear(text: text, player: player):
+	if {_text} is "cook":
+		add 1 to {cookCount::%{_player}%}
+		if {cookCount::%{_player}%} is 18:
+			send "&e요리도감 완료!" to {_player}
+
+	else if {_text} is "herb":
+		add 1 to {herbCount::%{_player}%}
+		if {herbCount::%{_player}%} is 8:
+			send "&a채집도감 완료!" to {_player}
+
+	else if {_text} is "fish":
+		add 1 to {fishCount::%{_player}%}
+		if {fishCount::%{_player}%} is 24:
+			send "&b낚시도감 완료!" to {_player}
+
+command /테스트_도감초기화:
+	permission: op
+	trigger:
+		delete {cookCount::%player%}
+		delete {collection::%player%::cook::*}
+		delete {collection::%player%::herb::*}
+		delete {collection::%player%::fish::*}
+		
+
 #요리 아이템 찾기 및 반환
 function findCollCook(number: number) :: item:
 	if {_number} is 10:
