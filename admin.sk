@@ -186,7 +186,7 @@ command /관리자명령어_기숙사공지 [<text>]:
 	permission: op
 	trigger:
 		set {_text} to arg-1
-		if player's name is "CT_Lia" or "Happy_Beaver":
+		if player's name is "CT_Lia":
 			broadcast ""
 			broadcast "&c&l[불기숙사 공지] &f%{_text}%"
 			broadcast ""
