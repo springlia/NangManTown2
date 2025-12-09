@@ -1,0 +1,209 @@
+﻿command /도감 [<text>]:
+	trigger:
+		if arg-1 is not set:
+			set {_var} to "몬스터"
+		else if arg-1 is "몬스터" or "요리" or "채집" or "낚시":
+			set {_var} to arg-1
+		else:
+			send "&c유효한 도감 이름이 아닙니다." to player
+			stop
+		
+
+		#몬스터 도감
+		if {_var} is "몬스터":
+			
+			set {_collectionGUI} to chest inventory with 6 rows named "몬스터 도감"
+
+			#1번째 줄
+			set slot 0 of {_collectionGUI} to pink wool named "&d몬스터 도감"
+			set slot 1 of {_collectionGUI} to pink wool named "&d몬스터 도감"
+			set slot 2 of {_collectionGUI} to yellow wool named "&e요리 도감"
+			set slot 3 of {_collectionGUI} to yellow wool named "&e요리 도감"
+			set slot 4 of {_collectionGUI} to lime wool named "&a채집 도감"
+			set slot 5 of {_collectionGUI} to lime wool named "&a채집 도감"
+			set slot 6 of {_collectionGUI} to light blue wool named "&b낚시 도감"
+			set slot 7 of {_collectionGUI} to light blue wool named "&b낚시 도감"
+
+			#해금 내용
+
+		
+		#요리 도감
+		else if {_var} is "요리":
+			set {_collectionGUI} to chest inventory with 6 rows named "요리 도감"
+
+			#1번째 줄
+			set slot 0 of {_collectionGUI} to pink wool named "&d몬스터 도감"
+			set slot 1 of {_collectionGUI} to pink wool named "&d몬스터 도감"
+			set slot 2 of {_collectionGUI} to yellow wool named "&e요리 도감"
+			set slot 3 of {_collectionGUI} to yellow wool named "&e요리 도감"
+			set slot 4 of {_collectionGUI} to lime wool named "&a채집 도감"
+			set slot 5 of {_collectionGUI} to lime wool named "&a채집 도감"
+			set slot 6 of {_collectionGUI} to light blue wool named "&b낚시 도감"
+			set slot 7 of {_collectionGUI} to light blue wool named "&b낚시 도감"
+
+			#해금 내용
+			loop 10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31:
+				if {collection::%player%::cook::%loop-value%} is true:
+					set slot loop-value of {_collectionGUI} to findCollCook(loop-value)
+				else:
+					set slot loop-value of {_collectionGUI} to gray dye named "&7???"
+				
+				
+		#채집 도감
+		else if {_var} is "채집":
+			set {_collectionGUI} to chest inventory with 6 rows named "채집 도감"
+
+			#1번째 줄
+			set slot 0 of {_collectionGUI} to pink wool named "&d몬스터 도감"
+			set slot 1 of {_collectionGUI} to pink wool named "&d몬스터 도감"
+			set slot 2 of {_collectionGUI} to yellow wool named "&e요리 도감"
+			set slot 3 of {_collectionGUI} to yellow wool named "&e요리 도감"
+			set slot 4 of {_collectionGUI} to lime wool named "&a채집 도감"
+			set slot 5 of {_collectionGUI} to lime wool named "&a채집 도감"
+			set slot 6 of {_collectionGUI} to light blue wool named "&b낚시 도감"
+			set slot 7 of {_collectionGUI} to light blue wool named "&b낚시 도감"
+
+			#해금 내용
+			loop 10,11,12,13,14,15,16,19:
+				if {collection::%player%::herb::%loop-value%} is true:
+					set slot loop-value of {_collectionGUI} to findCollHerb(loop-value)
+				else:
+					set slot loop-value of {_collectionGUI} to gray dye named "&7???"
+
+		#낚시 도감
+		else if {_var} is "낚시":
+			set {_collectionGUI} to chest inventory with 6 rows named "낚시 도감"
+
+			#1번째 줄
+			set slot 0 of {_collectionGUI} to pink wool named "&d몬스터 도감"
+			set slot 1 of {_collectionGUI} to pink wool named "&d몬스터 도감"
+			set slot 2 of {_collectionGUI} to yellow wool named "&e요리 도감"
+			set slot 3 of {_collectionGUI} to yellow wool named "&e요리 도감"
+			set slot 4 of {_collectionGUI} to lime wool named "&a채집 도감"
+			set slot 5 of {_collectionGUI} to lime wool named "&a채집 도감"
+			set slot 6 of {_collectionGUI} to light blue wool named "&b낚시 도감"
+			set slot 7 of {_collectionGUI} to light blue wool named "&b낚시 도감"
+
+			#해금 내용
+			loop 10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31,32,33,34,37,38,39:
+				if {collection::%player%::fish::%loop-value%} is true:
+					set slot loop-value of {_collectionGUI} to findCollFish(loop-value)
+				else:
+					set slot loop-value of {_collectionGUI} to gray dye named "&7???"
+
+		open {_collectionGUI} to player
+
+#요리 아이템 찾기 및 반환
+function findCollCook(number: number) :: item:
+	if {_number} is 10:
+		return {beehive_waffle}
+	else if {_number} is 11:
+		return {sunroot_pancake}
+	else if {_number} is 12:
+		return {wave_ricebowl}
+	else if {_number} is 13:
+		return {sea_pudding}
+	else if {_number} is 14:
+		return {snowflake_toast}
+	else if {_number} is 15:
+		return {skewer_dessert}
+	else if {_number} is 16:
+		return {lightning_macaron}
+
+	else if {_number} is 19:
+		return {cloud_souffle}
+	else if {_number} is 20:
+		return {amethyst_ade}
+	else if {_number} is 21:
+		return {spirit_ore_set}
+	else if {_number} is 22:
+		return {cannon_lunchbox}
+	else if {_number} is 23:
+		return {shield_porkbelly}
+	else if {_number} is 24:
+		return {blue_cookie}
+	else if {_number} is 25:
+		return {giant_riceball}
+
+	else if {_number} is 28:
+		return {golden_cheeseball}
+	else if {_number} is 29:
+		return {lava_hotpot}
+	else if {_number} is 30:
+		return {crack_candy}
+	else if {_number} is 31:
+		return {core_butter_grill}
+	
+#채집 아이템 찾기 및 반환
+function findCollHerb(number: number) :: item:
+	if {_number} is 10:
+		return {speed_herb_0}
+	else if {_number} is 11:
+		return {reg_herb_0}
+	else if {_number} is 12:
+		return {vitality_herb_0}
+	else if {_number} is 13:
+		return {heal_herb_0}
+	else if {_number} is 14:
+		return {air_herb}
+	else if {_number} is 15:
+		return {feathers_herb}
+	else if {_number} is 16:
+		return {lava_herb}
+
+	else if {_number} is 19:
+		return {elasticity_herb}
+
+#생선 아이템 찾기 및 반환
+function findCollFish(number: number) :: item:
+	if {_number} is 10:
+		return {radioactive_fish}
+	else if {_number} is 11:
+		return {rainbow_fish}
+	else if {_number} is 12:
+		return {tuna_fish}
+	else if {_number} is 13:
+		return {pike_fish}
+	else if {_number} is 14:
+		return {gold_fish}
+	else if {_number} is 15:
+		return {perch_fish}
+	else if {_number} is 16:
+		return {mullet_fish}
+
+	else if {_number} is 19:
+		return {sturgeon_fish}
+	else if {_number} is 20:
+		return {sardine_fish}
+	else if {_number} is 21:
+		return {woodskip_fish}
+	else if {_number} is 22:
+		return {red_spnapper_fish}
+	else if {_number} is 23:
+		return {salmon_void_fish}
+	else if {_number} is 24:
+		return {carp_fish}
+	else if {_number} is 25:
+		return {sunfish_fish}
+
+	else if {_number} is 29:
+		return {cat_fish}
+	else if {_number} is 29:
+		return {octopus_fish}
+	else if {_number} is 30:
+		return {blue_jellyfish}
+	else if {_number} is 31:
+		return {pink_jellyfish}
+	else if {_number} is 32:
+		return {mackerel_fish}
+	else if {_number} is 33:
+		return {eel_fish}
+	else if {_number} is 34:
+		return {ray_fish}
+
+	else if {_number} is 37:
+		return {ice_fish}
+	else if {_number} is 38:
+		return {spring_fish}
+	else if {_number} is 39:
+		return {nangman_fish}
