@@ -175,6 +175,13 @@ command /관리자명령어_변수초기화:
 
 		send "&c초기화 완료" to player
 
+command /setitem [<string>]:
+	permission: op
+	trigger:
+		set {%arg 1%} to player's tool
+		send "&7[디버그] 완료 %arg 1%" to player
+
+
 command /관리자명령어_기숙사공지 [<text>]:
 	permission: op
 	trigger:
