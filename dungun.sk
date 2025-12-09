@@ -1,29 +1,44 @@
 ﻿command /던전입장 <text> <number>:
 	permission: op
 	trigger:
+
+		#파티,던전 정보 저장
 		set {_party} to {nowParty::%player%}
 		set {_dungun} to arg-1
+
+		#이미 던전에 들어가있으면
 		if {%{_dungun}%::ing} is set:
 			send "&c이미 다른 파티가 입장했습니다." to player
+
+		#던전 입장 가능 체크
 		else:
 			if {%{_party}%::m1} is player's name:
-				execute console command "/warp %{_dungun}% %{%{_party}%::m1}%"
-				execute console command "/warp %{_dungun}% %{%{_party}%::m2}%"
-				execute console command "/warp %{_dungun}% %{%{_party}%::m3}%"
-				execute console command "/warp %{_dungun}% %{%{_party}%::m4}%"
-				send "&a던전에 입장했습니다!" to {%{_party}%::m1}
-				send "&a던전에 입장했습니다!" to {%{_party}%::m2}
-				send "&a던전에 입장했습니다!" to {%{_party}%::m3}
-				send "&a던전에 입장했습니다!" to {%{_party}%::m4}
-				send title "&b던전을 입장했습니다!" with subtitle "&e행운을 빕니다." to {%{_party}%::m1} for 3 seconds
-				send title "&b던전을 입장했습니다!" with subtitle "&e행운을 빕니다." to {%{_party}%::m2} for 3 seconds
-				send title "&b던전을 입장했습니다!" with subtitle "&e행운을 빕니다." to {%{_party}%::m3} for 3 seconds
-				send title "&b던전을 입장했습니다!" with subtitle "&e행운을 빕니다." to {%{_party}%::m4} for 3 seconds
-				set {%{_dungun}%::deathCount} to arg-2
-				set {%{_dungun}%::ing} to {_party}
-				set {%{_party}%::dungun} to {_dungun}
+				#열쇠가 있으면 입장
+				if player has 1 of {dungun_key}:
+					remove 1 of {dungun_key} from player
+					execute console command "/warp %{_dungun}% %{%{_party}%::m1}%"
+					execute console command "/warp %{_dungun}% %{%{_party}%::m2}%"
+					execute console command "/warp %{_dungun}% %{%{_party}%::m3}%"
+					execute console command "/warp %{_dungun}% %{%{_party}%::m4}%"
+					send "&a던전에 입장했습니다!" to {%{_party}%::m1}
+					send "&a던전에 입장했습니다!" to {%{_party}%::m2}
+					send "&a던전에 입장했습니다!" to {%{_party}%::m3}
+					send "&a던전에 입장했습니다!" to {%{_party}%::m4}
+					send title "&b던전을 입장했습니다!" with subtitle "&e행운을 빕니다." to {%{_party}%::m1} for 3 seconds
+					send title "&b던전을 입장했습니다!" with subtitle "&e행운을 빕니다." to {%{_party}%::m2} for 3 seconds
+					send title "&b던전을 입장했습니다!" with subtitle "&e행운을 빕니다." to {%{_party}%::m3} for 3 seconds
+					send title "&b던전을 입장했습니다!" with subtitle "&e행운을 빕니다." to {%{_party}%::m4} for 3 seconds
+					set {%{_dungun}%::deathCount} to arg-2
+					set {%{_dungun}%::ing} to {_party}
+					set {%{_party}%::dungun} to {_dungun}
+				else:
+					send "&c던전 입장 열쇠가 부족합니다. 던전 입장 열쇠를 지니고 있는 파티원에게 파티장을 위임해주세요." to player
+
+			#파티 상태가 아니면
 			else if {nowParty::%player%} is not set:
 				send "&c파티 상태에서만 입장할 수 있습니다." to player
+
+			#파티장이 아니면
 			else:
 				send "&c파티장이 입장 신청을 할 수 있습니다." to player
 			
