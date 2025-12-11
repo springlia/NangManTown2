@@ -46,7 +46,6 @@
             set {_r2e} to 100
 
 
-            #send "&7[디버그] {_r0e} %{_r0e}% , {_r1s} %{_r1s}% , {_r1e} %{_r1e}% , {_r2s} %{_r2s}% , {_r2e} %{_r2e}%" to player
             #실제 휙득 확률 계산
             set {_random} to random integer between 1 and 100
 
@@ -85,7 +84,6 @@
             set {_r3s} to {_r2e} + 1
             set {_r3e} to 100 
 
-            send "&7[디버그] {_r0e} %{_r0e}% , {_r1s} %{_r1s}% , {_r1e} %{_r1e}% , {_r2s} %{_r2s}% , {_r2e} %{_r2e}% , {_r3s} %{_r3s}% , {_r3e} %{_r3e}%" to player
             set {_random} to random integer between 1 and 100
 
             if {_random} is between {_r0s} and {_r0e}: #일반
