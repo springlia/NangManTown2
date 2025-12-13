@@ -14,40 +14,48 @@
         else if {_lv} is greater than 3600:
             set {_rank} to 3
 
-        
-        #베이스 확률
-        set {_base::0} to 60
-        set {_base::1} to 25
-        set {_base::2} to 20
-        set {_base::3} to 10
-
-        #증가율
-        set {_mult::0} to 0
-        set {_mult::1} to 0.1
-        set {_mult::2} to 0.5
-        set {_mult::3} to 0.6
-
-        #확률 계산
-        set {_p0} to gradeScore({_base::0}, {_mult::0}, {_rank})
-        set {_p1} to gradeScore({_base::1}, {_mult::1}, {_rank})
-        set {_p2} to gradeScore({_base::2}, {_mult::2}, {_rank})
-        set {_p3} to gradeScore({_base::3}, {_mult::3}, {_rank})
-
 
         #신속초, 재생초, 활력초 (0~2등급)
         if {_target} is "speed_herb" or "reg_herb" or "vitality_herb":
 
             #구간 계산
-            set {_total} to {_p0} + {_p1} + {_p2} 
-            set {_r0e} to {_p0} / {_total} * 100
-            set {_r1s} to {_r0e} + 1
-            set {_r1e} to {_r0e} + {_p1} / {_total} * 100
-            set {_r2s} to {_r1e} + 1
-            set {_r2e} to 100
+            if {_rank} is 0: #브론즈
+                set {_r0s} to 0
+                set {_r0e} to 60
+                set {_r1s} to 61
+                set {_r1e} to 91
+                set {_r2s} to 92
+                set {_r2e} to 100
 
+            else if {_rank} is 1: #실버
+                set {_r0s} to 0
+                set {_r0e} to 38.1
+                set {_r1s} to 39.1
+                set {_r1e} to 72.43
+                set {_r2s} to 73.43
+                set {_r2e} to 100
+
+            else if {_rank} is 2: #골드
+                set {_r0s} to 0
+                set {_r0e} to 18.18
+                set {_r1s} to 19.18
+                set {_r1e} to 55.54
+                set {_r2s} to 56.54
+                set {_r2e} to 100
+
+            else: #다이아
+                set {_r0s} to 0
+                set {_r0e} to 0
+                set {_r1s} to 0
+                set {_r1e} to 39.13
+                set {_r2s} to 40.13
+                set {_r2e} to 100
 
             #실제 휙득 확률 계산
             set {_random} to random integer between 1 and 100
+
+            #send "r0 %{_r0s}% ~ %{_r0e}% / r1 %{_r1s}% ~ %{_r1e}% / r2 %{_r2s}% ~ %{_r2e}% / random %{_random}%" to player
+
 
             if {_random} is between {_r0s} and {_r0e}: #일반
                 set {_val} to "0"
@@ -70,22 +78,49 @@
         else if {_target} is "heal_herb":
 
             #구간 계산
-            set {_total} to {_p0} + {_p1} + {_p2} + {_p3}
+            if {_rank} is 0: #브론즈
+                set {_r0s} to 0
+                set {_r0e} to 60
+                set {_r1s} to 61
+                set {_r1e} to 90
+                set {_r2s} to 91
+                set {_r2e} to 100
+                set {_r3s} to 101 #허수값
+                set {_r3e} to 101 #허수값
 
-            set {_r0s} to 1
-            set {_r0e} to round({_p0} / {_total} * 100)
+            else if {_rank} is 1: #실버
+                set {_r0s} to 0
+                set {_r0e} to 34.78
+                set {_r1s} to 35.78
+                set {_r1e} to 65.22
+                set {_r2s} to 66.22
+                set {_r2e} to 92.31
+                set {_r3s} to 93.31
+                set {_r3e} to 100
 
-            set {_r1s} to {_r0e} + 1
-            set {_r1e} to {_r0e} + round({_p1} / {_total} * 100)
+            else if {_rank} is 2: #골드
+                set {_r0s} to 0
+                set {_r0e} to 13.33
+                set {_r1s} to 14.33
+                set {_r1e} to 41
+                set {_r2s} to 42
+                set {_r2e} to 75.33
+                set {_r3s} to 76.33
+                set {_r3e} to 100
 
-            set {_r2s} to {_r1e} + 1
-            set {_r2e} to {_r1e} + round({_p2} / {_total} * 100)
-
-            set {_r3s} to {_r2e} + 1
-            set {_r3e} to 100 
+            else: #다이아
+                set {_r0s} to 0
+                set {_r0e} to 0
+                set {_r1s} to 0
+                set {_r1e} to 21.95
+                set {_r2s} to 22.95
+                set {_r2e} to 57.1
+                set {_r3s} to 58.1
+                set {_r3e} to 100
 
             set {_random} to random integer between 1 and 100
-
+            #send "r0 %{_r0s}% ~ %{_r0e}% / r1 %{_r1s}% ~ %{_r1e}% / r2 %{_r2s}% ~ %{_r2e}% / random %{_random}%" to player
+            
             if {_random} is between {_r0s} and {_r0e}: #일반
                 set {_val} to "0"
                 add 1 to {profile::%player%::gathering}
